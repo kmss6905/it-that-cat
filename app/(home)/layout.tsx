@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import RootWrapper from '@/components/RootWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,8 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={inter.className}>{children}</body>
+    <html lang='ko'>
+      <body className={`${inter.className} bg-gray-100`}>
+        <RootWrapper>
+          <header className='h-10'></header>
+          <div className='px-5'>{children}</div>
+          <footer className='w-full h-20 bg-gray-200 absolute bottom-0 left-0'></footer>
+        </RootWrapper>
+      </body>
     </html>
   );
 }
