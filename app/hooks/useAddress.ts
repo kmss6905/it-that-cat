@@ -1,9 +1,8 @@
-'use client';
+import { useState, useEffect } from 'react';
 import getAddress, { RegionState } from '@/apis/map/getAddress';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useEffect, useState } from 'react';
 
-const Map = () => {
+const useAddress = () => {
   const geolocation = useGeolocation();
   const [region, setRegion] = useState<undefined | RegionState>();
 
@@ -13,9 +12,9 @@ const Map = () => {
         setRegion(address);
       });
     }
-  }, [geolocation]);
+  }, [geolocation?.position]);
 
-  return <div>Map</div>;
+  return region;
 };
 
-export default Map;
+export default useAddress;

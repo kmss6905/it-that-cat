@@ -1,15 +1,23 @@
 'use client';
+
 import useGeolocation from '@/hooks/useGeolocation';
+import { useState } from 'react';
+import { MapMarker } from 'react-kakao-maps-sdk';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
-import { useEffect, useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
-import mapPin from '@/assets/images/icon_mapPin.png';
+import MapComponent from '@/components/Map/Map';
 import useAddress from '@/hooks/useAddress';
 import getAddress, { RegionState } from '@/apis/map/getAddress';
-import MapComponent from '@/components/Map/Map';
 
-export default function Home() {
+import mapPin from '@/assets/images/icon_mapPin.png';
+import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
+const RegisterMapPage = () => {
   useKakaoLoader();
   const geolocation = useGeolocation();
 
@@ -24,6 +32,7 @@ export default function Home() {
     };
   }>();
 
+  console.log('🚀 ~ RegisterMapPage ~ data:', data);
   const pinList = [
     { lat: 35.17183079055732, lng: 129.0556621326331 },
     { lat: 35.1716984775722, lng: 129.05708553844048 },
@@ -50,7 +59,11 @@ export default function Home() {
 
   return (
     <div className='relative h-full overflow-hidden'>
-      <MapComponent onCenterChanged={handleCenterChanged} isPanto level={4}>
+      <MapComponent
+        position={data?.position}
+        onCenterChanged={handleCenterChanged}
+        isPanto
+      >
         {pinList.map(
           (position) =>
             data &&
@@ -80,6 +93,24 @@ export default function Home() {
             ),
         )}
       </MapComponent>
+
+      <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-30'>
+        <IconCurrMapPin />
+      </div>
+
+      <div className='absolute bottom-0 left-0 w-full z-20 bg-white rounded-t-xl shadow-[0px_0px_16px_0px_rgba(0,0,0,0.25)] flex flex-col gap-5 px-6 pt-7 pb-[30px]'>
+        <div>
+          <h3 className='pb-1 heading1 text-black'>
+            냥이를 만난 장소는 바로 여기!
+          </h3>
+          <p className='text-gray-300 body1'>{`${address ? address?.depth1 : initAddress?.depth1} ${address ? address?.depth2 : initAddress?.depth2} ${address ? address?.depth3 : initAddress?.depth3} ${address ? address?.sub_address_no : initAddress?.sub_address_no}`}</p>
+        </div>
+        <button className='w-full py-[14px] bg-primary-500 text-white rounded-[10px]'>
+          이 위치로 설정
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default RegisterMapPage;

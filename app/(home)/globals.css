@@ -3,13 +3,45 @@
 @tailwind utilities;
 
 .rootWrapper {
-  @apply flex justify-center items-center w-screen h-screen py-5;
+  @apply flex justify-center items-center w-screen h-screen overflow-hidden;
 }
 
 .rootContainer {
-  @apply max-w-[375px] max-h-[812px] w-screen h-screen rounded-2xl overflow-hidden shadow-lg;
+  @apply max-w-[375px] w-screen h-full;
 }
 
 .screen {
   @apply bg-white w-full h-full relative;
+}
+
+.tooltipWrapper {
+  @apply relative w-fit h-fit;
+}
+.tooltipWrapper:hover > .tooltip,
+.tooltipWrapper:active > .tooltip .tooltip {
+  @apply block;
+}
+
+.tooltip {
+  @apply hidden absolute z-50;
+}
+
+.heading1 {
+  @apply font-bold text-[20px] tracking-[-2%] leading-[30px];
+}
+
+.heading2 {
+  @apply font-bold text-[18px] tracking-[-2%] leading-[26px];
+}
+
+.subHeading {
+  @apply font-semibold text-[16px] tracking-[-2%] leading-[24px];
+}
+
+.body1 {
+  @apply font-normal text-[16px] tracking-[-2%] leading-[24px];
+}
+
+.caption {
+  @apply font-normal text-[13px] tracking-[-2%] leading-[17px];
 }
