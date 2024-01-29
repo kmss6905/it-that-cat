@@ -20,11 +20,17 @@ const RegisterPostPage = () => {
 
       <form>
         <div>
-          <label>타이틀 *</label>
+          <label className='flex gap-1 items-center'>
+            중성화 수술 유무 *
+            <Tooltip
+              direction='top'
+              message={`냥이의 귀를 살펴보세요! 중성화를 마친
+              고양이는 귀 끝을 조금 잘라 표시하곤 해요:)`}
+            >
+              i
+            </Tooltip>
+          </label>
           <input type='text' />
-          <Tooltip direction='top' message='냥이의 귀~~~'>
-            <span>i</span>
-          </Tooltip>
         </div>
       </form>
     </Fragment>

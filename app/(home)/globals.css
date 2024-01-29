@@ -15,15 +15,29 @@
 }
 
 .tooltipWrapper {
-  @apply relative w-fit h-fit;
+  @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
 }
+
 .tooltipWrapper:hover > .tooltip,
 .tooltipWrapper:active > .tooltip .tooltip {
   @apply block;
 }
 
 .tooltip {
-  @apply hidden absolute z-50;
+  @apply hidden px-[14px] whitespace-pre-line py-[10px] w-max h-auto bg-gray-500 text-gray-100 rounded-[6px];
+}
+
+.tooltip::before,
+.tooltip::after {
+  @apply border-y-gray-500 border-x-transparent
+   left-11 absolute w-0 z-10 block;
+}
+.tooltip::before {
+  @apply -bottom-[6px] border-t-8 border-r-[6px] border-b-0 border-l-[6px];
+}
+
+.tooltip::after {
+  @apply -top-[6px] border-t-0 border-r-[6px] border-b-8 border-l-[6px];
 }
 
 .heading1 {
