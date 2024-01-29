@@ -7,23 +7,25 @@ interface CustomPinProps {
 }
 
 const CustomPin = ({ position, onClick }: CustomPinProps) => {
+  if (!position) return null;
+
   return (
     <MapMarker
       position={{
-        lat: position ? position.lat : 33.450701,
-        lng: position ? position.lng : 126.570667,
+        lat: position.lat,
+        lng: position.lng,
       }}
       onClick={() => onClick && onClick({ level: 2, position: position })}
       image={{
         src: `${mapPin.src}`,
         size: {
-          width: 46,
-          height: 59,
+          width: 23,
+          height: 20,
         },
         options: {
           offset: {
-            x: 23,
-            y: 59,
+            x: 11.5,
+            y: 20,
           },
         },
       }}

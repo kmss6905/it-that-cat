@@ -1,14 +1,13 @@
-export const handleClickLogin = async (type: string) => {
+export const handleClickLogin = async (provider: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${type}/signin`,
+    await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${provider}/signin`,
       {
+        method: 'GET',
         mode: 'no-cors',
-        headers: { 'Access-Control-Allow-Credentials': 'true' },
+        headers: { 'Access-Control-Allow-Origin': 'true' },
       },
-    );
-    const data = await response.json();
-    console.log('🚀 ~ handleClickLogin ~ data:', data);
+    ).then((res) => console.log('🚀 ~ handleClickLogin ~ res:', res));
   } catch (error) {
     console.log('handleClickLogin : ' + error);
   }

@@ -10,6 +10,7 @@ import getAddress, { RegionState } from '@/apis/map/getAddress';
 
 import mapPin from '@/assets/images/icon_mapPin.png';
 import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
+import CustomPin from '@/components/Map/CustomPin';
 
 declare global {
   interface Window {
@@ -32,7 +33,6 @@ const RegisterMapPage = () => {
     };
   }>();
 
-  console.log('🚀 ~ RegisterMapPage ~ data:', data);
   const pinList = [
     { lat: 35.17183079055732, lng: 129.0556621326331 },
     { lat: 35.1716984775722, lng: 129.05708553844048 },
@@ -72,22 +72,9 @@ const RegisterMapPage = () => {
                 className='bg-gray-500'
                 key={`${position.lat}-${position.lng}`}
               >
-                <MapMarker
-                  position={{ lat: position.lat, lng: position.lng }}
+                <CustomPin
+                  position={position}
                   onClick={() => setData({ level: 2, position: position })}
-                  image={{
-                    src: `${mapPin.src}`, // 마커이미지의 주소입니다
-                    size: {
-                      width: 46,
-                      height: 59,
-                    }, // 마커이미지의 크기입니다
-                    options: {
-                      offset: {
-                        x: 23,
-                        y: 59,
-                      }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-                    },
-                  }}
                 />
               </div>
             ),

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input {
+  outline: none;
+}
+
 .rootWrapper {
   @apply flex justify-center items-center w-screen h-screen overflow-hidden;
 }
@@ -15,15 +19,29 @@
 }
 
 .tooltipWrapper {
-  @apply relative w-fit h-fit;
+  @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
 }
+
 .tooltipWrapper:hover > .tooltip,
-.tooltipWrapper:active > .tooltip .tooltip {
-  @apply block;
+.tooltipWrapper:active > .tooltip {
+  @apply opacity-100;
 }
 
 .tooltip {
-  @apply hidden absolute z-50;
+  @apply opacity-0 transition-opacity px-[14px] whitespace-pre-line py-[10px] w-max h-auto bg-gray-500 text-gray-100 rounded-[6px] z-20;
+}
+
+.tooltip::before,
+.tooltip::after {
+  @apply border-y-gray-500 border-x-transparent left-11 absolute w-0 z-10  border-l-[6px] border-r-[6px];
+}
+
+.tooltip::before {
+  @apply -bottom-[6px] border-t-8 border-b-0;
+}
+
+.tooltip::after {
+  @apply -top-[6px] border-t-0 border-b-8;
 }
 
 .heading1 {
