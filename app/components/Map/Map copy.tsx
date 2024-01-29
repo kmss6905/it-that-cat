@@ -14,9 +14,11 @@ const Map = () => {
 
   useEffect(() => {
     const mapScript = document.createElement('script');
+
     if (geolocation.position === null) {
       return;
     }
+
     const { latitude, longitude } = geolocation.position;
 
     mapScript.async = true;

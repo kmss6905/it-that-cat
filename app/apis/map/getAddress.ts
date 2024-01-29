@@ -4,10 +4,11 @@ export interface RegionState {
   depth1: string;
   depth2: string;
   depth3: string;
+  sub_address_no: string;
 }
 
 const getAddress = async (position: Coordinates) => {
-  const URL = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${position.longitude}&y=${position.latitude}`;
+  const URL = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${position.lng}&y=${position.lat}`;
 
   try {
     const response: Response = await fetch(URL, {
@@ -22,6 +23,7 @@ const getAddress = async (position: Coordinates) => {
         depth1: data.documents[0].address.region_1depth_name,
         depth2: data.documents[0].address.region_2depth_name,
         depth3: data.documents[0].address.region_3depth_name,
+        sub_address_no: data.documents[0].address.sub_address_no,
       };
     }
     return undefined;
