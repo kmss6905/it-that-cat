@@ -14,7 +14,11 @@ const LoginPage = () => {
           카카오로 간편 회원가입
         </button>
 
-        {/* <button onClick={() => handleClickLogin('kakao')}>
+        {/* <button onClick={() => router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/kakao/signin`)}>
+          카카오로 간편 회원가입
+        </button> */}
+
+        {/* <button onClick={() => handleClickLogin('naver')}>
           네이버로 간편 회원가입
         </button> */}
 

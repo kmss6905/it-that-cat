@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import IconCancel from '@/assets/images/icon-cancel.svg';
+import IconCancel from '@/assets/images/icon_cancel.svg';
 
 const ImageWrapper = ({
   children,
