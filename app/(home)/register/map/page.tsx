@@ -101,7 +101,7 @@ const RegisterMapPage = () => {
       <div className='absolute bottom-0 left-0 w-full z-20 bg-white rounded-t-xl shadow-[0px_0px_16px_0px_rgba(0,0,0,0.25)] flex flex-col gap-5 px-6 pt-7 pb-[30px]'>
         <div>
           <h3 className='pb-1 heading1 text-black'>
-            냥이를 목격한 스팟을 알려주세요!
+            냥이를 만난 장소는 바로 여기!
           </h3>
           <p className='text-gray-300 body1'>{`${address ? address?.depth1 : initAddress?.depth1} ${address ? address?.depth2 : initAddress?.depth2} ${address ? address?.depth3 : initAddress?.depth3} ${address ? address?.sub_address_no : initAddress?.sub_address_no}`}</p>
         </div>
