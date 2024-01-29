@@ -3,6 +3,9 @@ import React, { Fragment } from 'react';
 import IconX from '@/assets/images/icon_x.svg';
 import { useRouter } from 'next/navigation';
 import Tooltip from '@/components/Tooltip';
+import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
+import Image from 'next/image';
+import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
 
 const RegisterPostPage = () => {
   const router = useRouter();
@@ -33,6 +36,15 @@ const RegisterPostPage = () => {
           <input type='text' />
         </div>
       </form>
+
+      <ImageWrapper>
+        <Image
+          src={examImage.src}
+          alt='예시 이미지'
+          fill
+          className='object-cover w-full h-full'
+        />
+      </ImageWrapper>
     </Fragment>
   );
 };
