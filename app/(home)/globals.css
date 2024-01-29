@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+input,
+textarea {
+  outline: none;
+}
+
 .rootWrapper {
   @apply flex justify-center items-center w-screen h-screen overflow-hidden;
 }
