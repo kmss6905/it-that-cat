@@ -11,7 +11,7 @@ input {
 }
 
 .rootContainer {
-  @apply max-w-[375px] w-screen h-full;
+  @apply max-w-[430px] w-screen h-full;
 }
 
 .screen {
@@ -28,7 +28,7 @@ input {
 }
 
 .tooltip {
-  @apply opacity-0 transition-opacity px-[14px] whitespace-pre-line py-[10px] w-max h-auto bg-gray-500 text-gray-100 rounded-[6px] z-20;
+  @apply opacity-0 transition-opacity px-[14px] whitespace-pre-line py-[10px] w-max h-auto bg-gray-500 text-gray-100 rounded-primary z-20;
 }
 
 .tooltip::before,
@@ -42,6 +42,20 @@ input {
 
 .tooltip::after {
   @apply -top-[6px] border-t-0 border-b-8;
+}
+
+.error {
+  @apply pl-4 text-[12px] tracking-[-2%] relative text-error before:block;
+}
+
+.error::before {
+  @apply w-[12px] h-[12px]
+  flex justify-center items-center
+  text-error text-center
+  font-medium text-[11px] tracking-[2%] leading-[11px]
+  absolute top-1/2 -translate-y-1/2 left-0 
+  border border-error rounded-full
+  content-['i'];
 }
 
 .heading1 {

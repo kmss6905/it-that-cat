@@ -1,20 +1,39 @@
 'use client';
 import { handleClickLogin } from '@/apis/login/onClickLogin';
+import LoginBtn from '@/components/Login/LoginBtn';
 import { useRouter } from 'next/navigation';
+import LogoKakao from '@/assets/images/logo_kakao.svg';
 
 const LoginPage = () => {
   const router = useRouter();
 
   return (
-    <div className='relative h-full'>
-      <h2>Logo</h2>
+    <div className='relative h-full mx-6 flex flex-col justify-center items-center'>
+      <div className='flex-grow flex flex-col justify-center items-center gap-2 pb-20'>
+        <h1 className='heading1 text-white w-full text-center'>Logo</h1>
+        <p className='text-gray-200'>한 줄 카피~</p>
+      </div>
 
-      <div className='absolute z-10 bottom-10 w-full flex flex-col gap-2 items-center'>
-        <button onClick={() => handleClickLogin('kakao')}>
+      <div className='pb-16 w-full flex flex-col gap-6 items-center'>
+        <LoginBtn
+          className='bg-[#FEE500]'
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/kakao/signin`,
+            )
+          }
+          Icon={LogoKakao}
+        >
           카카오로 간편 회원가입
-        </button>
+        </LoginBtn>
 
-        {/* <button onClick={() => router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/kakao/signin`)}>
+        {/* <button
+          onClick={() =>
+            router.push(
+              `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/kakao/signin`,
+            )
+          }
+        >
           카카오로 간편 회원가입
         </button> */}
 
@@ -22,7 +41,9 @@ const LoginPage = () => {
           네이버로 간편 회원가입
         </button> */}
 
-        <button onClick={() => router.push('/')}>로그인 없이 둘러보기</button>
+        <button onClick={() => router.push('/')} className='text-[#afafaf]'>
+          로그인 없이 둘러보기
+        </button>
       </div>
     </div>
   );

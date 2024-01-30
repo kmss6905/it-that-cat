@@ -1,12 +1,18 @@
 import { MapMarker } from 'react-kakao-maps-sdk';
 import mapPin from '@/assets/images/icon_mapPin.png';
+import mapPinSelect from '@/assets/images/icon_mapPin_select.png';
 
 interface CustomPinProps {
   position?: { lat: number; lng: number };
   onClick?: (value?: any) => void;
+  isSelected?: boolean;
 }
 
-const CustomPin = ({ position, onClick }: CustomPinProps) => {
+const CustomPin = ({
+  position,
+  onClick,
+  isSelected = false,
+}: CustomPinProps) => {
   if (!position) return null;
 
   return (
@@ -17,15 +23,15 @@ const CustomPin = ({ position, onClick }: CustomPinProps) => {
       }}
       onClick={() => onClick && onClick({ level: 2, position: position })}
       image={{
-        src: `${mapPin.src}`,
+        src: `${isSelected ? mapPinSelect.src : mapPin.src}`,
         size: {
-          width: 23,
-          height: 20,
+          width: isSelected ? 35 : 23,
+          height: isSelected ? 30 : 20,
         },
         options: {
           offset: {
-            x: 11.5,
-            y: 20,
+            x: isSelected ? 17.5 : 11.5,
+            y: isSelected ? 30 : 20,
           },
         },
       }}
