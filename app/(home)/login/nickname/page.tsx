@@ -23,11 +23,7 @@ const NicknamePage = () => {
         } else {
           switch (res.error.code) {
             case 'U004':
-              setError(res.error.message);
-              break;
             case 'U003':
-              setError(res.error.message);
-              break;
             case 'U002':
               setError(res.error.message);
               break;
