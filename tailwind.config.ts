@@ -8,6 +8,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderRadius: { primary: '6px' },
+      padding: {
+        '2px': '2px',
+        '6px': '6px',
+        '10px': '10px',
+        '12px': '12px',
+        '14px': '14px',
+        '18px': '18px',
+        '22px': '22px',
+        '26px': '26px',
+        '30px': '30px',
+      },
+      margin: {
+        '2px': '2px',
+        '6px': '6px',
+        '10px': '10px',
+        '12px': '12px',
+        '14px': '14px',
+        '18px': '18px',
+        '22px': '22px',
+        '26px': '26px',
+        '30px': '30px',
+      },
       colors: {
         primary: {
           100: '#FFF3E1',
@@ -24,7 +47,10 @@ const config: Config = {
           400: '#6D6D6D',
           500: '#4D4D4D',
         },
+        title: 'rgba(0,0,0,0.85)',
         black: '#2B2B2B',
+        bgBlack: '#232323',
+        error: '#FF5E5E',
       },
       keyframes: {
         tooltip: {

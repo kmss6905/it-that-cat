@@ -2,13 +2,10 @@
 
 import useGeolocation from '@/hooks/useGeolocation';
 import { useState } from 'react';
-import { MapMarker } from 'react-kakao-maps-sdk';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
 import MapComponent from '@/components/Map/Map';
 import useAddress from '@/hooks/useAddress';
 import getAddress, { RegionState } from '@/apis/map/getAddress';
-
-import mapPin from '@/assets/images/icon_mapPin.png';
 import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import CustomPin from '@/components/Map/CustomPin';
 
@@ -41,6 +38,7 @@ const RegisterMapPage = () => {
   ];
 
   if (geolocation.position === null) return null;
+
   const handleCenterChanged = async (map: kakao.maps.Map) => {
     const level = map.getLevel();
     const latlng = map.getCenter();
