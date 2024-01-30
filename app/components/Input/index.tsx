@@ -17,12 +17,14 @@ export const TextInput = ({
   value,
   onChange,
   placeholder,
+  maxLength,
 }: TextInputProps) => (
   <input
     type='text'
     name={name}
     value={value}
     onChange={onChange}
+    maxLength={maxLength}
     placeholder={placeholder}
     className={`${InputClass}
       disabled:text-text-disable
@@ -36,20 +38,22 @@ export const TextareaInput = ({
   value,
   onChange,
   placeholder,
+  maxLength,
 }: TextAreaProps) => (
   <div className='relative'>
     <textarea
       name={name}
       value={value}
       onChange={onChange}
+      maxLength={maxLength}
       placeholder={placeholder}
       className={`${InputClass}
     disabled:text-text-disable
     border transition-colors resize-none
-    h-[140px]
+    h-[140px] 
     `}
     />
-    <span className='absolute text-gray-200 caption bottom-[14px] right-[14px]'>
+    <span className='absolute text-gray-200 caption bottom-[-12px] right-[4px]'>
       {value?.length}/300
     </span>
   </div>

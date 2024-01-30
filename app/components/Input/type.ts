@@ -13,6 +13,7 @@ export interface TextInputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
   required?: boolean;
+  maxLength?: number;
 }
 
 export interface TextAreaProps {
@@ -22,4 +23,5 @@ export interface TextAreaProps {
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   error?: boolean;
   required?: boolean;
+  maxLength?: number;
 }

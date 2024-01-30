@@ -1,30 +1,35 @@
 'use client';
+
 import React, { Fragment, useState } from 'react';
-import IconX from '@/assets/images/icon_x.svg';
-import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
+import IconX from '@/assets/images/icon_x.svg';
+import IconRandom from '@/assets/images/icon_random.svg';
+import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import Tooltip from '@/components/Tooltip';
 import { Label, TextInput, TextareaInput } from '@/components/Input';
+import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
+import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
+import Button from '@/components/Button';
+import { randomCatNameList } from '@/constants/randomCatNameList';
 
 interface CatObjProps {
   location: string;
   name: string;
-  introduction: string;
-  hasBottom: string;
+  desc: string;
+  neuter: string;
   group: string;
   personality: string[];
 }
-import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
-import Image from 'next/image';
-import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
 
 const RegisterPostPage = () => {
   const router = useRouter();
   const [catInfo, setCatInfo] = useState<CatObjProps>({
     location: '',
     name: '',
-    introduction: '',
-    hasBottom: '',
+    desc: '',
+    neuter: '',
     group: '',
     personality: [],
   });
@@ -36,6 +41,12 @@ const RegisterPostPage = () => {
       [name]: value,
     });
   };
+
+  const setRandomCatName = () => {
+    let randomIndex = Math.floor(Math.random() * randomCatNameList.length);
+    setCatInfo({ ...catInfo, name: randomCatNameList[randomIndex] });
+  };
+
   return (
     <Fragment>
       <div className='w-full relative pt-5 pb-5'>
@@ -60,21 +71,33 @@ const RegisterPostPage = () => {
         </div>
 
         <div>
-          <Label isRequired={true}>냥이 이름</Label>
-          <TextInput
-            name='name'
-            value={catInfo.name}
-            onChange={onChange}
-            placeholder={'ex. 키키'}
-          />
+          <Label isRequired={true}>이름 또는 애칭</Label>
+          <div className='flex gap-2'>
+            <TextInput
+              name='name'
+              value={catInfo.name}
+              onChange={onChange}
+              maxLength={9}
+              placeholder={'ex. 키키'}
+            />
+            <Button onClick={setRandomCatName}>
+              <div className='flex'>
+                <div className='flex justify-center items-center mr-[6px]'>
+                  <IconRandom />
+                </div>
+                <span className='whitespace-nowrap'>랜덤 생성</span>
+              </div>
+            </Button>
+          </div>
         </div>
 
         <div>
           <Label>냥이를 자유롭게 소개해주세요</Label>
           <TextareaInput
-            name='introduction'
-            value={catInfo.introduction}
+            name='desc'
+            value={catInfo.desc}
             onChange={onChange}
+            maxLength={299}
             placeholder={
               'ex. 우리집 고양이는 츄르를 좋아해~ 저랑 같이 코코 집사 되실분!! 애교도 많고 사람을 좋아하는 사랑스러운 친구랍니다:)'
             }
@@ -83,10 +106,18 @@ const RegisterPostPage = () => {
 
         <div>
           <Label isRequired={true}>사진 업로드</Label>
-          <div className='w-20 h-20 border-gray-100 rounded flex justify-center items-center border-[1px] flex-col'>
+          <div className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col'>
             <IconAddPhoto />
             <div className='text-gray-200 caption'>3/3</div>
           </div>
+          <ImageWrapper>
+            <Image
+              src={examImage.src}
+              alt='예시 이미지'
+              fill
+              className='object-cover w-full h-full'
+            />
+          </ImageWrapper>
         </div>
 
         <div>
@@ -110,15 +141,6 @@ const RegisterPostPage = () => {
           <Label addText='(1~3개 복수 선택 가능)'>어떤 성격인가요?</Label>
         </div>
       </form>
-
-      <ImageWrapper>
-        <Image
-          src={examImage.src}
-          alt='예시 이미지'
-          fill
-          className='object-cover w-full h-full'
-        />
-      </ImageWrapper>
     </Fragment>
   );
 };
