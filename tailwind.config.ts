@@ -8,7 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      borderRadius: { primary: '6px' },
+      borderRadius: { '6px': '6px', '10px': '10px' },
       padding: {
         '2px': '2px',
         '6px': '6px',
@@ -51,6 +51,7 @@ const config: Config = {
         black: '#2B2B2B',
         bgBlack: '#232323',
         error: '#FF5E5E',
+        current: '#3581FF',
       },
       keyframes: {
         tooltip: {

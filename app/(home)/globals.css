@@ -2,78 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-input {
-  outline: none;
-}
+@layer components {
+  input {
+    outline: none;
+  }
 
-.rootWrapper {
-  @apply flex justify-center items-center w-screen h-screen overflow-hidden;
-}
+  .rootWrapper {
+    @apply flex justify-center items-center w-screen h-screen overflow-hidden;
+  }
 
-.rootContainer {
-  @apply max-w-[430px] w-screen h-full;
-}
+  .rootContainer {
+    @apply max-w-[430px] w-screen h-full;
+  }
 
-.screen {
-  @apply bg-white w-full h-full relative;
-}
+  .screen {
+    @apply bg-white w-full h-full relative;
+  }
 
-.tooltipWrapper {
-  @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
-}
+  .tooltipWrapper {
+    @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
+  }
 
-.tooltipWrapper:hover > .tooltip,
-.tooltipWrapper:active > .tooltip {
-  @apply opacity-100;
-}
+  .tooltipWrapper:hover > .tooltip,
+  .tooltipWrapper:active > .tooltip {
+    @apply opacity-100;
+  }
 
-.tooltip {
-  @apply opacity-0 transition-opacity px-[14px] whitespace-pre-line py-[10px] w-max h-auto bg-gray-500 text-gray-100 rounded-primary z-20;
-}
+  .tooltip {
+    @apply opacity-0 transition-opacity px-14px whitespace-pre-line py-10px w-max h-auto bg-gray-500 text-gray-100 rounded-[6px] z-20;
+  }
 
-.tooltip::before,
-.tooltip::after {
-  @apply border-y-gray-500 border-x-transparent left-11 absolute w-0 z-10  border-l-[6px] border-r-[6px];
-}
+  .tooltip::before,
+  .tooltip::after {
+    @apply border-y-gray-500 border-x-transparent left-11 absolute w-0 z-10  border-l-[6px] border-r-[6px];
+  }
 
-.tooltip::before {
-  @apply -bottom-[6px] border-t-8 border-b-0;
-}
+  .tooltip::before {
+    @apply -bottom-[6px] border-t-8 border-b-0;
+  }
 
-.tooltip::after {
-  @apply -top-[6px] border-t-0 border-b-8;
-}
+  .tooltip::after {
+    @apply -top-[6px] border-t-0 border-b-8;
+  }
 
-.error {
-  @apply pl-4 text-[12px] tracking-[-2%] relative text-error before:block;
-}
+  .error {
+    @apply pl-4 text-[12px] tracking-[-2%] relative text-error before:block;
+  }
 
-.error::before {
-  @apply w-[12px] h-[12px]
+  .error::before {
+    @apply w-[12px] h-[12px]
   flex justify-center items-center
   text-error text-center
   font-medium text-[11px] tracking-[2%] leading-[11px]
   absolute top-1/2 -translate-y-1/2 left-0 
   border border-error rounded-full
   content-['i'];
-}
+  }
 
-.heading1 {
-  @apply font-bold text-[20px] tracking-[-2%] leading-[30px];
-}
+  .heading1 {
+    @apply font-bold text-[20px] tracking-[-2%] leading-[30px];
+  }
 
-.heading2 {
-  @apply font-bold text-[18px] tracking-[-2%] leading-[26px];
-}
+  .heading2 {
+    @apply font-bold text-[18px] tracking-[-2%] leading-[26px];
+  }
 
-.subHeading {
-  @apply font-semibold text-[16px] tracking-[-2%] leading-[24px];
-}
+  .subHeading {
+    @apply font-semibold text-[16px] tracking-[-2%] leading-[24px];
+  }
 
-.body1 {
-  @apply font-normal text-[16px] tracking-[-2%] leading-[24px];
-}
+  .body1 {
+    @apply font-normal text-[16px] tracking-[-2%] leading-[24px];
+  }
 
-.caption {
-  @apply font-normal text-[13px] tracking-[-2%] leading-[17px];
+  .caption {
+    @apply font-normal text-[13px] tracking-[-2%] leading-[17px];
+  }
 }
