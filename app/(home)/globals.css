@@ -29,7 +29,7 @@
   }
 
   .tooltipWrapper {
-    @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
+    @apply relative caption;
   }
 
   .tooltipWrapper:hover > .tooltip,
@@ -43,7 +43,7 @@
 
   .tooltip::before,
   .tooltip::after {
-    @apply border-y-gray-500 border-x-transparent left-11 absolute w-0 z-10  border-l-[6px] border-r-[6px];
+    @apply border-y-gray-500 border-x-transparent left-[38px] absolute w-0 z-10  border-l-[6px] border-r-[6px];
   }
 
   .tooltip::before {

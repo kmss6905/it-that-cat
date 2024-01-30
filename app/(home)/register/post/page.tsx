@@ -9,8 +9,6 @@ import IconRandom from '@/assets/images/icon_random.svg';
 import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import Tooltip from '@/components/Tooltip';
 import { Label, TextInput, TextareaInput } from '@/components/Input';
-import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
-import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
 import Button from '@/components/Button';
 import { randomCatNameList } from '@/constants/randomCatNameList';
 import {
@@ -126,18 +124,15 @@ const RegisterPostPage = () => {
         </div> */}
 
         <div>
-          <Label>
-            중성화 수술 유무
-            <div className='flex justify-center items-center'>
-              <Tooltip
-                direction='top'
-                message={`냥이의 귀를 살펴보세요! 중성화를 마친
-              고양이는 귀 끝을 조금 잘라 표시하곤 해요:)`}
-              >
-                i
-              </Tooltip>
-            </div>
-          </Label>
+          <div className='flex items-start'>
+            <Label isRequired>중성화 수술 유무</Label>
+            <Tooltip direction='top'>
+              냥이의 귀를 살펴보세요! 중성화를 마친
+              <br />
+              고양이는 귀 끝을 조금 잘라 표시하곤 해요:{')'}
+            </Tooltip>
+          </div>
+
           <div className='flex gap-[6px]'>
             {neuterButtons.map(({ name, value }) => (
               <Button key={value}>{name}</Button>

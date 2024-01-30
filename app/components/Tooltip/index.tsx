@@ -1,23 +1,22 @@
 import React, { ReactNode } from 'react';
 
+import IconI from '@/assets/images/icon_i.svg';
+
 interface TootipProps {
-  children: ReactNode;
-  message: string;
+  children?: ReactNode;
   direction?: 'top' | 'bottom';
 }
 
-const Tooltip = ({ children, message, direction = 'top' }: TootipProps) => {
+const Tooltip = ({ children, direction = 'top' }: TootipProps) => {
   return (
     <div className={`tooltipWrapper`}>
-      <span className='w-4 h-4 flex justify-center items-center border border-gray-300 rounded-full'>
-        {children}
-      </span>
+      <IconI />
       <div
         className={`tooltip
-        ${direction === 'top' ? 'before:block absolute -left-11 -top-16' : ''}
-        ${direction === 'bottom' ? 'after:block absolute -left-11 -bottom-16' : ''}`}
+        ${direction === 'top' ? 'before:block absolute -left-8 -top-16' : ''}
+        ${direction === 'bottom' ? 'after:block absolute -left-8 -bottom-16' : ''}`}
       >
-        {message}
+        {children}
       </div>
     </div>
   );
