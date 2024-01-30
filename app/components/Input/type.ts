@@ -7,9 +7,19 @@ export interface LabelProps {
 }
 
 export interface TextInputProps {
+  name: string;
   value?: string;
   placeholder: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  required?: boolean;
+}
+
+export interface TextAreaProps {
+  name: string;
+  value?: string;
+  placeholder: string;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   error?: boolean;
   required?: boolean;
 }

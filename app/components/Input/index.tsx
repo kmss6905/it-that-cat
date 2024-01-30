@@ -1,6 +1,6 @@
 'use client';
 
-import { LabelProps, TextInputProps } from './type';
+import { LabelProps, TextAreaProps, TextInputProps } from './type';
 
 export const Label = ({ children, ...rest }: LabelProps) => (
   <label className={`flex gap-1 pb-2 subHeading`}>
@@ -12,30 +12,47 @@ export const Label = ({ children, ...rest }: LabelProps) => (
   </label>
 );
 
-export const TextInput = ({ value, onChange, ...rest }: TextInputProps) => (
-  <>
-    <input
-      type='text'
-      value={value}
-      onChange={onChange}
-      className={`${InputClass}
+export const TextInput = ({
+  name,
+  value,
+  onChange,
+  placeholder,
+}: TextInputProps) => (
+  <input
+    type='text'
+    name={name}
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    className={`${InputClass}
       disabled:text-text-disable
       border transition-colors
     `}
-    />
-  </>
+  />
 );
 
-export const TextareaInput = ({ value, onChange, ...rest }: TextInputProps) => (
-  <>
+export const TextareaInput = ({
+  name,
+  value,
+  onChange,
+  placeholder,
+}: TextAreaProps) => (
+  <div className='relative'>
     <textarea
+      name={name}
       value={value}
+      onChange={onChange}
+      placeholder={placeholder}
       className={`${InputClass}
-      disabled:text-text-disable
-      border transition-colors resize-none
+    disabled:text-text-disable
+    border transition-colors resize-none
+    h-[140px]
     `}
     />
-  </>
+    <span className='absolute text-gray-200 caption bottom-[14px] right-[14px]'>
+      {value?.length}/300
+    </span>
+  </div>
 );
 
 const InputClass =
