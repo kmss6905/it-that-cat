@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-input,
+input {
+  outline: none;
+}
+
 textarea {
   outline: none;
+  -ms-overflow-style: none; /* IE and 엣지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .rootWrapper {
