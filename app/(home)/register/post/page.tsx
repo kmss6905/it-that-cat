@@ -14,6 +14,9 @@ interface CatObjProps {
   group: string;
   personality: string[];
 }
+import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
+import Image from 'next/image';
+import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
 
 const RegisterPostPage = () => {
   const router = useRouter();
@@ -87,7 +90,16 @@ const RegisterPostPage = () => {
         </div>
 
         <div>
-          <Label>중성화 수술 유무</Label>
+          <Label>
+            중성화 수술 유무
+            <Tooltip
+              direction='top'
+              message={`냥이의 귀를 살펴보세요! 중성화를 마친
+              고양이는 귀 끝을 조금 잘라 표시하곤 해요:)`}
+            >
+              i
+            </Tooltip>
+          </Label>
         </div>
 
         <div>
@@ -98,6 +110,15 @@ const RegisterPostPage = () => {
           <Label addText='(1~3개 복수 선택 가능)'>어떤 성격인가요?</Label>
         </div>
       </form>
+
+      <ImageWrapper>
+        <Image
+          src={examImage.src}
+          alt='예시 이미지'
+          fill
+          className='object-cover w-full h-full'
+        />
+      </ImageWrapper>
     </Fragment>
   );
 };

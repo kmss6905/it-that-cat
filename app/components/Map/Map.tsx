@@ -1,10 +1,8 @@
 'use client';
 
 import useGeolocation from '@/hooks/useGeolocation';
-import { useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map } from 'react-kakao-maps-sdk';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
-import IconMapPin from '@/assets/images/icon_mapPin.svg';
 
 declare global {
   interface Window {
