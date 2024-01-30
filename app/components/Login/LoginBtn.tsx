@@ -1,24 +1,20 @@
 'use client';
 import { StaticImageData } from 'next/image';
+import Link from 'next/link';
 import { ReactNode } from 'react';
 
 interface LoginBtnProps {
   children?: ReactNode;
-  onClick?: (event?: any) => void;
+  link: string;
   Icon?: any | StaticImageData;
   className?: string;
 }
 
-const LoginBtn = ({
-  children,
-  onClick,
-  Icon,
-  className = '',
-}: LoginBtnProps) => {
+const LoginBtn = ({ children, link, Icon, className = '' }: LoginBtnProps) => {
   return (
-    <button
-      onClick={() => onClick}
-      className={`w-full px-5 py-14px relative rounded-primary subHeading text-[rgba(0,0,0,0.85)] ${className}`}
+    <Link
+      href={link}
+      className={`w-full inline-block text-center px-5 py-14px relative rounded-6px subHeading text-[rgba(0,0,0,0.85)] ${className}`}
     >
       {Icon ? (
         <span className='absolute left-5 top-1/2 -translate-y-1/2'>
@@ -26,7 +22,7 @@ const LoginBtn = ({
         </span>
       ) : null}
       {children}
-    </button>
+    </Link>
   );
 };
 

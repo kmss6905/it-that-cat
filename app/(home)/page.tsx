@@ -6,7 +6,8 @@ import useAddress from '@/hooks/useAddress';
 import getAddress, { RegionState } from '@/apis/map/getAddress';
 import MapComponent from '@/components/Map/Map';
 import CustomPin from '@/components/Map/CustomPin';
-
+import CurrPin from '@/components/Map/CurrPin';
+import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 export default function Home() {
   useKakaoLoader();
   const geolocation = useGeolocation();
@@ -21,7 +22,7 @@ export default function Home() {
       lat: number;
       lng: number;
     };
-  }>();
+  } | null>(null);
 
   const pinList = [
     { id: 0, lat: 35.17183079055732, lng: 129.0556621326331 },
@@ -31,7 +32,7 @@ export default function Home() {
   ];
 
   if (geolocation.position === null) return null;
-  const handleCenterChanged = async (map: kakao.maps.Map) => {
+  const handleChangeCenter = async (map: kakao.maps.Map) => {
     const level = map.getLevel();
     const latlng = map.getCenter();
 
@@ -47,10 +48,22 @@ export default function Home() {
     setAddress(addr);
   };
 
+  const handleClickCurrentPosition = () => {
+    if (data === null || geolocation.position === null) return null;
+
+    setData({
+      level: data?.level,
+      position: {
+        lat: geolocation.position?.lat,
+        lng: geolocation.position?.lng,
+      },
+    });
+  };
+
   return (
     <div className='relative h-full overflow-hidden'>
       <MapComponent
-        onCenterChanged={handleCenterChanged}
+        onCenterChanged={handleChangeCenter}
         position={data?.position}
         isPanto
         level={3}
@@ -71,7 +84,13 @@ export default function Home() {
               </div>
             ),
         )}
+        <CurrPin position={geolocation.position} />
       </MapComponent>
+
+      <div className='absolute bottom-10 px-6 z-20 w-full'>
+        <CurrentLocationBtn handleClick={handleClickCurrentPosition} />
+        <div className='bg-white rounded-xl w-full h-[150px] shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'></div>
+      </div>
     </div>
   );
 }

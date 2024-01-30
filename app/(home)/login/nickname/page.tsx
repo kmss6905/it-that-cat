@@ -43,6 +43,7 @@ const NicknamePage = () => {
             src={loginCharacter.src}
             alt='이냥저냥 캐릭터 이미지'
             fill
+            sizes='100%'
             className='object-contain'
             priority
           />

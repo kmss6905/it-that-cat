@@ -9,7 +9,7 @@ const ImageWrapper = ({
   onClick?: (value?: any) => void;
 }) => {
   return (
-    <div className='relative rounded-primary w-[84px] h-[84px] overflow-hidden'>
+    <div className='relative rounded-6px w-[84px] h-[84px] overflow-hidden'>
       <ImageCancelBtn onClick={onClick} />
       {children}
       <div className='absolute w-full h-full bg-[rgba(0,0,0,0.35)] z-10'></div>

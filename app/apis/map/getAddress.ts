@@ -1,10 +1,12 @@
 import { Coordinates } from '@/hooks/useGeolocation';
 
 export interface RegionState {
-  depth1: string;
-  depth2: string;
-  depth3: string;
-  sub_address_no: string;
+  addrName: string;
+  sido: string;
+  sigungu: string;
+  dong: string;
+  mainAddrNo: string;
+  subAddrNo: string;
 }
 
 const getAddress = async (position: Coordinates) => {
@@ -17,13 +19,16 @@ const getAddress = async (position: Coordinates) => {
       },
     });
     const data = await response.json();
+    const address = data.documents[0].address;
 
     if (data) {
       return {
-        depth1: data.documents[0].address.region_1depth_name,
-        depth2: data.documents[0].address.region_2depth_name,
-        depth3: data.documents[0].address.region_3depth_name,
-        sub_address_no: data.documents[0].address.sub_address_no,
+        addrName: address.address_name,
+        mainAddrNo: address.address_no,
+        sido: address.region_1depth_name,
+        sigungu: address.region_2depth_name,
+        dong: address.region_3depth_name,
+        subAddrNo: address.sub_address_no,
       };
     }
     return undefined;
