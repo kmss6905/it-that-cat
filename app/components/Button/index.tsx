@@ -23,7 +23,7 @@ const Button = ({
       onClick={onClick}
       disabled={isDisabled ? isDisabled : false}
       className={`${className} border rounded-lg text-center py-[10px] px-4
-      text-button font-semibold
+      text-button font-semibold subHeading
       bg-primary-100 text-primary-500
   ${border ? 'border-primary-500 border-[1px]' : 'border-none'}
   `}

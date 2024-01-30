@@ -13,6 +13,11 @@ import ImageWrapper, { ImageCancelBtn } from '@/components/ImageWrapper';
 import examImage from '@/assets/images/miao-xiang-hf6978Xi8Dw-unsplash.jpg';
 import Button from '@/components/Button';
 import { randomCatNameList } from '@/constants/randomCatNameList';
+import {
+  groupButtons,
+  neuterButtons,
+  personalityButtons,
+} from '@/constants/catInfoButtons';
 
 interface CatObjProps {
   location: string;
@@ -104,7 +109,7 @@ const RegisterPostPage = () => {
           />
         </div>
 
-        <div>
+        {/* <div>
           <Label isRequired={true}>사진 업로드</Label>
           <div className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col'>
             <IconAddPhoto />
@@ -118,27 +123,44 @@ const RegisterPostPage = () => {
               className='object-cover w-full h-full'
             />
           </ImageWrapper>
-        </div>
+        </div> */}
 
         <div>
           <Label>
             중성화 수술 유무
-            <Tooltip
-              direction='top'
-              message={`냥이의 귀를 살펴보세요! 중성화를 마친
+            <div className='flex justify-center items-center'>
+              <Tooltip
+                direction='top'
+                message={`냥이의 귀를 살펴보세요! 중성화를 마친
               고양이는 귀 끝을 조금 잘라 표시하곤 해요:)`}
-            >
-              i
-            </Tooltip>
+              >
+                i
+              </Tooltip>
+            </div>
           </Label>
+          <div className='flex gap-[6px]'>
+            {neuterButtons.map(({ name, value }) => (
+              <Button key={value}>{name}</Button>
+            ))}
+          </div>
         </div>
 
         <div>
           <Label>같이 다니는 무리가 있나요?</Label>
+          <div className='flex gap-[6px]'>
+            {groupButtons.map(({ name, value }) => (
+              <Button key={value}>{name}</Button>
+            ))}
+          </div>
         </div>
 
         <div>
           <Label addText='(1~3개 복수 선택 가능)'>어떤 성격인가요?</Label>
+          <div className='flex gap-[6px] flex-wrap'>
+            {personalityButtons.map(({ name, value }) => (
+              <Button key={value}>{name}</Button>
+            ))}
+          </div>
         </div>
       </form>
     </Fragment>
