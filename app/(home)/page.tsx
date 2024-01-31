@@ -24,6 +24,7 @@ export default function Home() {
       lng: number;
     };
   } | null>(null);
+
   const pinList = [
     { id: 0, lat: 35.17183079055732, lng: 129.0556621326331 },
     { id: 1, lat: 35.1716984775722, lng: 129.05708553844048 },
