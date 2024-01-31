@@ -9,14 +9,14 @@ import CustomPin from '@/components/Map/CustomPin';
 import CurrPin from '@/components/Map/CurrPin';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import PostSkeleton from '@/components/Home/PostSkeleton';
+
 export default function Home() {
   useKakaoLoader();
-  const geolocation = useGeolocation();
 
+  const geolocation = useGeolocation();
   const initAddress = useAddress();
   const [address, setAddress] = useState<undefined | RegionState>();
   const [selected, setSelected] = useState<number | null>(null);
-
   const [data, setData] = useState<{
     level: number;
     position: {
@@ -24,34 +24,26 @@ export default function Home() {
       lng: number;
     };
   } | null>(null);
-
   const pinList = [
     { id: 0, lat: 35.17183079055732, lng: 129.0556621326331 },
     { id: 1, lat: 35.1716984775722, lng: 129.05708553844048 },
     { id: 2, lat: 35.17275369644841, lng: 129.05557562177881 },
     { id: 3, lat: 35.171488702430636, lng: 129.0561720817253 },
   ];
-
   if (geolocation.position === null) return null;
-  const handleChangeCenter = async (map: kakao.maps.Map) => {
+  const handleChangeCenter = async (map: any) => {
     const level = map.getLevel();
     const latlng = map.getCenter();
-
     const position = { lat: latlng.getLat(), lng: latlng.getLng() };
-
     setData({
       level: level,
       position: position,
     });
-
     const addr = await getAddress(position);
-
     setAddress(addr);
   };
-
   const handleClickCurrentPosition = () => {
     if (data === null || geolocation.position === null) return null;
-
     setData({
       level: data?.level,
       position: {
