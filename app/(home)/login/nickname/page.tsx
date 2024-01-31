@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-// import loginCharacter from '@/assets/images/login_character.svg';
 import loginCharacter from '@/assets/images/login_character.png';
 import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
 import { useRouter } from 'next/navigation';
@@ -34,6 +33,7 @@ const NicknamePage = () => {
       });
     }
   };
+  // if (!user) return <LoadingPage />;
 
   return (
     <div className='h-full flex flex-col justify-center'>

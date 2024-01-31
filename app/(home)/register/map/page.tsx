@@ -74,7 +74,7 @@ const RegisterMapPage = () => {
 
   return (
     <div className='relative h-full overflow-hidden'>
-      <div className='w-full absolute left-0 top-0 z-10 bg-white pt-6 pb-4'>
+      <div className='w-full bg-white pt-6 pb-4 absolute left-0 top-0 z-10'>
         <h2 className='text-center subHeading text-black'>
           우리 동네 냥이 등록
         </h2>
@@ -95,25 +95,21 @@ const RegisterMapPage = () => {
           (position) =>
             data &&
             data.position !== position && (
-              <div
-                className='bg-gray-500'
+              <CustomPin
                 key={`${position.lat}-${position.lng}`}
-              >
-                <CustomPin
-                  position={position}
-                  onClick={() => setData({ level: 2, position: position })}
-                />
-              </div>
+                position={position}
+                onClick={() => setData({ level: 2, position: position })}
+              />
             ),
         )}
         <CurrPin position={geolocation.position} />
       </MapComponent>
 
-      <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-30'>
+      <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-20'>
         <IconCurrMapPin />
       </div>
 
-      <div className='absolute bottom-0 left-0 w-full z-20'>
+      <div className='absolute bottom-0 left-0 w-full z-30'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
           className='ml-6'

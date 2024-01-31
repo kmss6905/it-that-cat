@@ -14,6 +14,7 @@ const CurrPin = ({ position }: CustomPinProps) => {
         lat: position.lat,
         lng: position.lng,
       }}
+      clickable={false}
       image={{
         src: `${currPin.src}`,
         size: {
