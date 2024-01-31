@@ -80,7 +80,7 @@ const NicknamePage = () => {
           type='submit'
           value='시작하기'
           disabled={nickname === null && error === null}
-          className='w-full subHeading bg-primary-500 pt-4 pb-9 text-white disabled:bg-gray-500 disabled:text-gray-300'
+          className='w-full subHeading bg-primary-500 pt-4 pb-9 text-white disabled:bg-gray-500 disabled:text-gray-300 cursor-pointer disabled:cursor-default'
         />
       </form>
     </div>
