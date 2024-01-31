@@ -1,10 +1,9 @@
 'use client';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useState } from 'react';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
 import MapComponent from '@/components/Map/Map';
 import useAddress from '@/hooks/useAddress';
-import getAddress, { RegionState } from '@/apis/map/getAddress';
+import getAddress from '@/apis/map/getAddress';
 import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import CustomPin from '@/components/Map/CustomPin';
 import IconX from '@/assets/images/icon_x.svg';
@@ -13,12 +12,6 @@ import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import { useGeolocationStore } from '@/stores/register/store';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
 
 const RegisterMapPage = () => {
   useKakaoLoader();
@@ -52,7 +45,7 @@ const RegisterMapPage = () => {
 
   if (currentGeolocation.position === null) return null;
 
-  const handleCenterChanged = async (map: kakao.maps.Map) => {
+  const handleCenterChanged = async (map: any) => {
     const latlng = map.getCenter();
 
     const location = { lat: latlng.getLat(), lng: latlng.getLng() };
