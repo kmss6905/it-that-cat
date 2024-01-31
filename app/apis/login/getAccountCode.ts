@@ -6,7 +6,7 @@ export const getAccountCode = async (provider: string) => {
   let result;
   try {
     await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${provider}/oauth-uri?redirect_uri=http://localhost:3000/login/nickname`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${provider}/oauth-uri?redirect_uri=http://localhost:3000/${provider}`,
       {
         method: 'GET',
         headers: {

@@ -1,36 +1,29 @@
-'use server';
-
-import { cookies } from 'next/headers';
-
-const getToken = async (code: string) => {
-  const cookieStore = cookies();
-  const provider = cookieStore.get('provider');
+const getToken = async (code: string, provider: string) => {
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${provider}/token`;
 
   const data = {
     code: code,
-    redirectUri: `http://localhost:3000/login/nickname`,
+    redirectUri: `http://localhost:3000/kakao`,
   };
 
-  try {
-    let response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/${provider}/token`,
-      {
-        method: 'POST',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'true',
-        },
-        body: JSON.stringify(data),
-      },
-    ).then((res) => {
-      console.log('🚀 ~ ).then ~ res:', res);
-    });
+  let result;
 
-    // console.log('🚀 ~ getToken ~ response:', response);
-    // response = await JSON.parse(response);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    result = await res.json();
   } catch (error) {
     console.log('🚀 ~ getToken ~ error:', error);
   }
+  if (result) return result;
+  return null;
 };
 
 export default getToken;

@@ -1,22 +1,11 @@
 'use client';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import loginCharacter from '@/assets/images/login_character.png';
 import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
-import { useRouter, useSearchParams } from 'next/navigation';
-import getToken from '@/apis/login/getToken';
-import LoadingPage from '../loading';
+import { useRouter } from 'next/navigation';
 
 const NicknamePage = () => {
-  const searchParams = useSearchParams();
-  const code = searchParams.get('code');
-
-  useEffect(() => {
-    if (code) {
-      getToken(code);
-    }
-  }, [code]);
-
   const router = useRouter();
   const [nickname, setNickname] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
