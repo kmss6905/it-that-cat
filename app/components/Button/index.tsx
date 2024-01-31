@@ -7,6 +7,7 @@ interface ButtonProps {
   isDisabled?: boolean;
   onClick?: () => void;
   border?: boolean;
+  gray?: boolean;
 }
 
 const Button = ({
@@ -16,16 +17,18 @@ const Button = ({
   onClick,
   isDisabled,
   border = false,
+  gray = false,
 }: ButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={isDisabled ? isDisabled : false}
-      className={`${className} border rounded-lg text-center py-[10px] px-4
+      className={`${className} rounded-lg text-center py-[10px] px-4
       text-button font-semibold body1 tracking-[-0.32px]
       bg-primary-100 text-primary-500
-  ${border ? 'border-primary-500 border-[1px]' : 'border-none'}
+      ${border ? 'border-primary-500 border' : null}
+      ${gray ? 'bg-opacity-0 text-gray-400 border-gray-100 border' : null}
   `}
     >
       {children}

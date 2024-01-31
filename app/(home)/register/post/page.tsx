@@ -16,8 +16,10 @@ import {
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
+import RegisterBtn from '@/components/RegisterBtn';
 
 interface CatObjProps {
+  [key: string]: string | string[];
   location: string;
   name: string;
   desc: string;
@@ -46,8 +48,53 @@ const RegisterPostPage = () => {
   };
 
   const setRandomCatName = () => {
-    let randomIndex = Math.floor(Math.random() * randomCatNameList.length);
+    const randomIndex = Math.floor(Math.random() * randomCatNameList.length);
     setCatInfo({ ...catInfo, name: randomCatNameList[randomIndex] });
+  };
+
+  const onClickOnlyOne = (name: string, value: string) => {
+    setCatInfo({
+      ...catInfo,
+      [name]: catInfo[name] === value ? '' : value,
+    });
+  };
+
+  const onClickPersonality = (value: string) => {
+    let personality = [...catInfo.personality];
+
+    // 모르겠어요 눌렀을 때
+    if (value === 'UNSURE') {
+      if (personality.includes('UNSURE')) {
+        setCatInfo({ ...catInfo, personality: [] });
+      } else {
+        setCatInfo({ ...catInfo, personality: ['UNSURE'] });
+      }
+      return;
+    }
+
+    // 이미 선택된 성격을 눌렀을 때
+    if (personality.includes(value)) {
+      setCatInfo({
+        ...catInfo,
+        personality: personality.filter(
+          (personalityValue) => personalityValue !== value,
+        ),
+      });
+      return;
+    }
+
+    if (personality.length < 3) {
+      personality.push(value);
+    }
+
+    // 모르겠어요가 이미 눌러져 있을 때
+    if (personality.includes('UNSURE')) {
+      personality = personality.filter(
+        (personalityValue) => personalityValue !== 'UNSURE',
+      );
+    }
+
+    setCatInfo({ ...catInfo, personality });
   };
 
   return (
@@ -62,7 +109,7 @@ const RegisterPostPage = () => {
         </button>
       </div>
 
-      <form className='p-6 flex flex-col gap-7'>
+      <form className='p-6 pt-3 flex flex-col gap-7 mb-[100px]'>
         <div>
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <TextInput
@@ -107,21 +154,21 @@ const RegisterPostPage = () => {
           />
         </div>
 
-        {/* <div>
+        <div>
           <Label isRequired={true}>사진 업로드</Label>
           <div className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col'>
             <IconAddPhoto />
             <div className='text-gray-200 caption'>3/3</div>
           </div>
-          <ImageWrapper>
+          {/* <ImageWrapper>
             <Image
               src={examImage.src}
               alt='예시 이미지'
               fill
               className='object-cover w-full h-full'
             />
-          </ImageWrapper>
-        </div> */}
+          </ImageWrapper> */}
+        </div>
 
         <div>
           <div className='flex items-start'>
@@ -135,7 +182,14 @@ const RegisterPostPage = () => {
 
           <div className='flex gap-[6px]'>
             {neuterButtons.map(({ name, value }) => (
-              <Button key={value}>{name}</Button>
+              <Button
+                key={value}
+                onClick={() => onClickOnlyOne('neuter', value)}
+                border={catInfo.neuter === value}
+                gray={catInfo.neuter !== value}
+              >
+                {name}
+              </Button>
             ))}
           </div>
         </div>
@@ -144,7 +198,14 @@ const RegisterPostPage = () => {
           <Label>같이 다니는 무리가 있나요?</Label>
           <div className='flex gap-[6px]'>
             {groupButtons.map(({ name, value }) => (
-              <Button key={value}>{name}</Button>
+              <Button
+                key={value}
+                onClick={() => onClickOnlyOne('group', value)}
+                border={catInfo.group === value}
+                gray={catInfo.group !== value}
+              >
+                {name}
+              </Button>
             ))}
           </div>
         </div>
@@ -153,11 +214,24 @@ const RegisterPostPage = () => {
           <Label addText='(1~3개 복수 선택 가능)'>어떤 성격인가요?</Label>
           <div className='flex gap-[6px] flex-wrap'>
             {personalityButtons.map(({ name, value }) => (
-              <Button key={value}>{name}</Button>
+              <Button
+                key={value}
+                onClick={() => onClickPersonality(value)}
+                border={catInfo.personality.includes(value)}
+                gray={!catInfo.personality.includes(value)}
+              >
+                {name}
+              </Button>
             ))}
           </div>
         </div>
       </form>
+
+      <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
+        <RegisterBtn onClick={() => router.push('/register/post')}>
+          이 위치로 설정
+        </RegisterBtn>
+      </div>
     </Fragment>
   );
 };
