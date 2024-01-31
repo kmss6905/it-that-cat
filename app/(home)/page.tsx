@@ -8,6 +8,7 @@ import MapComponent from '@/components/Map/Map';
 import CustomPin from '@/components/Map/CustomPin';
 import CurrPin from '@/components/Map/CurrPin';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
+import PostSkeleton from '@/components/Home/PostSkeleton';
 export default function Home() {
   useKakaoLoader();
   const geolocation = useGeolocation();
@@ -89,7 +90,9 @@ export default function Home() {
 
       <div className='absolute bottom-10 px-6 z-20 w-full'>
         <CurrentLocationBtn handleClick={handleClickCurrentPosition} />
-        <div className='bg-white rounded-xl w-full h-[150px] shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'></div>
+        <div className='bg-white rounded-xl w-full h-[150px] shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
+          <PostSkeleton />
+        </div>
       </div>
     </div>
   );

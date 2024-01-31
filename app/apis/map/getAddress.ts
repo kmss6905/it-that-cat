@@ -21,17 +21,17 @@ const getAddress = async (position: Coordinates) => {
     const data = await response.json();
     const address = data.documents[0].address;
 
+    const result = {
+      addrName: address.address_name,
+      mainAddrNo: address.address_no,
+      sido: address.region_1depth_name,
+      sigungu: address.region_2depth_name,
+      dong: address.region_3depth_name,
+      subAddrNo: address.sub_address_no,
+    };
     if (data) {
-      return {
-        addrName: address.address_name,
-        mainAddrNo: address.address_no,
-        sido: address.region_1depth_name,
-        sigungu: address.region_2depth_name,
-        dong: address.region_3depth_name,
-        subAddrNo: address.sub_address_no,
-      };
+      return result;
     }
-    return undefined;
   } catch (err) {
     console.log(err);
   }

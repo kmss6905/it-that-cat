@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const KakaoAuthPage = () => {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
-  const pathname = usePathname().replace('/', '');
+  const pathname = usePathname().split('/')[2];
 
   useEffect(() => {
     if (code) {
