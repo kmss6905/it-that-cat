@@ -33,7 +33,6 @@ const NicknamePage = () => {
       });
     }
   };
-  // if (!user) return <LoadingPage />;
 
   return (
     <div className='h-full flex flex-col justify-center'>

@@ -3,7 +3,7 @@ const getToken = async (code: string, provider: string) => {
 
   const data = {
     code: code,
-    redirectUri: `http://localhost:3000/kakao`,
+    redirectUri: `http://localhost:3000/auth/${provider}`,
   };
 
   let result;
