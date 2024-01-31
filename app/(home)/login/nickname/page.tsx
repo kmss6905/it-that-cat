@@ -1,12 +1,22 @@
 'use client';
 import Image from 'next/image';
-import React, { useState } from 'react';
-// import loginCharacter from '@/assets/images/login_character.svg';
+import React, { useEffect, useState } from 'react';
 import loginCharacter from '@/assets/images/login_character.png';
 import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import getToken from '@/apis/login/getToken';
+import LoadingPage from '../loading';
 
 const NicknamePage = () => {
+  const searchParams = useSearchParams();
+  const code = searchParams.get('code');
+
+  useEffect(() => {
+    if (code) {
+      getToken(code);
+    }
+  }, [code]);
+
   const router = useRouter();
   const [nickname, setNickname] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +44,7 @@ const NicknamePage = () => {
       });
     }
   };
+  // if (!user) return <LoadingPage />;
 
   return (
     <div className='h-full flex flex-col justify-center'>
