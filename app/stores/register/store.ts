@@ -8,24 +8,22 @@ interface GeolocationState {
 
 type GeolocationStore = {
   geolocation: GeolocationState;
-  getPosition: (position: { lat: number; lng: number }) => void;
-  getAddress: (addr: RegionState) => void;
+  setPosition: (position: { lat: number; lng: number }) => void;
+  setAddress: (addr: RegionState) => void;
 };
 
 const geolocationStore: StateCreator<GeolocationStore> = (set) => ({
   geolocation: { position: null, address: null },
-  getPosition: (position) =>
+  setPosition: (position) =>
     set((prev) => {
-      const newPosition = { lat: position.lat, lng: position.lng };
-
       return {
         geolocation: {
           address: prev.geolocation.address,
-          position: newPosition,
+          position: position,
         },
       };
     }),
-  getAddress: (addr) =>
+  setAddress: (addr) =>
     set((prev) => {
       return {
         geolocation: {
