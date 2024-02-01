@@ -10,6 +10,7 @@ type GeolocationStore = {
   geolocation: GeolocationState;
   setPosition: (position: { lat: number; lng: number }) => void;
   setAddress: (addr: RegionState) => void;
+  setEmpty: () => void;
 };
 
 const geolocationStore: StateCreator<GeolocationStore> = (set) => ({
@@ -32,6 +33,8 @@ const geolocationStore: StateCreator<GeolocationStore> = (set) => ({
         },
       };
     }),
+  setEmpty: () =>
+    set(() => ({ geolocation: { position: null, address: null } })),
 });
 
 export const useGeolocationStore = create(geolocationStore);

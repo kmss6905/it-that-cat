@@ -1,5 +1,5 @@
 'use client';
-import useGeolocation from '@/hooks/useGeolocation';
+import useGeolocation, { Coordinates } from '@/hooks/useGeolocation';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
 import { useState } from 'react';
 import useAddress from '@/hooks/useAddress';
@@ -16,17 +16,20 @@ import FloatingBtn from '@/components/Home/FloatingBtn';
 import IconList from '@/assets/images/icon_list.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
 import { useRouter } from 'next/navigation';
+import CatMark from '@/components/Home/CatMark';
 
 export default function Home() {
   useKakaoLoader();
   const router = useRouter();
-
   const geolocation = useGeolocation();
   const initAddress = useAddress();
 
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
+  /* api 연결 시 사라질 부분 */
   const content = pinList.filter((item) => item.id === selectedPin);
+  const [catMark, setCatMark] = useState<boolean>(false);
+  /* --------------------- */
 
   const [address, setAddress] = useState<undefined | RegionState>();
 
@@ -67,6 +70,10 @@ export default function Home() {
   return (
     <div className='relative h-full overflow-hidden'>
       <SelectFilter />
+      <CatMark
+        isChecked={catMark}
+        onClick={() => setCatMark((prev) => !prev)}
+      />
       <MapComponent
         onCenterChanged={handleChangeCenter}
         position={data?.position}
@@ -115,14 +122,9 @@ export default function Home() {
         <div className='bg-white rounded-xl w-full shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
           {/* <CardSkeleton /> */}
           {selectedPin !== null ? (
-            <ContentCard
-              content={
-                content
-                  ? content[0]
-                  : pinList[Math.floor(Math.random() * pinList.length)]
-              }
-            />
-          ) : null}
+            <ContentCard content={content[0]} />
+          ) : // <ContentCard content={} />
+          null}
         </div>
       </div>
     </div>

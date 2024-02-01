@@ -78,6 +78,12 @@
   content-['i'];
   }
 
+  .catMark {
+    @apply absolute left-[110px] top-10 z-10 cursor-pointer
+    flex items-center gap-[6px] rounded-md border
+    bg-white px-3 py-2 subHeading2;
+  }
+
   .mapFilter {
     @apply absolute top-0 left-0 z-10 px-6 py-10;
   }
