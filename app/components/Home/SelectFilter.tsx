@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import IconDropdown from '@/assets/images/icon_dropdown.svg';
 
 interface SelectedFilterState {
@@ -23,31 +23,41 @@ const SelectFilter = () => {
     setSelectedFilter(id);
     setIsOpen(false);
   };
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutsideFilter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref || ref.current === e.target) {
+      setIsOpen(false);
+    }
+  };
 
   return (
-    <ul className='mapFilter'>
-      <li
+    <div
+      className='mapFilter w-full h-full'
+      ref={ref}
+      onClick={(e) => handleClickOutsideFilter(e)}
+    >
+      <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className='flex gap-1 items-center px-3 py-2 bg-white rounded-md cursor-pointer'
+        className={`${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
-        <span>{selectedFilter.content}</span>
+        {selectedFilter.content}
         <span
           className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
         >
           <IconDropdown />
         </span>
-      </li>
-      {isOpen &&
-        options.map((items) => (
-          <li
-            key={items.id}
-            onClick={() => handleClickFilter(items)}
-            className='py-1 text-center hover:bg-gray-50 cursor-pointer'
-          >
-            {items.content}
-          </li>
-        ))}
-    </ul>
+      </button>
+      {isOpen && (
+        <ul>
+          {options.map((items) => (
+            <li key={items.id} onClick={() => handleClickFilter(items)}>
+              {items.content}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
