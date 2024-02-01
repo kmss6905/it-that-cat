@@ -27,15 +27,6 @@ const RegisterMapPage = () => {
     setPosition,
   } = useGeolocationStore();
 
-  /* const [address, setAddress] = useState<undefined | RegionState>();
-  const [data, setData] = useState<{
-    level: number;
-    position: {
-      lat: number;
-      lng: number;
-    };
-  }>(); */
-
   const pinList = [
     { lat: 35.17183079055732, lng: 129.0556621326331 },
     { lat: 35.1716984775722, lng: 129.05708553844048 },
