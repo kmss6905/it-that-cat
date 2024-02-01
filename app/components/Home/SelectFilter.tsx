@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import IconDropdown from '@/assets/images/icon_dropdown.svg';
 
 interface SelectedFilterState {
@@ -23,31 +23,58 @@ const SelectFilter = () => {
     setSelectedFilter(id);
     setIsOpen(false);
   };
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  return (
-    <ul className='mapFilter'>
-      <li
+  const handleClickOutsideFilter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref || ref.current === e.target) {
+      setIsOpen(false);
+    }
+  };
+
+  if (!isOpen)
+    return (
+      <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className='flex gap-1 items-center px-3 py-2 bg-white rounded-md cursor-pointer'
+        className={`absolute left-6 top-10 z-10 filter ${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
-        <span>{selectedFilter.content}</span>
+        {selectedFilter.content}
         <span
           className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
         >
           <IconDropdown />
         </span>
-      </li>
-      {isOpen &&
-        options.map((items) => (
-          <li
-            key={items.id}
-            onClick={() => handleClickFilter(items)}
-            className='py-1 text-center hover:bg-gray-50 cursor-pointer'
-          >
-            {items.content}
-          </li>
-        ))}
-    </ul>
+      </button>
+    );
+
+  return (
+    <div
+      className={`mapFilter w-full h-full z-10`}
+      ref={ref}
+      onClick={(e) => handleClickOutsideFilter(e)}
+    >
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={`${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
+      >
+        {selectedFilter.content}
+        <span
+          className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
+        >
+          <IconDropdown />
+        </span>
+      </button>
+      {isOpen && (
+        <ul>
+          {options
+            .filter((items) => items.id !== selectedFilter.id)
+            .map((items) => (
+              <li key={items.id} onClick={() => handleClickFilter(items)}>
+                {items.content}
+              </li>
+            ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

@@ -1,8 +1,4 @@
-'use server';
-import { cookies } from 'next/headers';
-
 export const getAccountCode = async (provider: string) => {
-  const cookieStore = cookies();
   let result;
   try {
     await fetch(
@@ -17,8 +13,6 @@ export const getAccountCode = async (provider: string) => {
     ).then(async (res) => {
       const { data } = await res.json();
       result = data.oauthUri;
-
-      cookieStore.set('provider', `${provider}`);
     });
   } catch (error) {
     console.log('handleClickLogin : ' + error);

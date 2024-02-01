@@ -1,4 +1,4 @@
-const PostSkeleton = () => {
+const CardSkeleton = () => {
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5'>
       <div className='w-[70px] h-[70px] rounded-full animate-pulse bg-gray-100'></div>
@@ -13,4 +13,4 @@ const PostSkeleton = () => {
   );
 };
 
-export default PostSkeleton;
+export default CardSkeleton;
