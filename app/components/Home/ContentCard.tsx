@@ -1,6 +1,9 @@
-import { randomCatIllust } from '@/constants/randomCatIllust';
+import { catIllust } from '@/constants/catIllust';
 import Image from 'next/image';
 import IconLocation from '@/assets/images/icon_location.svg';
+import useGeolocation from '@/hooks/useGeolocation';
+import { useEffect, useState } from 'react';
+import { getDistance } from '@/utils/calcDistance';
 
 export interface ContentType {
   id: number;
@@ -16,21 +19,32 @@ export interface ContentType {
   addrName: string;
   comment: number;
   follow: number;
+  catEmoji: number;
 }
 
 export interface ContentCardProps {
   content: ContentType;
 }
 const ContentCard = ({ content }: ContentCardProps) => {
-  const { name, createdAt, addrName, comment, follow } = content;
+  const geolocation = useGeolocation();
+  const [distance, setDistance] = useState<number | null>(null);
+  const { lat, lng, name, createdAt, addrName, comment, follow, catEmoji } =
+    content;
 
-  const randomCatIndex = Math.floor(Math.random() * randomCatIllust.length);
+  const cat = catIllust.filter((cat) => cat.id === catEmoji)[0];
+
+  useEffect(() => {
+    if (geolocation.position !== null) {
+      const dist = getDistance(geolocation.position, { lat, lng });
+      setDistance(dist);
+    }
+  }, [geolocation.position, lat, lng]);
 
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5'>
       <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative'>
         <Image
-          src={randomCatIllust[randomCatIndex].src}
+          src={cat.image.src}
           alt='고양이 일러스트'
           fill
           className='object-contain p-2'
@@ -56,7 +70,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
         <div className='flex justify-end'>
           <div className='bg-primary-100 flex gap-[2px] items-center rounded text-primary-400 px-6px py-1 caption2'>
             <IconLocation />
-            <span>360m</span>
+            <span>{distance !== null ? distance : '000'}m</span>
           </div>
         </div>
       </div>

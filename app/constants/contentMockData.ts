@@ -15,6 +15,7 @@ export const pinList: ContentType[] = [
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
+    catEmoji: 3,
   },
   {
     id: 1,
@@ -30,6 +31,7 @@ export const pinList: ContentType[] = [
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
+    catEmoji: 13,
   },
   {
     id: 2,
@@ -45,6 +47,7 @@ export const pinList: ContentType[] = [
     addrName: '부산 부산진구 연지동 75-4',
     comment: 24,
     follow: 106,
+    catEmoji: 9,
   },
   {
     id: 3,
@@ -60,6 +63,7 @@ export const pinList: ContentType[] = [
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
+    catEmoji: 18,
   },
   {
     id: 4,
@@ -75,5 +79,6 @@ export const pinList: ContentType[] = [
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
+    catEmoji: 5,
   },
 ];
