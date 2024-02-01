@@ -82,7 +82,8 @@
     @apply absolute top-0 left-0 z-10 px-6 py-10;
   }
 
-  .mapFilter > button {
+  .mapFilter > button,
+  .filter {
     @apply border-gray-100
     subHeading2 text-gray-400
     px-3 py-2 bg-white
