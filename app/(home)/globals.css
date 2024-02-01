@@ -7,6 +7,25 @@
     outline: none;
   }
 
+  textarea {
+    outline: none;
+    -ms-overflow-style: none; /* IE and 엣지 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
+
+  .layout {
+    -ms-overflow-style: none; /* IE and 엣지 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
+  .layout::-webkit-scrollbar {
+    display: none;
+  }
+
   .rootWrapper {
     @apply flex justify-center items-center w-screen h-screen overflow-hidden;
   }
@@ -20,7 +39,7 @@
   }
 
   .tooltipWrapper {
-    @apply relative w-4 h-4 flex justify-center items-center caption text-gray-300 border border-gray-300 font-semibold rounded-full;
+    @apply relative caption;
   }
 
   .tooltipWrapper:hover > .tooltip,
@@ -34,7 +53,7 @@
 
   .tooltip::before,
   .tooltip::after {
-    @apply border-y-gray-500 border-x-transparent left-11 absolute w-0 z-10  border-l-[6px] border-r-[6px];
+    @apply border-y-gray-500 border-x-transparent left-[38px] absolute w-0 z-10  border-l-[6px] border-r-[6px];
   }
 
   .tooltip::before {
@@ -59,6 +78,10 @@
   content-['i'];
   }
 
+  .mapFilter {
+    @apply absolute top-10 left-6 z-10 outline-none bg-white border border-gray-100 rounded-md overflow-hidden body2 text-gray-400;
+  }
+
   .heading1 {
     @apply font-bold text-[20px] tracking-[-2%] leading-[30px];
   }
@@ -73,6 +96,10 @@
 
   .body1 {
     @apply font-normal text-[16px] tracking-[-2%] leading-[24px];
+  }
+
+  .body2 {
+    @apply font-medium text-[14px] -tracking-[2%] leading-[21px];
   }
 
   .caption {

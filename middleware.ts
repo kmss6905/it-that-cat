@@ -20,7 +20,8 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
+/* // See "Matching Paths" below to learn more
 export const config = {
   matcher: '/',
 };
+ */
