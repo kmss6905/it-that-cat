@@ -97,8 +97,17 @@
     subHeading2 text-gray-400
     bg-white inline-block overflow-hidden;
   }
+
   .mapFilter > ul li {
     @apply w-full px-3 py-2 pr-8 bg-white cursor-pointer hover:bg-gray-50 transition-colors;
+  }
+
+  .floatingBtn {
+    @apply cursor-pointer flex shadow-[0_1px_4px_0_rgba(0,0,0,0.25)] items-center rounded-full justify-center hover:px-4;
+  }
+
+  .floatingBtn > p {
+    @apply pl-0 transition-all text-white subHeading2 hidden;
   }
 
   .heading1 {

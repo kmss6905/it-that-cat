@@ -15,9 +15,11 @@ import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import IconList from '@/assets/images/icon_list.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   useKakaoLoader();
+  const router = useRouter();
 
   const geolocation = useGeolocation();
   const initAddress = useAddress();
@@ -97,13 +99,15 @@ export default function Home() {
 
         <FloatingBtn
           Icon={IconNewContent}
-          className='bg-primary-500 absolute right-6 -top-[68px] -translate-y-full'
+          onClick={() => router.push('/register/map')}
+          className='bg-primary-500 absolute right-6 -top-[68px] pl-14px pt-14px pr-[13px] pb-3'
         >
           새로운 냥이 등록
         </FloatingBtn>
         <FloatingBtn
           Icon={IconList}
-          className='bg-gray-500 absolute right-6 -top-4 -translate-y-full'
+          onClick={() => router.push('/')}
+          className='bg-gray-500 absolute right-6 -top-3 p-14px'
         >
           목록보기
         </FloatingBtn>

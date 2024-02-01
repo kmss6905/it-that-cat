@@ -31,9 +31,24 @@ const SelectFilter = () => {
     }
   };
 
+  if (!isOpen)
+    return (
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={`absolute left-6 top-10 z-10 filter ${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
+      >
+        {selectedFilter.content}
+        <span
+          className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
+        >
+          <IconDropdown />
+        </span>
+      </button>
+    );
+
   return (
     <div
-      className='mapFilter w-full h-full'
+      className={`mapFilter w-full h-full z-10`}
       ref={ref}
       onClick={(e) => handleClickOutsideFilter(e)}
     >
@@ -50,11 +65,13 @@ const SelectFilter = () => {
       </button>
       {isOpen && (
         <ul>
-          {options.map((items) => (
-            <li key={items.id} onClick={() => handleClickFilter(items)}>
-              {items.content}
-            </li>
-          ))}
+          {options
+            .filter((items) => items.id !== selectedFilter.id)
+            .map((items) => (
+              <li key={items.id} onClick={() => handleClickFilter(items)}>
+                {items.content}
+              </li>
+            ))}
         </ul>
       )}
     </div>
