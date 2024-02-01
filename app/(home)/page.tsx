@@ -9,14 +9,17 @@ import CustomPin from '@/components/Map/CustomPin';
 import CurrPin from '@/components/Map/CurrPin';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import PostSkeleton from '@/components/Home/PostSkeleton';
+import SelectFilter from '@/components/Home/SelectFilter';
 
 export default function Home() {
   useKakaoLoader();
 
   const geolocation = useGeolocation();
   const initAddress = useAddress();
-  const [address, setAddress] = useState<undefined | RegionState>();
+
   const [selected, setSelected] = useState<number | null>(null);
+
+  const [address, setAddress] = useState<undefined | RegionState>();
   const [data, setData] = useState<{
     level: number;
     position: {
@@ -31,6 +34,7 @@ export default function Home() {
     { id: 2, lat: 35.17275369644841, lng: 129.05557562177881 },
     { id: 3, lat: 35.171488702430636, lng: 129.0561720817253 },
   ];
+
   if (geolocation.position === null) return null;
   const handleChangeCenter = async (map: any) => {
     const level = map.getLevel();
@@ -43,8 +47,10 @@ export default function Home() {
     const addr = await getAddress(position);
     setAddress(addr);
   };
+
   const handleClickCurrentPosition = () => {
     if (data === null || geolocation.position === null) return null;
+
     setData({
       level: data?.level,
       position: {
@@ -56,6 +62,7 @@ export default function Home() {
 
   return (
     <div className='relative h-full overflow-hidden'>
+      <SelectFilter />
       <MapComponent
         onCenterChanged={handleChangeCenter}
         position={data?.position}
