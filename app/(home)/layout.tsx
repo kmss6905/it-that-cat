@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={`${pretendard.className} bg-gray-50`}>
         <RootWrapper>
-          <div className='h-full'>{children}</div>
+          <div className='h-full overflow-hidden'>{children}</div>
         </RootWrapper>
         <Script
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`}

@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        dropdown: "url('../assets/images/icon_dropdown.png')",
+      },
       borderRadius: { '6px': '6px', '10px': '10px' },
       padding: {
         '2px': '2px',

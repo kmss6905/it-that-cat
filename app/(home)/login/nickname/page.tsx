@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-// import loginCharacter from '@/assets/images/login_character.svg';
 import loginCharacter from '@/assets/images/login_character.png';
 import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
 import { useRouter } from 'next/navigation';
+import handleUpdatedNickname from '@/apis/login/handleUpdatedNickname';
 
 const NicknamePage = () => {
   const router = useRouter();
@@ -19,12 +19,18 @@ const NicknamePage = () => {
         if (res.result === 'SUCCESS') {
           res?.data.isAvailable === false
             ? setError('이미 사용 중인 닉네임이에요.')
-            : router.push('/');
+            : handleUpdatedNickname(nickname).then((res: any) => {
+                if (res.result === 'SUCCESS') {
+                  router.push('/');
+                }
+              });
         } else {
           switch (res.error.code) {
             case 'U004':
             case 'U003':
             case 'U002':
+            case 'U001':
+            case 'A003':
               setError(res.error.message);
               break;
             default:
@@ -81,7 +87,7 @@ const NicknamePage = () => {
           type='submit'
           value='시작하기'
           disabled={nickname === null && error === null}
-          className='w-full subHeading bg-primary-500 pt-4 pb-9 text-white disabled:bg-gray-500 disabled:text-gray-300'
+          className='w-full subHeading bg-primary-500 pt-4 pb-9 text-white disabled:bg-gray-500 disabled:text-gray-300 cursor-pointer disabled:cursor-default'
         />
       </form>
     </div>

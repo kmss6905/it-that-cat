@@ -1,10 +1,9 @@
 'use client';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useState } from 'react';
 import useKakaoLoader from '@/hooks/useKakaoLoader';
 import MapComponent from '@/components/Map/Map';
 import useAddress from '@/hooks/useAddress';
-import getAddress, { RegionState } from '@/apis/map/getAddress';
+import getAddress from '@/apis/map/getAddress';
 import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import CustomPin from '@/components/Map/CustomPin';
 import IconX from '@/assets/images/icon_x.svg';
@@ -12,27 +11,21 @@ import { useRouter } from 'next/navigation';
 import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import { useGeolocationStore } from '@/stores/register/store';
 
 const RegisterMapPage = () => {
   useKakaoLoader();
-  const geolocation = useGeolocation();
+
+  const currentGeolocation = useGeolocation();
+  const initAddress = useAddress();
+
   const router = useRouter();
 
-  const initAddress = useAddress();
-  const [address, setAddress] = useState<undefined | RegionState>();
-  const [data, setData] = useState<{
-    level: number;
-    position: {
-      lat: number;
-      lng: number;
-    };
-  }>();
+  const {
+    geolocation: { address, position },
+    setAddress,
+    setPosition,
+  } = useGeolocationStore();
 
   const pinList = [
     { lat: 35.17183079055732, lng: 129.0556621326331 },
@@ -41,40 +34,32 @@ const RegisterMapPage = () => {
     { lat: 35.171488702430636, lng: 129.0561720817253 },
   ];
 
-  if (geolocation.position === null) return null;
+  if (currentGeolocation.position === null) return null;
 
-  const handleCenterChanged = async (map: kakao.maps.Map) => {
-    const level = map.getLevel();
+  const handleCenterChanged = async (map: any) => {
     const latlng = map.getCenter();
 
-    const position = { lat: latlng.getLat(), lng: latlng.getLng() };
+    const location = { lat: latlng.getLat(), lng: latlng.getLng() };
 
-    setData({
-      level: level,
-      position: position,
-    });
+    setPosition(location);
 
-    const addr = await getAddress(position);
-
-    setAddress(addr);
+    await getAddress(location).then((addr) => addr && setAddress(addr));
   };
 
   const handleClickCurrentPosition = () => {
-    if (!data || data.level === null || geolocation.position === null)
-      return null;
+    if (!position || currentGeolocation.position === null) return null;
 
-    setData({
-      level: data.level,
-      position: {
-        lat: geolocation.position?.lat,
-        lng: geolocation.position?.lng,
-      },
-    });
+    const currPosition: { lat: number; lng: number } = {
+      lat: currentGeolocation.position?.lat,
+      lng: currentGeolocation.position?.lng,
+    };
+
+    setPosition(currPosition);
   };
 
   return (
     <div className='relative h-full overflow-hidden'>
-      <div className='w-full absolute left-0 top-0 z-10 bg-white pt-6 pb-4'>
+      <div className='w-full bg-white pt-6 pb-4 absolute left-0 top-0 z-10'>
         <h2 className='text-center subHeading text-black'>
           우리 동네 냥이 등록
         </h2>
@@ -87,33 +72,28 @@ const RegisterMapPage = () => {
       </div>
 
       <MapComponent
-        position={data?.position}
+        position={position ? position : currentGeolocation.position}
         onCenterChanged={handleCenterChanged}
         isPanto
       >
         {pinList.map(
-          (position) =>
-            data &&
-            data.position !== position && (
-              <div
-                className='bg-gray-500'
-                key={`${position.lat}-${position.lng}`}
-              >
-                <CustomPin
-                  position={position}
-                  onClick={() => setData({ level: 2, position: position })}
-                />
-              </div>
+          (item) =>
+            position && (
+              <CustomPin
+                key={`${item.lat}-${item.lng}`}
+                position={item}
+                onClick={() => setPosition(item)}
+              />
             ),
         )}
-        <CurrPin position={geolocation.position} />
+        <CurrPin position={currentGeolocation.position} />
       </MapComponent>
 
-      <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-30'>
+      <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-20'>
         <IconCurrMapPin />
       </div>
 
-      <div className='absolute bottom-0 left-0 w-full z-20'>
+      <div className='absolute bottom-0 left-0 w-full z-30'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
           className='ml-6'

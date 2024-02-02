@@ -14,11 +14,7 @@ const LoginPage = () => {
       </div>
 
       <div className='pb-16 w-full flex flex-col gap-6 items-center'>
-        <LoginBtn
-          className='bg-[#FEE500]'
-          link={`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/kakao/signin`}
-          Icon={LogoKakao}
-        >
+        <LoginBtn className='bg-[#FEE500]' provider='kakao' Icon={LogoKakao}>
           카카오로 간편 회원가입
         </LoginBtn>
 
