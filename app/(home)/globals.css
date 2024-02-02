@@ -79,7 +79,7 @@
   }
 
   .catMark {
-    @apply absolute left-[110px] top-10 z-10 cursor-pointer
+    @apply absolute top-10 z-10 cursor-pointer
     flex items-center gap-[6px] rounded-md border
     bg-white px-3 py-2 subHeading2;
   }
@@ -109,11 +109,11 @@
   }
 
   .floatingBtn {
-    @apply cursor-pointer flex shadow-[0_1px_4px_0_rgba(0,0,0,0.25)] items-center rounded-full justify-center hover:px-4;
+    @apply cursor-pointer w-12 h-12 hover:w-auto flex shadow-[0_1px_4px_0_rgba(0,0,0,0.25)] items-center rounded-full justify-center hover:px-4;
   }
 
   .floatingBtn > p {
-    @apply pl-0 transition-all text-white subHeading2 hidden;
+    @apply pl-0 transition-all text-white subHeading2;
   }
 
   .heading1 {

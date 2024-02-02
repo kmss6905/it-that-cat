@@ -13,7 +13,7 @@ const CurrentLocationBtn = ({
   return (
     <div
       onClick={handleClick}
-      className={`cursor-pointer bg-white p-6px w-10 h-10 flex justify-center items-center rounded-full shadow-[0_1px_3px_0_rgba(0,0,0,0.25)] ${className}`}
+      className={`cursor-pointer bg-white w-10 h-10 flex justify-center items-center rounded-full shadow-[0_1px_3px_0_rgba(0,0,0,0.25)] ${className}`}
     >
       <IconCurrLocation />
     </div>

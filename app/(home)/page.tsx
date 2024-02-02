@@ -1,131 +1,128 @@
 'use client';
-import useGeolocation, { Coordinates } from '@/hooks/useGeolocation';
-import useKakaoLoader from '@/hooks/useKakaoLoader';
-import { useState } from 'react';
-import useAddress from '@/hooks/useAddress';
-import getAddress, { RegionState } from '@/apis/map/getAddress';
+import useGeolocation from '@/hooks/useGeolocation';
+import { useCallback, useEffect, useState } from 'react';
+import getAddress from '@/apis/map/getAddress';
 import MapComponent from '@/components/Map/Map';
-import CustomPin from '@/components/Map/CustomPin';
-import CurrPin from '@/components/Map/CurrPin';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import CardSkeleton from '@/components/Home/CardSkeleton';
-import SelectFilter from '@/components/Home/SelectFilter';
 import { pinList } from '@/constants/contentMockData';
 import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
-import IconList from '@/assets/images/icon_list.svg';
-import IconNewContent from '@/assets/images/icon_newContent.svg';
 import { useRouter } from 'next/navigation';
 import CatMark from '@/components/Home/CatMark';
+import { useGeolocationStore } from '@/stores/home/store';
+import IconList from '@/assets/images/icon_list.svg';
+import IconNewContent from '@/assets/images/icon_newContent.svg';
+import ContentMarkers from '@/components/Map/ContentMarkers';
 
 export default function Home() {
-  useKakaoLoader();
   const router = useRouter();
-  const geolocation = useGeolocation();
-  const initAddress = useAddress();
+  const currentPosition = useGeolocation();
+
+  const { geolocation, setAddress, setLevel, setPosition } =
+    useGeolocationStore();
 
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
-  /* api 연결 시 사라질 부분 */
   const content = pinList.filter((item) => item.id === selectedPin);
+
   const [catMark, setCatMark] = useState<boolean>(false);
-  /* --------------------- */
 
-  const [address, setAddress] = useState<undefined | RegionState>();
+  useEffect(() => {
+    if (geolocation.position === null && currentPosition.position !== null) {
+      setPosition(currentPosition.position);
+    }
+  }, [geolocation.position, currentPosition.position, setPosition]);
 
-  const [data, setData] = useState<{
-    level: number;
-    position: {
-      lat: number;
-      lng: number;
+  const handleChangeCenter = useCallback(
+    async (map: any) => {
+      const level = map.getLevel();
+      const latlng = map.getCenter();
+      const position = { lat: latlng.getLat(), lng: latlng.getLng() };
+
+      setPosition(position);
+      setLevel(level);
+
+      await getAddress(position).then((addr) => addr && setAddress(addr));
+    },
+    [setAddress, setLevel, setPosition],
+  );
+
+  const handleClickCurrentPosition = useCallback(() => {
+    if (currentPosition.position === null) return null;
+
+    const latlng = {
+      lat: currentPosition.position?.lat,
+      lng: currentPosition.position?.lng,
     };
-  } | null>(null);
 
-  if (geolocation.position === null) return null;
+    setPosition(latlng);
+  }, [currentPosition.position, setPosition]);
 
-  const handleChangeCenter = async (map: any) => {
-    const level = map.getLevel();
-    const latlng = map.getCenter();
-    const position = { lat: latlng.getLat(), lng: latlng.getLng() };
-    setData({
-      level: level,
-      position: position,
-    });
-    const addr = await getAddress(position);
-    setAddress(addr);
+  const handleClickMarker = (data: any) => {
+    setPosition(data.position);
+    setLevel(data.level);
+    setSelectedPin(data.id);
   };
 
-  const handleClickCurrentPosition = () => {
-    if (data === null || geolocation.position === null) return null;
-
-    setData({
-      level: data?.level,
-      position: {
-        lat: geolocation.position?.lat,
-        lng: geolocation.position?.lng,
-      },
-    });
-  };
+  if (currentPosition.position === null) return null;
 
   return (
     <div className='relative h-full overflow-hidden'>
-      <SelectFilter />
       <CatMark
         isChecked={catMark}
+        type='Map'
         onClick={() => setCatMark((prev) => !prev)}
       />
       <MapComponent
         onCenterChanged={handleChangeCenter}
-        position={data?.position}
+        position={
+          geolocation.position !== null
+            ? geolocation.position
+            : currentPosition.position
+        }
         isPanto
-        level={3}
+        level={geolocation.level}
         onClick={() => setSelectedPin(null)}
       >
-        {pinList.map(
-          (position) =>
-            data && (
-              <CustomPin
-                isSelected={position.id === selectedPin}
-                position={position}
-                key={position.id}
-                onClick={() => {
-                  setData({ level: 2, position: position });
-                  setSelectedPin(position.id);
-                }}
-              />
-            ),
-        )}
-        <CurrPin position={geolocation.position} />
+        <ContentMarkers
+          query={{
+            position: geolocation.position
+              ? geolocation.position
+              : currentPosition.position,
+            level: geolocation.level,
+            follow: catMark,
+          }}
+          isSelected={selectedPin}
+          onClick={handleClickMarker}
+        />
       </MapComponent>
 
-      <div className='absolute bottom-10 px-6 z-20 w-full'>
+      <div className='absolute bottom-3 px-6 z-20 w-full'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
-          className='absolute -top-4 -translate-y-full'
+          className='absolute -top-3 left-6 -translate-y-full'
         />
 
         <FloatingBtn
           Icon={IconNewContent}
           onClick={() => router.push('/register/map')}
-          className='bg-primary-500 absolute right-6 -top-[68px] pl-14px pt-14px pr-[13px] pb-3'
+          className='bg-primary-500 absolute right-6 -top-[68px]'
         >
           새로운 냥이 등록
         </FloatingBtn>
         <FloatingBtn
           Icon={IconList}
           onClick={() => router.push('/')}
-          className='bg-gray-500 absolute right-6 -top-3 p-14px'
+          className='bg-gray-500 absolute -top-3 right-6'
         >
           목록보기
         </FloatingBtn>
 
-        <div className='bg-white rounded-xl w-full shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
-          {/* <CardSkeleton /> */}
-          {selectedPin !== null ? (
+        {selectedPin !== null ? (
+          <div className='mb-[18px]'>
             <ContentCard content={content[0]} />
-          ) : // <ContentCard content={} />
-          null}
-        </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );

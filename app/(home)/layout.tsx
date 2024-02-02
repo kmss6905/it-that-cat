@@ -3,6 +3,7 @@ import './globals.css';
 import RootWrapper from '@/components/RootWrapper';
 import Script from 'next/script';
 import pretendard from '@/components/Pretendard';
+import QueryWrapper from '@/components/QueryWrapper';
 
 export const metadata: Metadata = {
   title: '이냥저냥',
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className} bg-gray-50`}>
-        <RootWrapper>
-          <div className='h-full overflow-hidden'>{children}</div>
-        </RootWrapper>
+        <QueryWrapper>
+          <RootWrapper>
+            <div className='h-full overflow-hidden'>{children}</div>
+          </RootWrapper>
+        </QueryWrapper>
         <Script
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`}
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=clusterer&autoload=false`}
           strategy='beforeInteractive'
         />
       </body>
