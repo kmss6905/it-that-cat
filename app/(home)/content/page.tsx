@@ -14,6 +14,8 @@ import {
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
+import MapComponent from '@/components/Map/Map';
+import CustomPin from '@/components/Map/CustomPin';
 
 export interface ContentType {
   id: number;
@@ -36,6 +38,7 @@ const RegisterPostPage = () => {
   const router = useRouter();
   const content = pinList[0];
   const cat = catIllust.filter((cat) => cat.id === content.catEmoji)[0];
+  const position = { lat: content.lat, lng: content.lng };
 
   return (
     <Fragment>
@@ -129,7 +132,12 @@ const RegisterPostPage = () => {
 
         <div className='p-6'>
           <div className={`${titleClassName}`}>주요 출몰 위치</div>
-          <div className='caption text-gray-400'>{content.addrName}</div>
+          <div className='caption text-gray-400 mb-3'>{content.addrName}</div>
+          <div className='w-full h-[136px]'>
+            <MapComponent position={position} level={4}>
+              <CustomPin position={position} />
+            </MapComponent>
+          </div>
         </div>
       </div>
 
