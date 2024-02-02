@@ -158,7 +158,12 @@ const RegisterPostPage = () => {
         </div>
 
         <div>
-          <Label isRequired={true}>이름 또는 애칭</Label>
+          <Label
+            isRequired={true}
+            addTextBottom='정확한 이름을 몰라도 괜찮아요. 새로운 애칭을 지어주세요!'
+          >
+            이름 또는 애칭
+          </Label>
           <div className='flex gap-2'>
             <TextInput
               name='name'

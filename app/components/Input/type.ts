@@ -4,6 +4,7 @@ export interface LabelProps {
   children?: ReactNode;
   isRequired?: boolean;
   addText?: string;
+  addTextBottom?: string;
 }
 
 export interface TextInputProps {
