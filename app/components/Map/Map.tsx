@@ -3,6 +3,7 @@
 import useGeolocation from '@/hooks/useGeolocation';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import CurrPin from './CurrPin';
+import { useMemo } from 'react';
 
 declare global {
   interface Window {
@@ -22,24 +23,36 @@ interface MapProps {
 const MapComponent = ({ children, ...props }: MapProps) => {
   const geolocation = useGeolocation();
 
-  if (geolocation.position === null) return null;
+  const position = useMemo(() => {
+    if (props.position) {
+      return props.position;
+    } else if (geolocation.position) {
+      return {
+        lat: geolocation.position.lat,
+        lng: geolocation.position.lng,
+      };
+    }
+
+    return null;
+  }, [props.position, geolocation.position]);
+
+  if (!position) return null;
 
   return (
     <Map
       id='map'
-      center={{
-        lat: props.position ? props.position.lat : geolocation.position.lat,
-        lng: props.position ? props.position.lng : geolocation.position.lng,
-      }}
+      center={position}
       className='w-full h-full'
       level={props.level ? props.level : 3}
       {...props}
     >
-      <MarkerClusterer averageCenter={true} minLevel={8}>
+      <MarkerClusterer averageCenter={true} minLevel={5}>
         {children}
       </MarkerClusterer>
 
-      <CurrPin position={geolocation.position} />
+      {geolocation.position ? (
+        <CurrPin position={geolocation.position} />
+      ) : null}
     </Map>
   );
 };

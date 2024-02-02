@@ -1,20 +1,18 @@
 'use client';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import getAddress from '@/apis/map/getAddress';
 import MapComponent from '@/components/Map/Map';
-import CustomPin from '@/components/Map/CustomPin';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import CardSkeleton from '@/components/Home/CardSkeleton';
 import { pinList } from '@/constants/contentMockData';
 import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import { useRouter } from 'next/navigation';
 import CatMark from '@/components/Home/CatMark';
 import { useGeolocationStore } from '@/stores/home/store';
-import { useSelectedPinStore } from '@/stores/home/selectedPinStore';
 import IconList from '@/assets/images/icon_list.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
+import ContentMarkers from '@/components/Map/ContentMarkers';
 
 export default function Home() {
   const router = useRouter();
@@ -23,25 +21,33 @@ export default function Home() {
   const { geolocation, setAddress, setLevel, setPosition } =
     useGeolocationStore();
 
-  const { selectedPin, setSelectedPin } = useSelectedPinStore();
+  const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
   const content = pinList.filter((item) => item.id === selectedPin);
+
   const [catMark, setCatMark] = useState<boolean>(false);
 
-  if (currentPosition.position === null) return null;
+  useEffect(() => {
+    if (geolocation.position === null && currentPosition.position !== null) {
+      setPosition(currentPosition.position);
+    }
+  }, [geolocation.position, currentPosition.position, setPosition]);
 
-  const handleChangeCenter = async (map: any) => {
-    const level = map.getLevel();
-    const latlng = map.getCenter();
-    const position = { lat: latlng.getLat(), lng: latlng.getLng() };
+  const handleChangeCenter = useCallback(
+    async (map: any) => {
+      const level = map.getLevel();
+      const latlng = map.getCenter();
+      const position = { lat: latlng.getLat(), lng: latlng.getLng() };
 
-    setPosition(position);
-    setLevel(level);
+      setPosition(position);
+      setLevel(level);
 
-    await getAddress(position).then((addr) => addr && setAddress(addr));
-  };
+      await getAddress(position).then((addr) => addr && setAddress(addr));
+    },
+    [setAddress, setLevel, setPosition],
+  );
 
-  const handleClickCurrentPosition = () => {
+  const handleClickCurrentPosition = useCallback(() => {
     if (currentPosition.position === null) return null;
 
     const latlng = {
@@ -50,7 +56,15 @@ export default function Home() {
     };
 
     setPosition(latlng);
+  }, [currentPosition.position, setPosition]);
+
+  const handleClickMarker = (data: any) => {
+    setPosition(data.position);
+    setLevel(data.level);
+    setSelectedPin(data.id);
   };
+
+  if (currentPosition.position === null) return null;
 
   return (
     <div className='relative h-full overflow-hidden'>
@@ -70,21 +84,17 @@ export default function Home() {
         level={geolocation.level}
         onClick={() => setSelectedPin(null)}
       >
-        {pinList.map(
-          (position) =>
-            geolocation.position && (
-              <CustomPin
-                isSelected={position.id === selectedPin}
-                position={position}
-                key={position.id}
-                onClick={() => {
-                  setLevel(3);
-                  setPosition(position);
-                  setSelectedPin(position.id);
-                }}
-              />
-            ),
-        )}
+        <ContentMarkers
+          query={{
+            position: geolocation.position
+              ? geolocation.position
+              : currentPosition.position,
+            level: geolocation.level,
+            follow: catMark,
+          }}
+          isSelected={selectedPin}
+          onClick={handleClickMarker}
+        />
       </MapComponent>
 
       <div className='absolute bottom-3 px-6 z-20 w-full'>
@@ -108,7 +118,6 @@ export default function Home() {
           목록보기
         </FloatingBtn>
 
-        {/* <CardSkeleton /> */}
         {selectedPin !== null ? (
           <div className='mb-[18px]'>
             <ContentCard content={content[0]} />
