@@ -19,7 +19,7 @@ const CurrPin = ({ position }: CustomPinProps) => {
       <div className='relative w-[70px] h-[70px] flex justify-center items-center'>
         <div
           className='absolute left-0 top-0 bg-[rgba(53,129,255,0.10)]
-        rounded-full w-full h-full animate-ping delay-[2s]'
+        rounded-full w-full h-full animate-pingCustom'
         ></div>
         <IconCurrLocation />
       </div>
