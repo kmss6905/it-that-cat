@@ -3,11 +3,16 @@
 import { LabelProps, TextAreaProps, TextInputProps } from './type';
 
 export const Label = ({ children, ...rest }: LabelProps) => (
-  <label className={`flex gap-1 pb-2 subHeading`}>
-    {children}
-    {rest.isRequired ? <span className='text-primary-500'>*</span> : null}
-    {rest.addText ? (
-      <span className='text-gray-200 body1'>{rest.addText}</span>
+  <label className={`flex flex-col pb-2 subHeading`}>
+    <div className='flex gap-1'>
+      {children}
+      {rest.isRequired ? <span className='text-primary-500'>*</span> : null}
+      {rest.addText ? (
+        <span className='text-gray-200 body1'>{rest.addText}</span>
+      ) : null}
+    </div>
+    {rest.addTextBottom ? (
+      <div className='text-gray-300 caption pt-1'>{rest.addTextBottom}</div>
     ) : null}
   </label>
 );
