@@ -63,8 +63,15 @@ const config: Config = {
           '50%': { opacity: '1' },
           '100%': { opacity: '1' },
         },
+        pingCustom: {
+          '75%': { scale: '1.5', opacity: '0' },
+          '100%': { scale: '1.5', opacity: '0' },
+        },
       },
-      animation: { tooltip: 'tooltip 1s ease-in-out' },
+      animation: {
+        tooltip: 'tooltip 1s ease-in-out',
+        pingCustom: 'pingCustom 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+      },
     },
   },
   plugins: [],
