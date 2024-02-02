@@ -28,7 +28,7 @@ const RegisterPostPage = () => {
 
   return (
     <Fragment>
-      <div className='w-full relative pt-5 pb-5'>
+      <div className='w-full relative p-5 pt-6'>
         <button
           onClick={() => router.push('/')}
           className='absolute right-5 top-1/2 -translate-y-1/2'
@@ -84,7 +84,7 @@ const RegisterPostPage = () => {
       </div>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={() => router.push('/register/post')}>
+        <RegisterBtn onClick={() => router.push('/content/register')}>
           냥이 소식 작성하기
         </RegisterBtn>
       </div>
