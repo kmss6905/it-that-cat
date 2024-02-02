@@ -289,7 +289,7 @@ const RegisterPostPage = () => {
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
         <RegisterBtn onClick={() => router.push('/register/post')}>
-          이 위치로 설정
+          등록하기
         </RegisterBtn>
       </div>
     </Fragment>
