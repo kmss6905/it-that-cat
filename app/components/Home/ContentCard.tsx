@@ -16,6 +16,7 @@ export interface ContentType {
   personality: string[] | [];
   desc: string;
   createdAt: string;
+  updatedAt: string;
   addrName: string;
   comment: number;
   follow: number;
