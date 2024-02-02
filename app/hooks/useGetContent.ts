@@ -20,5 +20,9 @@ export const useCardContents = (data: GetContentParams) => {
 };
 
 export const useMapContents = (data: GetContentParams) => {
-  return useQuery(queryMapContentsKey, () => getMapContents(data));
+  return useQuery(
+    [queryMapContentsKey, data.position, data.follow],
+    () => getMapContents(data),
+    { staleTime: 5 },
+  );
 };

@@ -6,21 +6,20 @@ export interface GetContentParams {
   distance?: 'desc' | 'asc';
   follow: boolean;
   page?: number;
-  level?: number;
 }
 
 export const getMapContents = async ({
   position,
-  level,
   distance = 'asc',
   page = 1,
-  follow = false,
+  follow,
 }: GetContentParams) => {
+  console.log('🚀 ~ follow:', follow);
   let result;
 
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
-  const range = level !== undefined && level < 10 ? level * 10 : 10000000;
+  const range = 10000000;
 
   const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=1000&lat=${lat}&lon=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
 
