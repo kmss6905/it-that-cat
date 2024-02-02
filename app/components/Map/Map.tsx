@@ -1,7 +1,8 @@
 'use client';
 
 import useGeolocation from '@/hooks/useGeolocation';
-import { Map, MarkerClusterer, useKakaoLoader } from 'react-kakao-maps-sdk';
+import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+import CurrPin from './CurrPin';
 
 declare global {
   interface Window {
@@ -37,6 +38,8 @@ const MapComponent = ({ children, ...props }: MapProps) => {
       <MarkerClusterer averageCenter={true} minLevel={8}>
         {children}
       </MarkerClusterer>
+
+      <CurrPin position={geolocation.position} />
     </Map>
   );
 };
