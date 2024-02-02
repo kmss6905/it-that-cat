@@ -14,7 +14,6 @@ export const getMapContents = async ({
   page = 1,
   follow,
 }: GetContentParams) => {
-  console.log('🚀 ~ follow:', follow);
   let result;
 
   const lat = position !== null ? position.lat : 37.574187;

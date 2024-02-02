@@ -2,8 +2,8 @@
 import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from './CustomPin';
 import { Coordinates } from '@/hooks/useGeolocation';
-import Link from 'next/link';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { useBoundStore } from '@/stores/home/boundStore';
 
 interface ContentMarkers {
   query: {

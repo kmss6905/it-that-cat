@@ -7,41 +7,61 @@ import { getDistance } from '@/utils/calcDistance';
 import getDateFormat from '@/utils/getDateFormat';
 import transformDistance from '@/utils/transformDistance';
 
-export interface ContentType {
-  id: number;
-  lat: number;
-  lng: number;
-  nickname: string;
+export interface CatObjProps {
   name: string;
+  description: string;
+  lon: string;
+  lat: string;
+  jibunAddrName: string | undefined;
+  jibunMainAddrNo: string | undefined;
+  jibunSido: string | undefined;
+  jibunSigungu: string | undefined;
+  jibunDong: string | undefined;
+  jibunSubAddrNo: string | undefined;
   neuter: string;
   group: string;
-  personality: string[] | [];
-  desc: string;
-  createdAt: string;
-  updatedAt: string;
-  addrName: string;
-  comment: number;
-  follow: number;
+  catPersonalities: string[];
+  images: string[];
   catEmoji: number;
+  createdAt: string;
+  numberOfComments: number;
+  numberOfCatSlaves: number;
+  countOfBookMark: number;
+  updatedAt: string;
+  userUid: number;
+  nickname: string;
+  bookMark: boolean;
 }
 
 export interface ContentCardProps {
-  content: ContentType;
+  content: CatObjProps;
 }
+
 const ContentCard = ({ content }: ContentCardProps) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
-  const { lat, lng, name, createdAt, addrName, comment, follow, catEmoji } =
-    content;
+  const {
+    lat,
+    lon,
+    name,
+    createdAt,
+    jibunAddrName,
+    countOfBookMark,
+    numberOfComments,
+    catEmoji,
+  } = content;
 
   const cat = catIllust.filter((cat) => cat.id === catEmoji)[0];
 
   useEffect(() => {
     if (geolocation.position !== null) {
-      const dist = getDistance(geolocation.position, { lat, lng });
+      const dist = getDistance(geolocation.position, {
+        lat: Number(lat),
+        lng: Number(lon),
+      });
       setDistance(dist);
     }
-  }, [geolocation.position, lat, lng]);
+  }, [geolocation.position, lat, lon]);
 
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
@@ -59,14 +79,14 @@ const ContentCard = ({ content }: ContentCardProps) => {
           <h3 className='subHeading text-gray-500'>{name}</h3>
           <p className='body2 text-gray-400 flex items-center'>
             <span className='inline-block w-[1.5px] h-[14px] bg-gray-300 mr-10px '></span>
-            {addrName}
+            {jibunAddrName}
           </p>
         </div>
         <div className='flex flex-col gap-[6px]'>
           <div className='flex gap-1 text-gray-300 caption'>
-            <span>댓글 {comment}개</span>
+            <span>댓글 {numberOfComments}개</span>
             <span>·</span>
-            <span>팔로워 {follow}명</span>
+            <span>팔로워 {countOfBookMark}명</span>
           </div>
           <p className='caption text-gray-200'>
             {getDateFormat(createdAt)} 등록
