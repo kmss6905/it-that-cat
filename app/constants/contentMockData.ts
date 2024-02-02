@@ -87,3 +87,36 @@ export const pinList: ContentType[] = [
     catEmoji: 5,
   },
 ];
+
+export const comments = [
+  {
+    id: 0,
+    nickname: '방구집사수아임당',
+    comment:
+      '드뎌 저도 봤어요...!!! 더미더미더미 텍스트 더미가 더미를 했는데 와 진짜 더미해요ㅠㅠ 참고로 간식을 진짜 잘 먹더라구요. 편의점에서 츄르 하나씩 사서 가세용..ㅎㅎ',
+    likes: 26,
+    isLike: true,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
+  },
+  {
+    id: 1,
+    nickname: '백엔드가짱입니다',
+    comment: `거창에도 귀여운 냥이는 존재한다. 진짜 짱 귀엽다.
+      세상 모든 사람들이 우리 동네 길냥이들을 알았으면 좋겠다.`,
+    likes: 1123,
+    isLike: false,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
+  },
+  {
+    id: 2,
+    nickname: '고양이알러지짜증나ㅠ',
+    comment:
+      '드뎌 저도 봤어요...!!! 더미더미더미 텍스트 더미가 더미를 했는데 와 진짜 더미해요ㅠㅠ 참고로 간식을 진짜 잘 먹더라구요. 편의점에서 츄르 하나씩 사서 가세용..ㅎㅎ',
+    likes: 124124,
+    isLike: true,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
+  },
+];

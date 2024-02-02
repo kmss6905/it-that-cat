@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -9,6 +9,7 @@ import RegisterBtn from '@/components/RegisterBtn';
 import { catIllust } from '@/constants/catIllust';
 import { pinList } from '@/constants/contentMockData';
 import { DetailInfo } from '@/components/Content/DetailInfo';
+import { CatNews } from '@/components/Content/CatNews';
 
 export interface ContentType {
   id: number;
@@ -36,7 +37,7 @@ const RegisterPostPage = () => {
         </button>
       </div>
 
-      <div className='flex flex-col mb-[100px]'>
+      <div className='flex h-full flex-col'>
         <div className='px-6 py-3 flex'>
           <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative mr-3'>
             <Image
@@ -56,10 +57,11 @@ const RegisterPostPage = () => {
           </div>
         </div>
 
-        <div>
+        <div className='relative'>
           <div className='flex px-6 mb-[10px]'>
             {tabName.map((v) => (
               <div
+                key={v.value}
                 className={`w-full text-center cursor-pointer ${v.value === tab ? 'text-gray-500' : 'text-gray-200'}`}
                 onClick={() => setTab(v.value)}
               >
@@ -70,6 +72,7 @@ const RegisterPostPage = () => {
           <div className='flex px-6'>
             {tabName.map((v) => (
               <div
+                key={v.value}
                 className={`w-full h-[1.5px] z-10 ${v.value === tab ? 'bg-gray-500' : 'bg-gray-50'}`}
               />
             ))}
@@ -77,7 +80,7 @@ const RegisterPostPage = () => {
           <div className='absolute w-full h-[1.5px] bg-gray-50 translate-y-[-1.5px]' />
         </div>
 
-        {tab === 'detailInfo' ? <DetailInfo content={content} /> : null}
+        {tab === 'detailInfo' ? <DetailInfo content={content} /> : <CatNews />}
       </div>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
