@@ -23,7 +23,7 @@ const getAddress = async (position: Coordinates) => {
 
     const result = {
       addrName: address.address_name,
-      mainAddrNo: address.address_no,
+      mainAddrNo: address.main_address_no,
       sido: address.region_1depth_name,
       sigungu: address.region_2depth_name,
       dong: address.region_3depth_name,
