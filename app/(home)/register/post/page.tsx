@@ -17,10 +17,11 @@ import {
   personalityButtons,
 } from '@/constants/catInfoButtons';
 import RegisterBtn from '@/components/RegisterBtn';
+import { useGeolocationStore } from '@/stores/register/store';
 
 interface CatObjProps {
-  [key: string]: string | string[];
-  location: string;
+  [key: string]: any;
+  location: any;
   name: string;
   desc: string;
   neuter: string;
@@ -30,8 +31,9 @@ interface CatObjProps {
 
 const RegisterPostPage = () => {
   const router = useRouter();
+  const { geolocation } = useGeolocationStore();
   const [catInfo, setCatInfo] = useState<CatObjProps>({
-    location: '',
+    location: geolocation?.address?.addrName,
     name: '',
     desc: '',
     neuter: '',
@@ -112,12 +114,15 @@ const RegisterPostPage = () => {
       <form className='p-6 pt-3 flex flex-col gap-7 mb-[100px]'>
         <div>
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
-          <TextInput
-            name='location'
-            value={catInfo.location}
-            onChange={onChange}
-            placeholder={''}
-          />
+          <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
+            <div>{catInfo.location}</div>
+            <div
+              onClick={() => router.push('/register/map')}
+              className='text-primary-500 cursor-pointer'
+            >
+              수정
+            </div>
+          </div>
         </div>
 
         <div>
