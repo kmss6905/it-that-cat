@@ -14,11 +14,11 @@ const FloatingBtn = ({
 }: FloatingBtnProps) => {
   return (
     <div
-      className={`floatingBtn ${className} group -translate-y-full`}
-      onClick={onClick && onClick}
+      className={`floatingBtn ${className} group -translate-y-full transition-all`}
+      onClick={onClick}
     >
       {Icon ? <Icon /> : null}
-      <p className='group-hover:pl-6px group-active:pl-6px group-hover:block group-active:block'>
+      <p className='group-hover:pl-6px group-active:pl-6px group-hover:block group-active:block hidden transition-all'>
         {children}
       </p>
     </div>
