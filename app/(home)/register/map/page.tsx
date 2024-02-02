@@ -12,6 +12,7 @@ import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import { useGeolocationStore } from '@/stores/register/store';
+import { useEffect } from 'react';
 
 const RegisterMapPage = () => {
   useKakaoLoader();
@@ -33,6 +34,10 @@ const RegisterMapPage = () => {
     { lat: 35.17275369644841, lng: 129.05557562177881 },
     { lat: 35.171488702430636, lng: 129.0561720817253 },
   ];
+
+  useEffect(() => {
+    setAddress(initAddress);
+  }, [initAddress]);
 
   if (currentGeolocation.position === null) return null;
 

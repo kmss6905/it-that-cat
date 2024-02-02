@@ -9,7 +9,7 @@ interface GeolocationState {
 type GeolocationStore = {
   geolocation: GeolocationState;
   setPosition: (position: { lat: number; lng: number }) => void;
-  setAddress: (addr: RegionState) => void;
+  setAddress: (addr: RegionState | null) => void;
   setEmpty: () => void;
 };
 
