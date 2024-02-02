@@ -3,6 +3,7 @@ import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from './CustomPin';
 import { Coordinates } from '@/hooks/useGeolocation';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 interface ContentMarkers {
   query: {
@@ -15,7 +16,14 @@ interface ContentMarkers {
 }
 
 const ContentMarkers = ({ query, isSelected, onClick }: ContentMarkers) => {
-  const { data } = useMapContents({ ...query });
+  const { data, refetch } = useMapContents({ ...query });
+
+  useEffect(() => {
+    if (query.position === null) {
+      refetch();
+    }
+  }, [query.position, refetch]);
+
   return (
     data &&
     data.items.map(({ catContentId, catLat, catLon }: any) => (

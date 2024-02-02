@@ -20,9 +20,9 @@ export const getMapContents = async ({
 
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
-  const size = level !== undefined && level < 8 ? level * 10 : 100;
+  const range = level !== undefined && level < 10 ? level * 10 : 10000000;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=${size}&lat=${lat}&lon=${lng}&range=10000&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=1000&lat=${lat}&lon=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
 
   const response = await fetch(url, { method: 'GET' });
 
