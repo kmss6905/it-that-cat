@@ -19,6 +19,7 @@ import {
 import RegisterBtn from '@/components/RegisterBtn';
 import { useGeolocationStore } from '@/stores/register/store';
 import ImageWrapper from '@/components/ImageWrapper';
+import { saveImage } from '@/apis/image/saveImage';
 
 interface CatObjProps {
   [key: string]: any;
@@ -129,6 +130,11 @@ const RegisterPostPage = () => {
     if (inputRef.current) {
       inputRef.current.value = '';
     }
+  };
+
+  const onClickRegister = async () => {
+    const base64s = images.map((image) => (image ? image.toString() : ''));
+    const saveImageUrls = await Promise.all(base64s.map(saveImage));
   };
 
   return (
@@ -288,9 +294,7 @@ const RegisterPostPage = () => {
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={() => router.push('/register/post')}>
-          등록하기
-        </RegisterBtn>
+        <RegisterBtn onClick={onClickRegister}>등록하기</RegisterBtn>
       </div>
     </Fragment>
   );
