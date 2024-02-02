@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -18,6 +18,7 @@ import {
 } from '@/constants/catInfoButtons';
 import RegisterBtn from '@/components/RegisterBtn';
 import { useGeolocationStore } from '@/stores/register/store';
+import ImageWrapper from '@/components/ImageWrapper';
 
 interface CatObjProps {
   [key: string]: any;
@@ -40,6 +41,8 @@ const RegisterPostPage = () => {
     group: '',
     personality: [],
   });
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -97,6 +100,35 @@ const RegisterPostPage = () => {
     }
 
     setCatInfo({ ...catInfo, personality });
+  };
+
+  const onClickInputImage = () => {
+    if (images.length === 3) {
+      return;
+    }
+    inputRef.current?.click();
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    const newImages: (string | ArrayBuffer | null)[] = [...images];
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[i]);
+        reader.onloadend = () => {
+          newImages.push(reader.result);
+          setImages(newImages);
+        };
+      }
+    }
+  };
+
+  const handleImageRemove = (index: number) => {
+    setImages(images.filter((_, i) => i !== index));
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
   };
 
   return (
@@ -161,18 +193,36 @@ const RegisterPostPage = () => {
 
         <div>
           <Label isRequired={true}>사진 업로드</Label>
-          <div className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col'>
-            <IconAddPhoto />
-            <div className='text-gray-200 caption'>3/3</div>
+          <div className='flex gap-2'>
+            <div
+              onClick={onClickInputImage}
+              className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
+            >
+              <IconAddPhoto />
+              <div className='text-gray-200 caption'>{images.length}/3</div>
+              <input
+                className='hidden'
+                ref={inputRef}
+                type='file'
+                accept='image/jpg, image/jpeg'
+                onChange={handleImageUpload}
+                data-testid='puzzleImage-input'
+              />
+            </div>
+            {images.map((image, index) => (
+              <ImageWrapper
+                key={index}
+                onClick={() => handleImageRemove(index)}
+              >
+                <Image
+                  src={image as string}
+                  alt={`preview ${index}`}
+                  fill
+                  className='object-cover w-full h-full'
+                />
+              </ImageWrapper>
+            ))}
           </div>
-          {/* <ImageWrapper>
-            <Image
-              src={examImage.src}
-              alt='예시 이미지'
-              fill
-              className='object-cover w-full h-full'
-            />
-          </ImageWrapper> */}
         </div>
 
         <div>
