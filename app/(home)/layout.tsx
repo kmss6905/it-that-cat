@@ -22,7 +22,7 @@ export default function RootLayout({
           <div className='h-full overflow-hidden'>{children}</div>
         </RootWrapper>
         <Script
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`}
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=clusterer&autoload=false`}
           strategy='beforeInteractive'
         />
       </body>

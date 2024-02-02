@@ -1,8 +1,7 @@
 'use client';
 
 import useGeolocation from '@/hooks/useGeolocation';
-import { Map } from 'react-kakao-maps-sdk';
-import useKakaoLoader from '@/hooks/useKakaoLoader';
+import { Map, MarkerClusterer, useKakaoLoader } from 'react-kakao-maps-sdk';
 
 declare global {
   interface Window {
@@ -20,7 +19,6 @@ interface MapProps {
 }
 
 const MapComponent = ({ children, ...props }: MapProps) => {
-  useKakaoLoader();
   const geolocation = useGeolocation();
 
   if (geolocation.position === null) return null;
@@ -36,7 +34,9 @@ const MapComponent = ({ children, ...props }: MapProps) => {
       level={props.level ? props.level : 3}
       {...props}
     >
-      {children}
+      <MarkerClusterer averageCenter={true} minLevel={8}>
+        {children}
+      </MarkerClusterer>
     </Map>
   );
 };
