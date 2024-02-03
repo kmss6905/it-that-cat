@@ -14,13 +14,18 @@ import {
 import { useInfiniteQuery, useQuery } from 'react-query';
 
 export const useCardContents = (data: GetContentParams) => {
-  return useInfiniteQuery(queryCardContentsKey, () => getCardContents(data), {
-    getNextPageParam: (lastPage, allPage) => {
-      return lastPage.currentPage < lastPage.totalPages
-        ? lastPage.page + 1
-        : undefined;
+  return useInfiniteQuery(
+    [queryCardContentsKey, data.position, data.follow],
+    () => getCardContents(data),
+    {
+      getNextPageParam: (lastPage, allPage) => {
+        return lastPage.currentPage < lastPage.totalPages
+          ? lastPage.page + 1
+          : undefined;
+      },
+      staleTime: 1,
     },
-  });
+  );
 };
 
 export const useMapContents = (data: GetContentParams) => {

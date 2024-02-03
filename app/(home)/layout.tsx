@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={`${pretendard.className} bg-gray-50`}>
+      <body className={`${pretendard.className}`}>
         <QueryWrapper>
           <RootWrapper>
             <div className='h-full overflow-hidden'>{children}</div>

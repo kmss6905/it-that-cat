@@ -135,7 +135,7 @@ export default function Home() {
         </FloatingBtn>
         <FloatingBtn
           Icon={IconList}
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/list')}
           className='bg-gray-500 absolute -top-3 right-6'
         >
           목록보기

@@ -19,8 +19,8 @@ const ContentCard = ({ content }: ContentCardProps) => {
     name,
     createdAt,
     jibunAddrName,
-    countOfBookMark,
     numberOfComments,
+    numberOfCatSlaves,
     catEmoji,
   } = content;
 
@@ -38,7 +38,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
 
   return (
     <Link href={'/#'}>
-      <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
+      <div className='flex gap-3 w-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.06)]'>
         <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative'>
           <Image
             src={cat.image.src}
@@ -60,7 +60,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
             <div className='flex gap-1 text-gray-300 caption'>
               <span>댓글 {numberOfComments}개</span>
               <span>·</span>
-              <span>팔로워 {countOfBookMark}명</span>
+              <span>팔로워 {numberOfCatSlaves}명</span>
             </div>
             <p className='caption text-gray-200'>
               {getDateFormat(createdAt)} 등록
