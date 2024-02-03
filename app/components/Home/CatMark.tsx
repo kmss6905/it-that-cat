@@ -18,7 +18,7 @@ const CatMark = ({
     <div
       className={`catMark transition-colors
       ${type === 'List' ? 'left-[110px]' : 'left-6'}
-      ${isChecked ? 'border-gray-300 text-gray-400' : 'border-gray-50 text-gray-200'}
+      ${isChecked ? 'border-gray-300 text-gray-400' : 'border-gray-100 text-gray-200'}
       ${className}`}
       onClick={onClick}
     >
