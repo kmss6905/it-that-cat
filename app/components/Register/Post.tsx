@@ -1,6 +1,12 @@
 'use client';
 
-import React, { Fragment, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useRef,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -17,52 +23,25 @@ import {
   personalityButtons,
 } from '@/constants/catInfoButtons';
 import RegisterBtn from '@/components/RegisterBtn';
-import { useGeolocationStore } from '@/stores/home/store';
 import ImageWrapper from '@/components/ImageWrapper';
 import { saveImage } from '@/apis/image/saveImage';
 import postContent from '@/apis/contents/postContent';
 import { ResType } from '@/apis/type';
+import { CatObjProps, RegisterCatObjProps } from '@/types/content';
 
-interface CatObjProps {
-  [key: string]: string | string[] | number | null | undefined;
-  name: string;
-  description: string;
-  lon: string | null;
-  lat: string | null;
-  jibunAddrName: string | undefined;
-  jibunMainAddrNo: string | undefined;
-  jibunSido: string | undefined;
-  jibunSigungu: string | undefined;
-  jibunDong: string | undefined;
-  jibunSubAddrNo: string | undefined;
-  neuter: string;
-  group: string;
-  catPersonalities: string[];
-}
-
-export interface RegisterCatObjProps extends CatObjProps {
-  images: string[];
-  catEmoji: number;
-}
-
-const RegisterPostPage = () => {
+const RegisterPost = ({
+  setIsModifying,
+  catInfo,
+  setMode,
+  setCatInfo,
+}: {
+  setIsModifying: Dispatch<SetStateAction<boolean>>;
+  catInfo: CatObjProps;
+  setMode: Dispatch<SetStateAction<string>>;
+  setCatInfo: Dispatch<SetStateAction<CatObjProps>>;
+}) => {
   const router = useRouter();
-  const { geolocation } = useGeolocationStore();
-  const [catInfo, setCatInfo] = useState<CatObjProps>({
-    name: '',
-    description: '',
-    lon: String(geolocation?.position?.lng),
-    lat: String(geolocation?.position?.lat),
-    jibunAddrName: geolocation?.address?.addrName,
-    jibunSido: geolocation?.address?.sido,
-    jibunSigungu: geolocation?.address?.sigungu,
-    jibunDong: geolocation?.address?.dong,
-    jibunMainAddrNo: geolocation?.address?.mainAddrNo,
-    jibunSubAddrNo: geolocation?.address?.subAddrNo,
-    neuter: '',
-    group: '',
-    catPersonalities: [],
-  });
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
@@ -185,7 +164,10 @@ const RegisterPostPage = () => {
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
             <div>{catInfo.jibunAddrName}</div>
             <div
-              onClick={() => router.push('/register/map')}
+              onClick={() => {
+                setMode('map');
+                setIsModifying(true);
+              }}
               className='text-primary-500 cursor-pointer'
             >
               수정
@@ -330,4 +312,4 @@ const RegisterPostPage = () => {
   );
 };
 
-export default RegisterPostPage;
+export default RegisterPost;

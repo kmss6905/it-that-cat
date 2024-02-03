@@ -1,20 +1,6 @@
 'use client';
+import { GeolocationState } from '@/types/address';
 import { useEffect, useState } from 'react';
-
-export interface Coordinates {
-  lat: number;
-  lng: number;
-}
-
-export interface PositionError {
-  code: number;
-  message: string;
-}
-
-export interface GeolocationState {
-  position: Coordinates | null;
-  error: PositionError | null;
-}
 
 /*
  * @return geolocation(getter)
@@ -24,7 +10,6 @@ export interface GeolocationState {
  * error : error 발생 시 code 및 message를 반환
  * -------------------------------
  */
-
 const useGeolocation = () => {
   const [geolocation, setGeolocation] = useState<GeolocationState>({
     position: null,
