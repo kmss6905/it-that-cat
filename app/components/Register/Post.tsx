@@ -139,7 +139,6 @@ const RegisterPost = ({
     const updatedCatInfo = {
       ...catInfo,
       group: catInfo.group ? catInfo.group : UNSURE,
-      neuter: catInfo.neuter ? catInfo.neuter : UNSURE,
       catPersonalities: catInfo.catPersonalities.length
         ? catInfo.catPersonalities
         : [UNSURE],
@@ -315,7 +314,17 @@ const RegisterPost = ({
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={onClickRegister}>등록하기</RegisterBtn>
+        <RegisterBtn
+          onClick={onClickRegister}
+          isDisabled={
+            !catInfo.jibunAddrName ||
+            !catInfo.name ||
+            !catInfo.neuter ||
+            !images.length
+          }
+        >
+          등록하기
+        </RegisterBtn>
       </div>
     </Fragment>
   );
