@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, Suspense, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -13,12 +13,20 @@ import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 
+const RegisterPostPage = () => {
+  return (
+    <Suspense>
+      <SuspenseRegisterPostPage />
+    </Suspense>
+  );
+};
+
 const tabName = [
   { name: '상세 정보', value: 'detailInfo' },
   { name: '냥이 소식', value: 'catNews' },
 ];
 
-const RegisterPostPage = () => {
+const SuspenseRegisterPostPage = () => {
   const router = useRouter();
   const { setContentId } = contentStore();
   const [tab, setTab] = useState('detailInfo');
