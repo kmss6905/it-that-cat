@@ -65,6 +65,7 @@ export default function Home() {
     setLevel(data.level);
     setSelectedPin(data.id);
 
+    /* 선택한 컨텐츠 내용 가져오기 */
     await getSelectContent(data.id).then((content) => {
       setContent(content);
     });

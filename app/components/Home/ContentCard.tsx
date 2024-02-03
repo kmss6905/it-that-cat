@@ -8,31 +8,27 @@ import getDateFormat from '@/utils/getDateFormat';
 import transformDistance from '@/utils/transformDistance';
 
 export interface CatObjProps {
+  contentId: number;
   name: string;
   description: string;
-  lng: number;
+  catLat: number;
+  catLon: number;
   lat: number;
-  jibunAddrName: string | undefined;
-  jibunMainAddrNo: string | undefined;
-  jibunSido: string | undefined;
-  jibunSigungu: string | undefined;
-  jibunDong: string | undefined;
-  jibunSubAddrNo: string | undefined;
+  lon: number;
+  jibunAddrName: string;
   neuter: string;
   group: string;
-  personalities: string[];
+  catPersonalities: string[];
   images: string[];
-  emoji: number;
-  createdAt: string;
-  numberOfComments: number;
   numberOfCatSlaves: number;
+  numberOfComments: number;
   countOfBookMark: number;
-  followerCount: number;
-  updatedAt: string;
   userUid: number;
   nickname: string;
   bookMark: boolean;
-  contentId: number;
+  catEmoji: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ContentCardProps {
@@ -42,28 +38,31 @@ export interface ContentCardProps {
 const ContentCard = ({ content }: ContentCardProps) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
+
   const {
+    catLat,
+    catLon,
     lat,
-    lng,
+    lon,
     name,
     createdAt,
     jibunAddrName,
     countOfBookMark,
     numberOfComments,
-    emoji,
+    catEmoji,
   } = content;
 
-  const cat = catIllust.filter((cat) => cat.id === emoji)[0];
+  const cat = catIllust.filter((cat) => cat.id === Number(catEmoji))[0];
 
   useEffect(() => {
     if (geolocation.position !== null) {
       const dist = getDistance(geolocation.position, {
-        lat: lat,
-        lng: lng,
+        lat: Number(lat),
+        lng: Number(lon),
       });
       setDistance(dist);
     }
-  }, [geolocation.position, lat, lng]);
+  }, [geolocation.position, lat, lon]);
 
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>

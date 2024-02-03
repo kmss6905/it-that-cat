@@ -23,6 +23,6 @@ export const useMapContents = (data: GetContentParams) => {
   return useQuery(
     [queryMapContentsKey, data.position, data.follow],
     () => getMapContents(data),
-    { staleTime: 5 },
+    { staleTime: 1 },
   );
 };
