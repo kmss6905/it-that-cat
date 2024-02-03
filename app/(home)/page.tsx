@@ -15,7 +15,6 @@ import getSelectContent from '@/apis/map/getSelectContent';
 import getAddress from '@/apis/map/getAddress';
 import { ContentObjProps } from '@/types/content';
 import UnAuthUserPopup from '@/components/UnAuthUserPopup';
-import getCookies from '@/apis/getCookie';
 
 export default function Home() {
   const router = useRouter();
