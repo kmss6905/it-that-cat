@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
+
   const url = request.nextUrl.clone();
 
   if (accessToken && refreshToken) {
@@ -18,12 +19,14 @@ export function middleware(request: NextRequest) {
     } else {
       if (!nickname || !nickname.value) {
         url.pathname = '/login/nickname';
+
         return NextResponse.redirect(url);
       }
     }
   }
 
   const protectedRoutes = ['/register', '/content/register'];
+
   if (!accessToken || !refreshToken) {
     if (
       protectedRoutes.filter((value) =>
@@ -34,7 +37,6 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   }
-  return NextResponse.next();
 }
 
 export const config = {
