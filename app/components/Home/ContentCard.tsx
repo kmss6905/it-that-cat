@@ -10,8 +10,8 @@ import transformDistance from '@/utils/transformDistance';
 export interface CatObjProps {
   name: string;
   description: string;
-  lon: string;
-  lat: string;
+  lng: number;
+  lat: number;
   jibunAddrName: string | undefined;
   jibunMainAddrNo: string | undefined;
   jibunSido: string | undefined;
@@ -20,17 +20,19 @@ export interface CatObjProps {
   jibunSubAddrNo: string | undefined;
   neuter: string;
   group: string;
-  catPersonalities: string[];
+  personalities: string[];
   images: string[];
-  catEmoji: number;
+  emoji: number;
   createdAt: string;
   numberOfComments: number;
   numberOfCatSlaves: number;
   countOfBookMark: number;
+  followerCount: number;
   updatedAt: string;
   userUid: number;
   nickname: string;
   bookMark: boolean;
+  contentId: number;
 }
 
 export interface ContentCardProps {
@@ -42,26 +44,26 @@ const ContentCard = ({ content }: ContentCardProps) => {
   const [distance, setDistance] = useState<number | null>(null);
   const {
     lat,
-    lon,
+    lng,
     name,
     createdAt,
     jibunAddrName,
     countOfBookMark,
     numberOfComments,
-    catEmoji,
+    emoji,
   } = content;
 
-  const cat = catIllust.filter((cat) => cat.id === catEmoji)[0];
+  const cat = catIllust.filter((cat) => cat.id === emoji)[0];
 
   useEffect(() => {
     if (geolocation.position !== null) {
       const dist = getDistance(geolocation.position, {
-        lat: Number(lat),
-        lng: Number(lon),
+        lat: lat,
+        lng: lng,
       });
       setDistance(dist);
     }
-  }, [geolocation.position, lat, lon]);
+  }, [geolocation.position, lat, lng]);
 
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>

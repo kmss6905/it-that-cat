@@ -92,9 +92,7 @@ export default function Home() {
       >
         <ContentMarkers
           query={{
-            position: geolocation.position
-              ? geolocation.position
-              : currentPosition.position,
+            position: currentPosition.position,
             level: geolocation.level,
             follow: catMark,
           }}
@@ -124,7 +122,7 @@ export default function Home() {
           목록보기
         </FloatingBtn>
 
-        {content !== null ? (
+        {content !== null && selectedPin !== null ? (
           <div className='mb-[18px]'>
             <ContentCard content={content} />
           </div>
