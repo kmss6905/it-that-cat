@@ -11,6 +11,7 @@ import { DetailInfo } from '@/components/Content/DetailInfo';
 import { CatNews } from '@/components/Content/CatNews';
 import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
+import { contentStore } from '@/stores/comment/store';
 
 const tabName = [
   { name: '상세 정보', value: 'detailInfo' },
@@ -19,6 +20,7 @@ const tabName = [
 
 const RegisterPostPage = () => {
   const router = useRouter();
+  const { setContentId } = contentStore();
   const [tab, setTab] = useState('detailInfo');
   const params = useSearchParams();
   const contentId = params.get('id');
@@ -92,7 +94,12 @@ const RegisterPostPage = () => {
         </div>
 
         <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-          <RegisterBtn onClick={() => router.push('/content/register')}>
+          <RegisterBtn
+            onClick={() => {
+              setContentId(contentId);
+              router.push('/content/register');
+            }}
+          >
             냥이 소식 작성하기
           </RegisterBtn>
         </div>
