@@ -3,7 +3,7 @@ const getToken = async (code: string, provider: string) => {
 
   const data = {
     code: code,
-    redirectUri: `http://localhost:3000/auth/${provider}`,
+    redirectUri: `${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`,
   };
 
   let result;
