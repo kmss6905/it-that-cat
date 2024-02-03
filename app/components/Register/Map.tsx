@@ -11,12 +11,14 @@ import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
-import { Coordinates, RegionState } from '@/types/address';
+import { Coordinates, GeolocationState, RegionState } from '@/types/address';
 
 const RegisterMap = ({
   isModifying,
   address,
   position,
+  currentGeolocation,
+  initAddress,
   setMode,
   setAddress,
   setPosition,
@@ -24,12 +26,12 @@ const RegisterMap = ({
   isModifying: boolean;
   address: RegionState | null;
   position: Coordinates | null;
+  currentGeolocation: GeolocationState;
+  initAddress: RegionState | null;
   setMode: Dispatch<SetStateAction<string>>;
   setAddress: Dispatch<SetStateAction<RegionState | null>>;
   setPosition: Dispatch<SetStateAction<Coordinates | null>>;
 }) => {
-  const currentGeolocation = useGeolocation();
-  const initAddress = useAddress();
   const router = useRouter();
 
   const pinList = [
@@ -108,7 +110,7 @@ const RegisterMap = ({
             <h3 className='pb-1 heading1 text-black'>
               냥이를 만난 장소는 바로 여기!
             </h3>
-            <p className='text-gray-300 body1'>{`${address ? address?.addrName : initAddress?.addrName}`}</p>
+            <p className='text-gray-300 body1'>{`${address ? address.addrName : initAddress ? initAddress.addrName : '고양이는 사랑입니다❤'}`}</p>
           </div>
 
           <RegisterBtn onClick={() => setMode('post')}>
