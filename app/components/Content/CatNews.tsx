@@ -7,18 +7,18 @@ import getDateFormat from '@/utils/getDateFormat';
 import ImageWrapper from '../ImageWrapper';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
-  const comments = useComments(contentId) as any;
+  const { data, isSuccess } = useComments(contentId);
 
-  if (comments.isSuccess)
+  if (isSuccess)
     return (
       <div className='p-6'>
         <div className={`flex gap-1 pb-5 subHeading`}>
           <div>냥이의 근황을 공유해요</div>
-          <span className='text-gray-300'>{comments.data.items.length}개</span>
+          <span className='text-gray-300'>{data.items.length}개</span>
         </div>
 
-        {comments.data.items.length ? (
-          comments.data.items.map((comment: any, index: number) => (
+        {data.items.length ? (
+          data.items.map((comment: any, index: number) => (
             <div key={comment.commentId}>
               <div className='caption2 text-gray-400 mb-2'>
                 {comment.userNickname}
@@ -64,7 +64,7 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
                   {getDateFormat(comment.createdAt)}
                 </div>
               </div>
-              {index !== comments.data.items.length - 1 ? (
+              {index !== data.items.length - 1 ? (
                 <div className='w-full h-[1px] bg-gray-50 mt-4 mb-5' />
               ) : null}
             </div>
