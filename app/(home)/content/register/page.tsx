@@ -90,7 +90,10 @@ const RegisterCommentPage = () => {
 
       <form className='p-6 pt-3 flex flex-col gap-7'>
         <div>
-          <Label addTextBottom='냥이의 상태, 먹이를 준 유무, 최근 사진 등의 정보 공유는 올바른 돌봄 문화를 함께 만들어 나가는데 도움이 돼요.'>
+          <Label
+            isRequired={true}
+            addTextBottom='냥이의 상태, 먹이를 준 유무, 최근 사진 등의 정보 공유는 올바른 돌봄 문화를 함께 만들어 나가는데 도움이 돼요.'
+          >
             냥이를 만난 이야기를 들려주세요!
           </Label>
           <TextareaInput
@@ -105,7 +108,7 @@ const RegisterCommentPage = () => {
         </div>
 
         <div>
-          <Label isRequired={true}>사진 업로드</Label>
+          <Label>사진 업로드</Label>
           <div className='flex gap-2'>
             <div
               onClick={onClickInputImage}
@@ -143,7 +146,12 @@ const RegisterCommentPage = () => {
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={onClickRegister}>작성 완료</RegisterBtn>
+        <RegisterBtn
+          onClick={onClickRegister}
+          isDisabled={!comment.commentDesc}
+        >
+          작성 완료
+        </RegisterBtn>
       </div>
     </Fragment>
   );
