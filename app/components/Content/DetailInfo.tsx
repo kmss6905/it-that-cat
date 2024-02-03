@@ -5,10 +5,10 @@ import {
 } from '@/constants/catInfoButtons';
 import CustomPin from '../Map/CustomPin';
 import MapComponent from '../Map/Map';
-import { ContentType } from '../Home/ContentCard';
+import { ContentObjProps } from '@/types/content';
 
-export const DetailInfo = ({ content }: { content: ContentType }) => {
-  const position = { lat: content.lat, lng: content.lng };
+export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
+  const position = { lat: Number(content.lat), lng: Number(content.lng) };
 
   return (
     <div>
@@ -52,7 +52,7 @@ export const DetailInfo = ({ content }: { content: ContentType }) => {
 
         <div className={`${subTitleClassName}`}>성격 및 특징</div>
         <div className='flex flex-wrap'>
-          {content.personality.map((value) => (
+          {content.catPersonalities.map((value) => (
             <div
               key={value}
               className={`${contentClassName} mr-[6px] text-nowrap mb-[6px]`}

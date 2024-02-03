@@ -1,49 +1,20 @@
-import { catIllust } from '@/constants/catIllust';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { catIllust } from '@/constants/catIllust';
 import IconDistance from '@/assets/images/icon_distance.svg';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useEffect, useState } from 'react';
 import { getDistance } from '@/utils/calcDistance';
 import getDateFormat from '@/utils/getDateFormat';
 import transformDistance from '@/utils/transformDistance';
-
-export interface CatObjProps {
-  contentId: number;
-  name: string;
-  description: string;
-  catLat: number;
-  catLon: number;
-  lat: number;
-  lon: number;
-  jibunAddrName: string;
-  neuter: string;
-  group: string;
-  catPersonalities: string[];
-  images: string[];
-  numberOfCatSlaves: number;
-  numberOfComments: number;
-  countOfBookMark: number;
-  userUid: number;
-  nickname: string;
-  bookMark: boolean;
-  catEmoji: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ContentCardProps {
-  content: CatObjProps;
-}
+import { ContentCardProps } from '@/types/content';
 
 const ContentCard = ({ content }: ContentCardProps) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
 
   const {
-    catLat,
-    catLon,
     lat,
-    lon,
+    lng,
     name,
     createdAt,
     jibunAddrName,
@@ -58,11 +29,11 @@ const ContentCard = ({ content }: ContentCardProps) => {
     if (geolocation.position !== null) {
       const dist = getDistance(geolocation.position, {
         lat: Number(lat),
-        lng: Number(lon),
+        lng: Number(lng),
       });
       setDistance(dist);
     }
-  }, [geolocation.position, lat, lon]);
+  }, [geolocation.position, lat, lng]);
 
   return (
     <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>

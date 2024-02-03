@@ -17,7 +17,7 @@ const RegisterPage = () => {
   const [catInfo, setCatInfo] = useState<CatObjProps>({
     name: '',
     description: '',
-    lon: '',
+    lng: '',
     lat: '',
     jibunAddrName: '',
     jibunSido: '',
@@ -33,7 +33,7 @@ const RegisterPage = () => {
   useEffect(() => {
     setCatInfo((value) => ({
       ...value,
-      lon: String(currentGeolocation.position?.lng),
+      lng: String(currentGeolocation.position?.lng),
       lat: String(currentGeolocation.position?.lat),
       jibunAddrName: initAddress?.addrName,
       jibunSido: initAddress?.sido,
@@ -47,7 +47,7 @@ const RegisterPage = () => {
   useEffect(() => {
     setCatInfo((value) => ({
       ...value,
-      lon: String(position?.lng),
+      lng: String(position?.lng),
       lat: String(position?.lat),
       jibunAddrName: address?.addrName,
       jibunSido: address?.sido,

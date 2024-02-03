@@ -1,21 +1,19 @@
 'use client';
-import useGeolocation from '@/hooks/useGeolocation';
 import { useCallback, useEffect, useState } from 'react';
-import getAddress from '@/apis/map/getAddress';
+import { useRouter } from 'next/navigation';
+import useGeolocation from '@/hooks/useGeolocation';
 import MapComponent from '@/components/Map/Map';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import { pinList } from '@/constants/contentMockData';
-import ContentCard, { CatObjProps } from '@/components/Home/ContentCard';
+import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
-import { useRouter } from 'next/navigation';
+import ContentMarkers from '@/components/Map/ContentMarkers';
 import CatMark from '@/components/Home/CatMark';
 import { useGeolocationStore } from '@/stores/home/store';
 import IconList from '@/assets/images/icon_list.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
-import ContentMarkers from '@/components/Map/ContentMarkers';
-import { useMapContents } from '@/hooks/useGetContent';
-import CustomPin from '@/components/Map/CustomPin';
 import getSelectContent from '@/apis/map/getSelectContent';
+import getAddress from '@/apis/map/getAddress';
+import { ContentObjProps } from '@/types/content';
 
 export default function Home() {
   const router = useRouter();
@@ -27,7 +25,7 @@ export default function Home() {
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
   const [catMark, setCatMark] = useState<boolean>(false);
-  const [content, setContent] = useState<CatObjProps | null>(null);
+  const [content, setContent] = useState<ContentObjProps | null>(null);
 
   useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
