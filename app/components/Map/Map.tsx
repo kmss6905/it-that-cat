@@ -4,7 +4,6 @@ import useGeolocation from '@/hooks/useGeolocation';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import CurrPin from './CurrPin';
 import { useMemo } from 'react';
-import { useBoundStore } from '@/stores/home/boundStore';
 
 declare global {
   interface Window {
@@ -23,6 +22,70 @@ interface MapProps {
 
 const MapComponent = ({ children, ...props }: MapProps) => {
   const geolocation = useGeolocation();
+
+  const clusterStyle = [
+    {
+      width: '40px',
+      height: '40px',
+      background: 'rgba(255,205,133)',
+      border: '3px solid white',
+      borderRadius: '100%',
+      color: '#2b2b2b',
+      boxShadow: '0 0 15px 2px rgba(255,205,133, 0.8)',
+      textAlign: 'center',
+      fontWeight: '400',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      lineHeight: '24px',
+    },
+    {
+      width: '40px',
+      height: '40px',
+      background: 'rgba(144,144,144)',
+      border: '3px solid white',
+      borderRadius: '100%',
+      color: '#2b2b2b',
+      boxShadow: '0 0 15px 2px rgba(144,144,144, 0.8)',
+      textAlign: 'center',
+      fontWeight: '400',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      lineHeight: '24px',
+    },
+
+    {
+      width: '40px',
+      height: '40px',
+      background: 'rgba(255, 155, 30)',
+      border: '3px solid white',
+      borderRadius: '100%',
+      color: '#fff',
+      boxShadow: '0 0 15px 2px rgba(255, 155, 30, 0.8)',
+      textAlign: 'center',
+      fontWeight: '400',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      lineHeight: '24px',
+    },
+    {
+      width: '40px',
+      height: '40px',
+      background: 'rgba(43,43,43)',
+      border: '3px solid white',
+      borderRadius: '100%',
+      color: '#fff',
+      boxShadow: '0 0 15px 2px rgba(43,43,43, 0.5)',
+      textAlign: 'center',
+      fontWeight: '400',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      lineHeight: '24px',
+    },
+  ];
 
   const position = useMemo(() => {
     if (props.position) {
@@ -47,7 +110,12 @@ const MapComponent = ({ children, ...props }: MapProps) => {
       level={props.level ? props.level : 3}
       {...props}
     >
-      <MarkerClusterer averageCenter={true} minLevel={5}>
+      <MarkerClusterer
+        averageCenter={true}
+        minLevel={5}
+        calculator={[10, 30, 50]}
+        styles={clusterStyle}
+      >
         {children}
       </MarkerClusterer>
 
