@@ -2,8 +2,6 @@
 import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from './CustomPin';
 import { Coordinates } from '@/hooks/useGeolocation';
-import Link from 'next/link';
-import { useEffect } from 'react';
 
 interface ContentMarkers {
   query: {
@@ -20,15 +18,15 @@ const ContentMarkers = ({ query, isSelected, onClick }: ContentMarkers) => {
 
   return (
     data &&
-    data.items.map(({ catContentId, catLat, catLon }: any) => (
+    data.items.map(({ contentId, lat, lng }: any) => (
       <CustomPin
-        key={catContentId}
-        isSelected={catContentId === isSelected}
-        position={{ lat: catLat, lng: catLon }}
+        key={contentId}
+        isSelected={contentId === isSelected}
+        position={{ lat: lat, lng: lng }}
         onClick={() =>
           onClick({
-            id: catContentId,
-            position: { lat: catLat, lng: catLon },
+            id: contentId,
+            position: { lat: lat, lng: lng },
             level: 3,
           })
         }

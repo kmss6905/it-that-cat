@@ -4,6 +4,7 @@ import useGeolocation from '@/hooks/useGeolocation';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import CurrPin from './CurrPin';
 import { useMemo } from 'react';
+import { useBoundStore } from '@/stores/home/boundStore';
 
 declare global {
   interface Window {

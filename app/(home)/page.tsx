@@ -5,7 +5,7 @@ import getAddress from '@/apis/map/getAddress';
 import MapComponent from '@/components/Map/Map';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import { pinList } from '@/constants/contentMockData';
-import ContentCard from '@/components/Home/ContentCard';
+import ContentCard, { CatObjProps } from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import { useRouter } from 'next/navigation';
 import CatMark from '@/components/Home/CatMark';
@@ -13,6 +13,9 @@ import { useGeolocationStore } from '@/stores/home/store';
 import IconList from '@/assets/images/icon_list.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
 import ContentMarkers from '@/components/Map/ContentMarkers';
+import { useMapContents } from '@/hooks/useGetContent';
+import CustomPin from '@/components/Map/CustomPin';
+import getSelectContent from '@/apis/map/getSelectContent';
 
 export default function Home() {
   const router = useRouter();
@@ -23,9 +26,8 @@ export default function Home() {
 
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
-  const content = pinList.filter((item) => item.id === selectedPin);
-
   const [catMark, setCatMark] = useState<boolean>(false);
+  const [content, setContent] = useState<CatObjProps | null>(null);
 
   useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
@@ -58,10 +60,15 @@ export default function Home() {
     setPosition(latlng);
   }, [currentPosition.position, setPosition]);
 
-  const handleClickMarker = (data: any) => {
+  const handleClickMarker = async (data: any) => {
     setPosition(data.position);
     setLevel(data.level);
     setSelectedPin(data.id);
+
+    /* 선택한 컨텐츠 내용 가져오기 */
+    await getSelectContent(data.id).then((content) => {
+      setContent(content);
+    });
   };
 
   if (currentPosition.position === null) return null;
@@ -86,9 +93,7 @@ export default function Home() {
       >
         <ContentMarkers
           query={{
-            position: geolocation.position
-              ? geolocation.position
-              : currentPosition.position,
+            position: currentPosition.position,
             level: geolocation.level,
             follow: catMark,
           }}
@@ -118,9 +123,9 @@ export default function Home() {
           목록보기
         </FloatingBtn>
 
-        {selectedPin !== null ? (
+        {content !== null && selectedPin !== null ? (
           <div className='mb-[18px]'>
-            <ContentCard content={content[0]} />
+            <ContentCard content={content} />
           </div>
         ) : null}
       </div>
