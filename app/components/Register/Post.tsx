@@ -166,7 +166,7 @@ const RegisterPost = ({
         </button>
       </div>
 
-      <form className='p-6 pt-3 flex flex-col gap-7 mb-[100px]'>
+      <form className='p-6 pt-3 flex flex-col gap-7 pb-[132px]'>
         <div>
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
