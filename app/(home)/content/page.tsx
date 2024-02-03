@@ -87,7 +87,7 @@ const RegisterPostPage = () => {
           {tab === 'detailInfo' ? (
             <DetailInfo content={content.data} />
           ) : (
-            <CatNews />
+            <CatNews contentId={contentId} />
           )}
         </div>
 
