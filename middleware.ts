@@ -8,17 +8,21 @@ export function middleware(request: NextRequest) {
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
   const url = request.nextUrl.clone();
+
   if (accessToken && refreshToken) {
-    if (request.nextUrl.pathname.startsWith('/login')) {
+    if (request.url.includes('/login')) {
       if (nickname && nickname.value) {
         url.pathname = '/';
         return NextResponse.redirect(url);
-      } else {
+      }
+    } else {
+      if (!nickname || !nickname.value) {
         url.pathname = '/login/nickname';
         return NextResponse.redirect(url);
       }
     }
   }
+
   const protectedRoutes = ['/register', '/content/register'];
   if (!accessToken || !refreshToken) {
     if (
