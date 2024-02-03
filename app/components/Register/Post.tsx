@@ -150,7 +150,7 @@ const RegisterPost = ({
     };
     const res: ResType<{ contentId: string }> = await postContent(data);
     if (res.result === 'SUCCESS') {
-      router.push(`/content/${res?.data?.contentId}`);
+      router.push(`/content?id=${res?.data?.contentId}`);
     }
   };
 
@@ -243,6 +243,9 @@ const RegisterPost = ({
             {images.map((image, index) => (
               <ImageWrapper
                 key={index}
+                size='S'
+                dimed={true}
+                cancelBtn={true}
                 onClick={() => handleImageRemove(index)}
               >
                 <Image

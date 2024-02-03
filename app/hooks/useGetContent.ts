@@ -1,3 +1,5 @@
+import { getComments } from '@/apis/contents/getComments';
+import { getContent } from '@/apis/contents/getContent';
 import {
   GetContentParams,
   getCardContents,
@@ -5,6 +7,8 @@ import {
 } from '@/apis/map/getContents';
 import {
   queryCardContentsKey,
+  queryCommentsKey,
+  queryContentKey,
   queryMapContentsKey,
 } from '@/constants/queryKey';
 import { useInfiniteQuery, useQuery } from 'react-query';
@@ -25,4 +29,16 @@ export const useMapContents = (data: GetContentParams) => {
     () => getMapContents(data),
     { staleTime: 1 },
   );
+};
+
+export const useContent = (contentId: string | null) => {
+  return useQuery([queryContentKey], () => getContent(contentId), {
+    staleTime: 1,
+  });
+};
+
+export const useComments = (contentId: string | null) => {
+  return useQuery([queryCommentsKey], () => getComments(contentId), {
+    staleTime: 1,
+  });
 };
