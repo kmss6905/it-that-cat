@@ -31,19 +31,19 @@
   }
 
   .rootContainer {
-    @apply max-w-[430px] w-screen h-full;
+    @apply max-w-[430px] w-screen h-full overflow-hidden;
   }
 
   .screen {
-    @apply bg-white w-full h-full relative;
+    @apply bg-white w-full h-full relative overflow-hidden;
   }
 
   .tooltipWrapper {
     @apply relative caption;
   }
 
-  .tooltipWrapper:hover > .tooltip,
-  .tooltipWrapper:active > .tooltip {
+  .tooltipWrapper > span:hover + .tooltip,
+  .tooltipWrapper > span:active + .tooltip {
     @apply opacity-100;
   }
 
