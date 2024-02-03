@@ -8,12 +8,13 @@ import SelectFilter, {
 } from '@/components/Home/SelectFilter';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useCardContents } from '@/hooks/useGetContent';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import IconMapView from '@/assets/images/icon_mapView.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
 import UnAuthUserPopup from '@/components/UnAuthUserPopup';
 import { useRouter } from 'next/navigation';
 import CardSkeleton from '@/components/Home/CardSkeleton';
+import { NoFollowListPage, NoListPage } from '@/components/ListUi';
 
 const ListViewPage = () => {
   const router = useRouter();
@@ -78,14 +79,23 @@ const ListViewPage = () => {
       />
 
       <div className='px-6 overflow-y-scroll h-full layout flex flex-col gap-2'>
+        <h2 className='text-black heading2 pb-4'>우리 동네 이냥저냥이</h2>
         {isLoading ? (
           <CardSkeleton />
-        ) : (
-          contents &&
+        ) : contents && contents.length !== 0 ? (
           contents.map((content) => (
+            /* 등록된 고양이가 있을 때 */
             <ContentCard key={content.contentId} content={content} />
           ))
+        ) : (
+          /* 등록된 고양이가 있지만 팔로우한 고양이가 없을 때 */
+          catMark && <NoFollowListPage />
         )}
+        {/* 등록된 고양이가 없을 때 */}
+        {(!isLoading && !catMark && !contents) ||
+        (contents && contents.length === 0) ? (
+          <NoListPage />
+        ) : null}
       </div>
 
       <FloatingBtn
@@ -95,14 +105,14 @@ const ListViewPage = () => {
             ? router.push('/register')
             : setPopupOpen(true)
         }
-        className='bg-primary-500 absolute right-6 bottom-[68px]'
+        className='bg-primary-500 absolute right-6 bottom-12'
       >
         새로운 냥이 등록
       </FloatingBtn>
       <FloatingBtn
         Icon={IconMapView}
         onClick={() => router.push('/')}
-        className='bg-gray-500 absolute bottom-3 right-6'
+        className='bg-gray-500 absolute -bottom-2 right-6'
       >
         지도보기
       </FloatingBtn>

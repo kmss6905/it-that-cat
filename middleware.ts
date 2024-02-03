@@ -11,17 +11,17 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   if (accessToken && refreshToken) {
-    if (request.nextUrl.pathname.startsWith('/login')) {
+    if (request.url.includes('/login')) {
       if (nickname && nickname.value) {
         url.pathname = '/';
         return NextResponse.redirect(url);
       }
     }
 
-    if (!nickname || !nickname.value) {
-      url.pathname = '/login/nickname';
+    if (!request.url.includes('/login')) {
+      if (!nickname || !nickname.value) {
+        url.pathname = '/login/nickname';
 
-      if (!request.url.includes('/login')) {
         return NextResponse.redirect(url);
       }
     }
@@ -39,7 +39,6 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   }
-  return NextResponse.next();
 }
 
 export const config = {
