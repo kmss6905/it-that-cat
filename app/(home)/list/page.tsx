@@ -14,7 +14,6 @@ import IconNewContent from '@/assets/images/icon_newContent.svg';
 import UnAuthUserPopup from '@/components/UnAuthUserPopup';
 import { useRouter } from 'next/navigation';
 import CardSkeleton from '@/components/Home/CardSkeleton';
-import Link from 'next/link';
 
 const ListViewPage = () => {
   const router = useRouter();
@@ -84,12 +83,7 @@ const ListViewPage = () => {
         ) : (
           contents &&
           contents.map((content) => (
-            <Link
-              key={content.contentId}
-              href={`/content?id=${content.contentId}`}
-            >
-              <ContentCard content={content} />
-            </Link>
+            <ContentCard key={content.contentId} content={content} />
           ))
         )}
       </div>
