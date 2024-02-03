@@ -1,10 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import useGeolocation from '@/hooks/useGeolocation';
-import useAddress from '@/hooks/useAddress';
 import MapComponent from '@/components/Map/Map';
 import getAddress from '@/apis/map/getAddress';
-import CustomPin from '@/components/Map/CustomPin';
 import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
