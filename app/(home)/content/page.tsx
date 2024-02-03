@@ -47,6 +47,7 @@ const RegisterPostPage = () => {
                 }
                 alt='고양이 일러스트'
                 fill
+                sizes='100'
                 className='object-contain p-2'
               />
             </div>

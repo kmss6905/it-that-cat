@@ -243,6 +243,9 @@ const RegisterPost = ({
             {images.map((image, index) => (
               <ImageWrapper
                 key={index}
+                size='S'
+                dimed={true}
+                cancelBtn={true}
                 onClick={() => handleImageRemove(index)}
               >
                 <Image

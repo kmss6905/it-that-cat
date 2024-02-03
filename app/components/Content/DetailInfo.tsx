@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   neuterButtons,
   groupButtons,
@@ -7,6 +8,7 @@ import CustomPin from '../Map/CustomPin';
 import MapComponent from '../Map/Map';
 import { ContentObjProps } from '@/types/content';
 import getDateFormat from '@/utils/getDateFormat';
+import ImageWrapper from '../ImageWrapper';
 
 export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
   const position = { lat: Number(content.lat), lng: Number(content.lng) };
@@ -18,7 +20,21 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
           {getDateFormat(content.updatedAt)} 업데이트
         </div>
         <div className={`${titleClassName}`}>동네 집사의 한 줄 소개</div>
-        <div className='body2 text-gray-400'>{content.description}</div>
+        <div className='body2 text-gray-400 mb-4'>{content.description}</div>
+        <div className='flex gap-2 justify-between'>
+          {content.images.map((image, index) => (
+            <ImageWrapper key={index}>
+              <Image
+                src={image as string}
+                alt={`preview ${index}`}
+                fill
+                sizes='100'
+                priority
+                className='object-cover w-full h-full'
+              />
+            </ImageWrapper>
+          ))}
+        </div>
       </div>
 
       <div className={`${barClassName}`} />
