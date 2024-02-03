@@ -1,3 +1,4 @@
+import { getContent } from '@/apis/contents/getContent';
 import {
   GetContentParams,
   getCardContents,
@@ -25,4 +26,10 @@ export const useMapContents = (data: GetContentParams) => {
     () => getMapContents(data),
     { staleTime: 1 },
   );
+};
+
+export const useContent = (contentId: string | null) => {
+  return useQuery(['queryMapContentsKey'], () => getContent(contentId), {
+    staleTime: 1,
+  });
 };

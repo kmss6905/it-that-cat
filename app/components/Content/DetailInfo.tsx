@@ -6,6 +6,7 @@ import {
 import CustomPin from '../Map/CustomPin';
 import MapComponent from '../Map/Map';
 import { ContentObjProps } from '@/types/content';
+import getDateFormat from '@/utils/getDateFormat';
 
 export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
   const position = { lat: Number(content.lat), lng: Number(content.lng) };
@@ -14,10 +15,10 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
     <div>
       <div className='p-6'>
         <div className='caption2 text-primary-400 mb-3'>
-          {content.updatedAt} 업데이트
+          {getDateFormat(content.updatedAt)} 업데이트
         </div>
         <div className={`${titleClassName}`}>동네 집사의 한 줄 소개</div>
-        <div className='body2 text-gray-400'>{content.desc}</div>
+        <div className='body2 text-gray-400'>{content.description}</div>
       </div>
 
       <div className={`${barClassName}`} />
@@ -52,7 +53,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
 
         <div className={`${subTitleClassName}`}>성격 및 특징</div>
         <div className='flex flex-wrap'>
-          {content.catPersonalities.map((value) => (
+          {content.catPersonalities?.map((value) => (
             <div
               key={value}
               className={`${contentClassName} mr-[6px] text-nowrap mb-[6px]`}
