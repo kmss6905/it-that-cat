@@ -9,11 +9,16 @@ import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import { Label, TextareaInput } from '@/components/Input';
 import RegisterBtn from '@/components/RegisterBtn';
 import ImageWrapper from '@/components/ImageWrapper';
+import { saveImage } from '@/apis/image/saveImage';
+import { ResType } from '@/apis/type';
+import postComment, { commentProps } from '@/apis/contents/postComment';
+import { contentStore } from '@/stores/comment/store';
 
 const RegisterCommentPage = () => {
   const router = useRouter();
+  const { contentId } = contentStore();
   const [comment, setComment] = useState({
-    desc: '',
+    commentDesc: '',
   });
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
@@ -55,6 +60,22 @@ const RegisterCommentPage = () => {
     }
   };
 
+  const onClickRegister = async () => {
+    const base64s = images.map((image) => (image ? image.toString() : ''));
+    const saveImageUrls = await Promise.all(base64s.map(saveImage));
+    const data: commentProps = {
+      ...comment,
+      commentImageUris: saveImageUrls,
+    };
+    const res: ResType<{ contentId: string }> = await postComment(
+      contentId,
+      data,
+    );
+    if (res.result === 'SUCCESS') {
+      router.push(`/content?id=${contentId}`);
+    }
+  };
+
   return (
     <Fragment>
       <div className='w-full relative pt-5 pb-5'>
@@ -69,12 +90,12 @@ const RegisterCommentPage = () => {
 
       <form className='p-6 pt-3 flex flex-col gap-7 mb-[100px]'>
         <div>
-          <Label addTextBottom='냥이의 상태, 먹이를 준 유무, 최근 사진 등의 정보 공유는 올바른 돌봄 문화를 함께 만들어 나가는데 도움이 돼요.'>
+          <Label addTextBottom='냥이의 상태, 먹이를 준 유무, 최근 사진 등의 정보 공유는 올바른 돌봄 문화를 함께 만들어 나가는데 도움이 돼요.'>
             냥이를 만난 이야기를 들려주세요!
           </Label>
           <TextareaInput
-            name='desc'
-            value={comment.desc}
+            name='commentDesc'
+            value={comment.commentDesc}
             onChange={onChange}
             maxLength={299}
             placeholder={
@@ -104,6 +125,9 @@ const RegisterCommentPage = () => {
             {images.map((image, index) => (
               <ImageWrapper
                 key={index}
+                size='S'
+                dimed={true}
+                cancelBtn={true}
                 onClick={() => handleImageRemove(index)}
               >
                 <Image
@@ -119,9 +143,7 @@ const RegisterCommentPage = () => {
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={() => router.push('/register/post')}>
-          작성 완료
-        </RegisterBtn>
+        <RegisterBtn onClick={onClickRegister}>작성 완료</RegisterBtn>
       </div>
     </Fragment>
   );

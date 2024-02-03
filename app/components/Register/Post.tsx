@@ -1,6 +1,12 @@
 'use client';
 
-import React, { Fragment, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useRef,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -12,36 +18,31 @@ import { Label, TextInput, TextareaInput } from '@/components/Input';
 import Button from '@/components/Button';
 import { randomCatNameList } from '@/constants/randomCatNameList';
 import {
+  UNSURE,
   groupButtons,
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
 import RegisterBtn from '@/components/RegisterBtn';
-import { useGeolocationStore } from '@/stores/register/store';
 import ImageWrapper from '@/components/ImageWrapper';
 import { saveImage } from '@/apis/image/saveImage';
+import postContent from '@/apis/contents/postContent';
+import { ResType } from '@/apis/type';
+import { CatObjProps, RegisterCatObjProps } from '@/types/content';
 
-interface CatObjProps {
-  [key: string]: any;
-  location: any;
-  name: string;
-  desc: string;
-  neuter: string;
-  group: string;
-  personality: string[];
-}
-
-const RegisterPostPage = () => {
+const RegisterPost = ({
+  setIsModifying,
+  catInfo,
+  setMode,
+  setCatInfo,
+}: {
+  setIsModifying: Dispatch<SetStateAction<boolean>>;
+  catInfo: CatObjProps;
+  setMode: Dispatch<SetStateAction<string>>;
+  setCatInfo: Dispatch<SetStateAction<CatObjProps>>;
+}) => {
   const router = useRouter();
-  const { geolocation } = useGeolocationStore();
-  const [catInfo, setCatInfo] = useState<CatObjProps>({
-    location: geolocation?.address?.addrName,
-    name: '',
-    desc: '',
-    neuter: '',
-    group: '',
-    personality: [],
-  });
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
@@ -65,42 +66,42 @@ const RegisterPostPage = () => {
     });
   };
 
-  const onClickPersonality = (value: string) => {
-    let personality = [...catInfo.personality];
+  const onClickPersonalities = (value: string) => {
+    let catPersonalities = [...catInfo.catPersonalities];
 
     // 모르겠어요 눌렀을 때
-    if (value === 'UNSURE') {
-      if (personality.includes('UNSURE')) {
-        setCatInfo({ ...catInfo, personality: [] });
+    if (value === UNSURE) {
+      if (catPersonalities.includes(UNSURE)) {
+        setCatInfo({ ...catInfo, catPersonalities: [] });
       } else {
-        setCatInfo({ ...catInfo, personality: ['UNSURE'] });
+        setCatInfo({ ...catInfo, catPersonalities: [UNSURE] });
       }
       return;
     }
 
     // 이미 선택된 성격을 눌렀을 때
-    if (personality.includes(value)) {
+    if (catPersonalities.includes(value)) {
       setCatInfo({
         ...catInfo,
-        personality: personality.filter(
+        catPersonalities: catPersonalities.filter(
           (personalityValue) => personalityValue !== value,
         ),
       });
       return;
     }
 
-    if (personality.length < 3) {
-      personality.push(value);
+    if (catPersonalities.length < 3) {
+      catPersonalities.push(value);
     }
 
     // 모르겠어요가 이미 눌러져 있을 때
-    if (personality.includes('UNSURE')) {
-      personality = personality.filter(
-        (personalityValue) => personalityValue !== 'UNSURE',
+    if (catPersonalities.includes(UNSURE)) {
+      catPersonalities = catPersonalities.filter(
+        (personalityValue) => personalityValue !== UNSURE,
       );
     }
 
-    setCatInfo({ ...catInfo, personality });
+    setCatInfo({ ...catInfo, catPersonalities });
   };
 
   const onClickInputImage = () => {
@@ -135,6 +136,22 @@ const RegisterPostPage = () => {
   const onClickRegister = async () => {
     const base64s = images.map((image) => (image ? image.toString() : ''));
     const saveImageUrls = await Promise.all(base64s.map(saveImage));
+    const updatedCatInfo = {
+      ...catInfo,
+      group: catInfo.group ? catInfo.group : UNSURE,
+      catPersonalities: catInfo.catPersonalities.length
+        ? catInfo.catPersonalities
+        : [UNSURE],
+    };
+    const data: RegisterCatObjProps = {
+      ...updatedCatInfo,
+      images: saveImageUrls,
+      catEmoji: 1,
+    };
+    const res: ResType<{ contentId: string }> = await postContent(data);
+    if (res.result === 'SUCCESS') {
+      router.push(`/content?id=${res?.data?.contentId}`);
+    }
   };
 
   return (
@@ -153,9 +170,12 @@ const RegisterPostPage = () => {
         <div>
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
-            <div>{catInfo.location}</div>
+            <div>{catInfo.jibunAddrName}</div>
             <div
-              onClick={() => router.push('/register/map')}
+              onClick={() => {
+                setMode('map');
+                setIsModifying(true);
+              }}
               className='text-primary-500 cursor-pointer'
             >
               수정
@@ -192,8 +212,8 @@ const RegisterPostPage = () => {
         <div>
           <Label>냥이를 자유롭게 소개해주세요</Label>
           <TextareaInput
-            name='desc'
-            value={catInfo.desc}
+            name='description'
+            value={catInfo.description}
             onChange={onChange}
             maxLength={299}
             placeholder={
@@ -223,6 +243,9 @@ const RegisterPostPage = () => {
             {images.map((image, index) => (
               <ImageWrapper
                 key={index}
+                size='S'
+                dimed={true}
+                cancelBtn={true}
                 onClick={() => handleImageRemove(index)}
               >
                 <Image
@@ -282,9 +305,9 @@ const RegisterPostPage = () => {
             {personalityButtons.map(({ name, value }) => (
               <Button
                 key={value}
-                onClick={() => onClickPersonality(value)}
-                border={catInfo.personality.includes(value)}
-                gray={!catInfo.personality.includes(value)}
+                onClick={() => onClickPersonalities(value)}
+                border={catInfo.catPersonalities.includes(value)}
+                gray={!catInfo.catPersonalities.includes(value)}
               >
                 {name}
               </Button>
@@ -294,10 +317,20 @@ const RegisterPostPage = () => {
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn onClick={onClickRegister}>등록하기</RegisterBtn>
+        <RegisterBtn
+          onClick={onClickRegister}
+          isDisabled={
+            !catInfo.jibunAddrName ||
+            !catInfo.name ||
+            !catInfo.neuter ||
+            !images.length
+          }
+        >
+          등록하기
+        </RegisterBtn>
       </div>
     </Fragment>
   );
 };
 
-export default RegisterPostPage;
+export default RegisterPost;

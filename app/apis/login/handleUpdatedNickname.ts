@@ -5,7 +5,6 @@ const handleUpdatedNickname = async (nickname: string) => {
   const cookieStore = cookies();
 
   const accseeToken = cookieStore.get('accessToken');
-  console.log('🚀 ~ handleUpdatedNickname ~ accseeToken:', accseeToken);
 
   let result;
 

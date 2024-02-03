@@ -3,6 +3,11 @@ import localFont from 'next/font/local';
 const pretendard = localFont({
   src: [
     {
+      path: '../assets/font/Pretendard-Light.otf',
+      weight: '300',
+      style: 'nosrmal',
+    },
+    {
       path: '../assets/font/Pretendard-Regular.otf',
       weight: '400',
       style: 'normal',

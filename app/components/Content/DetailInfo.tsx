@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   neuterButtons,
   groupButtons,
@@ -5,19 +6,35 @@ import {
 } from '@/constants/catInfoButtons';
 import CustomPin from '../Map/CustomPin';
 import MapComponent from '../Map/Map';
-import { ContentType } from '../Home/ContentCard';
+import { ContentObjProps } from '@/types/content';
+import getDateFormat from '@/utils/getDateFormat';
+import ImageWrapper from '../ImageWrapper';
 
-export const DetailInfo = ({ content }: { content: ContentType }) => {
-  const position = { lat: content.lat, lng: content.lng };
+export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
+  const position = { lat: Number(content.lat), lng: Number(content.lng) };
 
   return (
     <div>
       <div className='p-6'>
         <div className='caption2 text-primary-400 mb-3'>
-          {content.updatedAt} 업데이트
+          {getDateFormat(content.updatedAt)} 업데이트
         </div>
         <div className={`${titleClassName}`}>동네 집사의 한 줄 소개</div>
-        <div className='body2 text-gray-400'>{content.desc}</div>
+        <div className='body2 text-gray-400 mb-4'>{content.description}</div>
+        <div className='flex gap-2 justify-between'>
+          {content.images.map((image, index) => (
+            <ImageWrapper key={index}>
+              <Image
+                src={image as string}
+                alt={`preview ${index}`}
+                fill
+                sizes='100'
+                priority
+                className='object-cover w-full h-full'
+              />
+            </ImageWrapper>
+          ))}
+        </div>
       </div>
 
       <div className={`${barClassName}`} />
@@ -52,7 +69,7 @@ export const DetailInfo = ({ content }: { content: ContentType }) => {
 
         <div className={`${subTitleClassName}`}>성격 및 특징</div>
         <div className='flex flex-wrap'>
-          {content.personality.map((value) => (
+          {content.catPersonalities?.map((value) => (
             <div
               key={value}
               className={`${contentClassName} mr-[6px] text-nowrap mb-[6px]`}

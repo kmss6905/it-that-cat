@@ -1,16 +1,16 @@
-import { RegionState } from '@/apis/map/getAddress';
+import { Coordinates, RegionState } from '@/types/address';
 import { StateCreator, create } from 'zustand';
 
 interface GeolocationState {
   level: number;
-  position: { lat: number; lng: number } | null;
+  position: Coordinates | null;
   address: RegionState | null;
 }
 
 type GeolocationStore = {
   geolocation: GeolocationState;
   setLevel: (level: number) => void;
-  setPosition: (position: { lat: number; lng: number }) => void;
+  setPosition: (position: Coordinates) => void;
   setAddress: (addr: RegionState) => void;
   setEmpty: () => void;
 };

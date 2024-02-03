@@ -1,4 +1,4 @@
-import { Coordinates } from '@/hooks/useGeolocation';
+import { Coordinates } from '@/types/address';
 
 export const getDistance = (start: Coordinates, end: Coordinates) => {
   const startLatLng = new kakao.maps.LatLng(start.lat, start.lng);

@@ -2,22 +2,26 @@
 import { useRef, useState } from 'react';
 import IconDropdown from '@/assets/images/icon_dropdown.svg';
 
-interface SelectedFilterState {
+export interface SelectedFilterState {
   id: string;
   content: string;
 }
 
-const SelectFilter = () => {
+interface SelectedFilterProps {
+  selectedFilter: SelectedFilterState;
+  setSelectedFilter: (value: SelectedFilterState) => void;
+}
+
+export const options = [
+  { id: 'asc', content: '거리순' },
+  { id: 'popularity', content: '인기순' },
+];
+
+const SelectFilter = ({
+  selectedFilter,
+  setSelectedFilter,
+}: SelectedFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const options = [
-    { id: 'distance', content: '거리순' },
-    { id: 'popularity', content: '인기순' },
-  ];
-
-  const [selectedFilter, setSelectedFilter] = useState<SelectedFilterState>(
-    options[0],
-  );
 
   const handleClickFilter = (id: SelectedFilterState) => {
     setSelectedFilter(id);

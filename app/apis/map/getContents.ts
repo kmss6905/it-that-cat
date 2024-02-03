@@ -1,4 +1,4 @@
-import { Coordinates } from '@/hooks/useGeolocation';
+import { Coordinates } from '@/types/address';
 
 export interface GetContentParams {
   position: Coordinates | null;
@@ -14,14 +14,13 @@ export const getMapContents = async ({
   page = 1,
   follow,
 }: GetContentParams) => {
-  console.log('🚀 ~ follow:', follow);
   let result;
 
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
   const range = 10000000;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=1000&lat=${lat}&lon=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=1000&lat=${lat}&lng=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
 
   const response = await fetch(url, { method: 'GET' });
 
@@ -44,7 +43,7 @@ export const getCardContents = async ({
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=${size}&lat=${lat}&lon=${lng}&range=10000&distance_order=${distance}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=${size}&lat=${lat}&lng=${lng}&range=10000&distance_order=${distance}&follow=${follow}`;
 
   const response = await fetch(url, { method: 'GET' });
 

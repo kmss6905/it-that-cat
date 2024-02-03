@@ -1,8 +1,9 @@
-import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import IconCurrLocation from '@/assets/images/icon_currLocation.svg';
+import { Coordinates } from '@/types/address';
 
 interface CustomPinProps {
-  position?: { lat: number; lng: number };
+  position: Coordinates | null;
 }
 
 const CurrPin = ({ position }: CustomPinProps) => {

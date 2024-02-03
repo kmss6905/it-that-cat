@@ -20,3 +20,5 @@ export const personalityButtons = [
   { name: '😺 고양이들과 잘 지내요', value: 'GETS_ALONG_WITH_CATS' },
   { name: '🤔모르겠어요', value: 'UNSURE' },
 ];
+
+export const UNSURE = 'UNSURE';

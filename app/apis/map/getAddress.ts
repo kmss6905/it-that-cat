@@ -1,13 +1,4 @@
-import { Coordinates } from '@/hooks/useGeolocation';
-
-export interface RegionState {
-  addrName: string;
-  sido: string;
-  sigungu: string;
-  dong: string;
-  mainAddrNo: string;
-  subAddrNo: string;
-}
+import { Coordinates } from '@/types/address';
 
 const getAddress = async (position: Coordinates) => {
   const URL = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${position.lng}&y=${position.lat}`;
@@ -23,7 +14,7 @@ const getAddress = async (position: Coordinates) => {
 
     const result = {
       addrName: address.address_name,
-      mainAddrNo: address.address_no,
+      mainAddrNo: address.main_address_no,
       sido: address.region_1depth_name,
       sigungu: address.region_2depth_name,
       dong: address.region_3depth_name,
