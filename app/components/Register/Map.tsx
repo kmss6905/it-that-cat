@@ -12,6 +12,7 @@ import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
 import { Coordinates, GeolocationState, RegionState } from '@/types/address';
+import ContentMarkers from '../Map/ContentMarkers';
 
 const RegisterMap = ({
   isModifying,
@@ -34,14 +35,7 @@ const RegisterMap = ({
 }) => {
   const router = useRouter();
 
-  const pinList = [
-    { lat: 35.17183079055732, lng: 129.0556621326331 },
-    { lat: 35.1716984775722, lng: 129.05708553844048 },
-    { lat: 35.17275369644841, lng: 129.05557562177881 },
-    { lat: 35.171488702430636, lng: 129.0561720817253 },
-  ];
-
-  if (currentGeolocation === null) return null;
+  if (currentGeolocation.position === null) return null;
 
   const handleCenterChanged = async (map: any) => {
     const latlng = map.getCenter();
@@ -78,20 +72,18 @@ const RegisterMap = ({
       </div>
 
       <MapComponent
-        // position={position ? position : currentGeolocation.position}
+        position={position ? position : currentGeolocation.position}
         onCenterChanged={handleCenterChanged}
         isPanto
       >
-        {pinList.map(
-          (item) =>
-            position && (
-              <CustomPin
-                key={`${item.lat}-${item.lng}`}
-                position={item}
-                onClick={() => setPosition(item)}
-              />
-            ),
-        )}
+        <ContentMarkers
+          query={{
+            position: currentGeolocation.position
+              ? currentGeolocation.position
+              : null,
+            follow: false,
+          }}
+        />
         <CurrPin position={currentGeolocation.position} />
       </MapComponent>
 
@@ -102,7 +94,7 @@ const RegisterMap = ({
       <div className='absolute bottom-0 left-0 w-full z-30'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
-          className='ml-6'
+          className='absolute -top-3 left-6 -translate-y-full'
         />
 
         <div className='bg-white rounded-t-xl shadow-[0px_0px_16px_0px_rgba(0,0,0,0.25)] flex flex-col gap-5 px-6 pt-7 pb-[30px]'>

@@ -5,12 +5,12 @@ import { Coordinates } from '@/types/address';
 
 interface ContentMarkers {
   query: {
-    position: Coordinates;
+    position: Coordinates | null;
     level?: number | undefined;
     follow: boolean;
   };
-  isSelected: number | null;
-  onClick: (value: any) => void;
+  isSelected?: number | null;
+  onClick?: (value: any) => void;
 }
 
 const ContentMarkers = ({ query, isSelected, onClick }: ContentMarkers) => {
@@ -24,6 +24,7 @@ const ContentMarkers = ({ query, isSelected, onClick }: ContentMarkers) => {
         isSelected={contentId === isSelected}
         position={{ lat: lat, lng: lng }}
         onClick={() =>
+          onClick &&
           onClick({
             id: contentId,
             position: { lat: lat, lng: lng },
