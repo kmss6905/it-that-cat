@@ -12,6 +12,7 @@ export const pinList: ContentType[] = [
     group: 'YES',
     desc: '지난달 공원에 길고양이 겨울집이 설치된 이후로 따뜻하게 지내고 있어요. 사람도 좋아하고 애교가 많아서 공원의 마스코트입니다!!',
     createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
@@ -28,6 +29,7 @@ export const pinList: ContentType[] = [
     group: 'NO',
     desc: '저희 동네 대표 얼룩 냥이라서 용두동호랭이라고 이름 지어줬어요! 우리할매떡볶이 주변에 자주 나타나는 것 같습니다. 이름 부르면서 손짓하면 다가와서 궁디팡팡 해달라고 애교부리는데... 심장 녹아요...💛',
     createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
@@ -44,6 +46,7 @@ export const pinList: ContentType[] = [
     group: 'YES',
     desc: '사람이 가까이 다가가면 도망가지만 멀리서 보면 고양이 무리들과 잘 놀고 있어요ㅎㅎ 친해지고 싶지만 아직은 제게는 먼 뽀시래기 입니다.',
     createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     addrName: '부산 부산진구 연지동 75-4',
     comment: 24,
     follow: 106,
@@ -60,6 +63,7 @@ export const pinList: ContentType[] = [
     group: 'NO',
     desc: '누구보다 예쁘다고 자신하는 만두입니다!! 순하고 애교가 많아서 가끔 저와 눈을 오래 마주치고 있을때도 있는데요. 만두의 눈을 보고 있으면 마음이 평온해지는 느낌이 들어요💛',
     createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
@@ -76,9 +80,43 @@ export const pinList: ContentType[] = [
     group: 'NO',
     desc: '저희 동네 네로입니다. 보통 치즈냥이들은 많지만 검은 고양이는 보기 어려운데 저희동네에는 있네요ㅎㅎ 길고양이 보다는 아직 야생쪽에 가까워서 사냥습성이 있는거 같긴해요. 주로 멀리서 보고 마음으로 아껴주고 있는 중입니다..총총',
     createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
     addrName: '부산 부산진구 연지동 74-1',
     comment: 24,
     follow: 106,
     catEmoji: 5,
+  },
+];
+
+export const comments = [
+  {
+    id: 0,
+    nickname: '방구집사수아임당',
+    comment:
+      '드뎌 저도 봤어요...!!! 더미더미더미 텍스트 더미가 더미를 했는데 와 진짜 더미해요ㅠㅠ 참고로 간식을 진짜 잘 먹더라구요. 편의점에서 츄르 하나씩 사서 가세용..ㅎㅎ',
+    likes: 26,
+    isLike: true,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
+  },
+  {
+    id: 1,
+    nickname: '백엔드가짱입니다',
+    comment: `거창에도 귀여운 냥이는 존재한다. 진짜 짱 귀엽다.
+      세상 모든 사람들이 우리 동네 길냥이들을 알았으면 좋겠다.`,
+    likes: 1123,
+    isLike: false,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
+  },
+  {
+    id: 2,
+    nickname: '고양이알러지짜증나ㅠ',
+    comment:
+      '드뎌 저도 봤어요...!!! 더미더미더미 텍스트 더미가 더미를 했는데 와 진짜 더미해요ㅠㅠ 참고로 간식을 진짜 잘 먹더라구요. 편의점에서 츄르 하나씩 사서 가세용..ㅎㅎ',
+    likes: 124124,
+    isLike: true,
+    createdAt: '2024-01-18',
+    updatedAt: '2024-01-18',
   },
 ];

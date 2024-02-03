@@ -1,5 +1,5 @@
-import { MapMarker } from 'react-kakao-maps-sdk';
-import currPin from '@/assets/images/icon_currPin.png';
+import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
+import IconCurrLocation from '@/assets/images/icon_currLocation.svg';
 
 interface CustomPinProps {
   position?: { lat: number; lng: number };
@@ -9,26 +9,21 @@ const CurrPin = ({ position }: CustomPinProps) => {
   if (!position) return null;
 
   return (
-    <MapMarker
+    <CustomOverlayMap
       position={{
         lat: position.lat,
         lng: position.lng,
       }}
       clickable={false}
-      image={{
-        src: `${currPin.src}`,
-        size: {
-          width: 78,
-          height: 78,
-        },
-        options: {
-          offset: {
-            x: 39,
-            y: 39,
-          },
-        },
-      }}
-    />
+    >
+      <div className='relative w-[70px] h-[70px] flex justify-center items-center'>
+        <div
+          className='absolute left-0 top-0 bg-[rgba(53,129,255,0.10)]
+        rounded-full w-full h-full animate-pingCustom'
+        ></div>
+        <IconCurrLocation />
+      </div>
+    </CustomOverlayMap>
   );
 };
 

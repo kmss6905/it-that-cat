@@ -1,22 +1,18 @@
 'use client';
-import useGeolocation from '@/hooks/useGeolocation';
-import useKakaoLoader from '@/hooks/useKakaoLoader';
-import MapComponent from '@/components/Map/Map';
-import useAddress from '@/hooks/useAddress';
-import getAddress from '@/apis/map/getAddress';
-import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
-import CustomPin from '@/components/Map/CustomPin';
-import IconX from '@/assets/images/icon_x.svg';
 import { useRouter } from 'next/navigation';
+import useGeolocation from '@/hooks/useGeolocation';
+import useAddress from '@/hooks/useAddress';
+import MapComponent from '@/components/Map/Map';
+import getAddress from '@/apis/map/getAddress';
+import CustomPin from '@/components/Map/CustomPin';
 import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import { useGeolocationStore } from '@/stores/register/store';
-import { useEffect } from 'react';
+import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
+import IconX from '@/assets/images/icon_x.svg';
+import { useGeolocationStore } from '@/stores/home/store';
 
 const RegisterMapPage = () => {
-  useKakaoLoader();
-
   const currentGeolocation = useGeolocation();
   const initAddress = useAddress();
 
@@ -34,10 +30,6 @@ const RegisterMapPage = () => {
     { lat: 35.17275369644841, lng: 129.05557562177881 },
     { lat: 35.171488702430636, lng: 129.0561720817253 },
   ];
-
-  useEffect(() => {
-    setAddress(initAddress);
-  }, [initAddress]);
 
   if (currentGeolocation.position === null) return null;
 

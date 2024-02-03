@@ -1,9 +1,11 @@
 import { catIllust } from '@/constants/catIllust';
 import Image from 'next/image';
-import IconLocation from '@/assets/images/icon_location.svg';
+import IconDistance from '@/assets/images/icon_distance.svg';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useEffect, useState } from 'react';
 import { getDistance } from '@/utils/calcDistance';
+import getDateFormat from '@/utils/getDateFormat';
+import transformDistance from '@/utils/transformDistance';
 
 export interface ContentType {
   id: number;
@@ -16,6 +18,7 @@ export interface ContentType {
   personality: string[] | [];
   desc: string;
   createdAt: string;
+  updatedAt: string;
   addrName: string;
   comment: number;
   follow: number;
@@ -41,12 +44,13 @@ const ContentCard = ({ content }: ContentCardProps) => {
   }, [geolocation.position, lat, lng]);
 
   return (
-    <div className='flex gap-3 w-full h-full px-4 py-5'>
+    <div className='flex gap-3 w-full h-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.20)]'>
       <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative'>
         <Image
           src={cat.image.src}
           alt='고양이 일러스트'
           fill
+          sizes='100%'
           className='object-contain p-2'
         />
       </div>
@@ -64,13 +68,17 @@ const ContentCard = ({ content }: ContentCardProps) => {
             <span>·</span>
             <span>팔로워 {follow}명</span>
           </div>
-          <p className='caption text-gray-200'>{createdAt} 등록</p>
+          <p className='caption text-gray-200'>
+            {getDateFormat(createdAt)} 등록
+          </p>
         </div>
 
         <div className='flex justify-end'>
           <div className='bg-primary-100 flex gap-[2px] items-center rounded text-primary-400 px-6px py-1 caption2'>
-            <IconLocation />
-            <span>{distance !== null ? distance : '000'}m</span>
+            <IconDistance />
+            <span>
+              {distance !== null ? transformDistance(distance) : '000'}
+            </span>
           </div>
         </div>
       </div>
