@@ -18,6 +18,7 @@ import { Label, TextInput, TextareaInput } from '@/components/Input';
 import Button from '@/components/Button';
 import { randomCatNameList } from '@/constants/randomCatNameList';
 import {
+  UNSURE,
   groupButtons,
   neuterButtons,
   personalityButtons,
@@ -69,11 +70,11 @@ const RegisterPost = ({
     let catPersonalities = [...catInfo.catPersonalities];
 
     // 모르겠어요 눌렀을 때
-    if (value === 'UNSURE') {
-      if (catPersonalities.includes('UNSURE')) {
+    if (value === UNSURE) {
+      if (catPersonalities.includes(UNSURE)) {
         setCatInfo({ ...catInfo, catPersonalities: [] });
       } else {
-        setCatInfo({ ...catInfo, catPersonalities: ['UNSURE'] });
+        setCatInfo({ ...catInfo, catPersonalities: [UNSURE] });
       }
       return;
     }
@@ -94,9 +95,9 @@ const RegisterPost = ({
     }
 
     // 모르겠어요가 이미 눌러져 있을 때
-    if (catPersonalities.includes('UNSURE')) {
+    if (catPersonalities.includes(UNSURE)) {
       catPersonalities = catPersonalities.filter(
-        (personalityValue) => personalityValue !== 'UNSURE',
+        (personalityValue) => personalityValue !== UNSURE,
       );
     }
 
@@ -135,8 +136,16 @@ const RegisterPost = ({
   const onClickRegister = async () => {
     const base64s = images.map((image) => (image ? image.toString() : ''));
     const saveImageUrls = await Promise.all(base64s.map(saveImage));
-    const data: RegisterCatObjProps = {
+    const updatedCatInfo = {
       ...catInfo,
+      group: catInfo.group ? catInfo.group : UNSURE,
+      neuter: catInfo.neuter ? catInfo.neuter : UNSURE,
+      catPersonalities: catInfo.catPersonalities.length
+        ? catInfo.catPersonalities
+        : [UNSURE],
+    };
+    const data: RegisterCatObjProps = {
+      ...updatedCatInfo,
       images: saveImageUrls,
       catEmoji: 1,
     };
