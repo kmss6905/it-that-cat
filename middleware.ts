@@ -7,19 +7,28 @@ export function middleware(request: NextRequest) {
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
+
   const url = request.nextUrl.clone();
+
   if (accessToken && refreshToken) {
     if (request.nextUrl.pathname.startsWith('/login')) {
       if (nickname && nickname.value) {
         url.pathname = '/';
         return NextResponse.redirect(url);
-      } else {
-        url.pathname = '/login/nickname';
+      }
+    }
+
+    if (!nickname || !nickname.value) {
+      url.pathname = '/login/nickname';
+
+      if (!request.url.includes('/login')) {
         return NextResponse.redirect(url);
       }
     }
   }
+
   const protectedRoutes = ['/register', '/content/register'];
+
   if (!accessToken || !refreshToken) {
     if (
       protectedRoutes.filter((value) =>
