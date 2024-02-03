@@ -14,6 +14,8 @@ import IconNewContent from '@/assets/images/icon_newContent.svg';
 import getSelectContent from '@/apis/map/getSelectContent';
 import getAddress from '@/apis/map/getAddress';
 import { ContentObjProps } from '@/types/content';
+import UnAuthUserPopup from '@/components/UnAuthUserPopup';
+import getCookies from '@/apis/getCookie';
 
 export default function Home() {
   const router = useRouter();
@@ -24,14 +26,26 @@ export default function Home() {
 
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
+  const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [catMark, setCatMark] = useState<boolean>(false);
   const [content, setContent] = useState<ContentObjProps | null>(null);
+  const [cookie, setCookie] = useState<{ [key: string]: any } | null>(null);
 
   useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
       setPosition(currentPosition.position);
     }
   }, [geolocation.position, currentPosition.position, setPosition]);
+
+  useEffect(() => {
+    if (document) {
+      const cookies = Object.fromEntries(
+        document?.cookie?.split(';').map((cookie) => cookie.trim().split('=')),
+      );
+
+      setCookie(cookies);
+    }
+  }, []);
 
   const handleChangeCenter = useCallback(
     async (map: any) => {
@@ -73,6 +87,9 @@ export default function Home() {
 
   return (
     <div className='relative h-full overflow-hidden'>
+      {popupOpen ? (
+        <UnAuthUserPopup setIsOpen={(value: boolean) => setPopupOpen(value)} />
+      ) : null}
       <CatMark
         isChecked={catMark}
         type='Map'
@@ -108,7 +125,11 @@ export default function Home() {
 
         <FloatingBtn
           Icon={IconNewContent}
-          onClick={() => router.push('/register/map')}
+          onClick={() =>
+            cookie && cookie?.accessToken
+              ? router.push('/register')
+              : setPopupOpen(true)
+          }
           className='bg-primary-500 absolute right-6 -top-[68px]'
         >
           새로운 냥이 등록
