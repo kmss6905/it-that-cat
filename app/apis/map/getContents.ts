@@ -1,4 +1,4 @@
-import { Coordinates } from '@/hooks/useGeolocation';
+import { Coordinates } from '@/types/address';
 
 export interface GetContentParams {
   position: Coordinates | null;

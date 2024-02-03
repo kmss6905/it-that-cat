@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import getAddress, { RegionState } from '@/apis/map/getAddress';
+import getAddress from '@/apis/map/getAddress';
 import useGeolocation from '@/hooks/useGeolocation';
+import { RegionState } from '@/types/address';
 
 const useAddress = () => {
   const geolocation = useGeolocation();
-  const [region, setRegion] = useState<null | RegionState>(null);
+  const [region, setRegion] = useState<RegionState | null>(null);
 
   useEffect(() => {
     if (geolocation.position) {
