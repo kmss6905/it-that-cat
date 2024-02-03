@@ -88,7 +88,7 @@ const RegisterCommentPage = () => {
         </button>
       </div>
 
-      <form className='p-6 pt-3 flex flex-col gap-7 mb-[100px]'>
+      <form className='p-6 pt-3 flex flex-col gap-7'>
         <div>
           <Label addTextBottom='냥이의 상태, 먹이를 준 유무, 최근 사진 등의 정보 공유는 올바른 돌봄 문화를 함께 만들어 나가는데 도움이 돼요.'>
             냥이를 만난 이야기를 들려주세요!
