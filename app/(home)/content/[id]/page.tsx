@@ -11,10 +11,6 @@ import { pinList } from '@/constants/contentMockData';
 import { DetailInfo } from '@/components/Content/DetailInfo';
 import { CatNews } from '@/components/Content/CatNews';
 
-export interface ContentType {
-  id: number;
-}
-
 const tabName = [
   { name: '상세 정보', value: 'detailInfo' },
   { name: '냥이 소식', value: 'catNews' },

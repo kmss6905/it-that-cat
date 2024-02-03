@@ -1,7 +1,7 @@
 'use client';
-import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from './CustomPin';
-import { Coordinates } from '@/hooks/useGeolocation';
+import { useMapContents } from '@/hooks/useGetContent';
+import { Coordinates } from '@/types/address';
 
 interface ContentMarkers {
   query: {

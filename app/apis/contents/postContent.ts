@@ -1,6 +1,6 @@
 'use server';
+import { RegisterCatObjProps } from '@/types/content';
 import { cookies } from 'next/headers';
-import { RegisterCatObjProps } from '@/(home)/register/post/page';
 
 const postContent = async (data: RegisterCatObjProps) => {
   const cookieStore = cookies();

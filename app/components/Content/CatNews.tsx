@@ -13,7 +13,7 @@ export const CatNews = () => {
 
       {comments.length ? (
         comments.map((comment, index) => (
-          <div key={comment.id}>
+          <div key={comment.contentId}>
             <div className='caption2 text-gray-400 mb-2'>
               {comment.nickname}
             </div>
