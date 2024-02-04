@@ -52,8 +52,8 @@ export default function Home() {
       const latlng = map.getCenter();
       const position = { lat: latlng.getLat(), lng: latlng.getLng() };
 
-      setPosition(position);
       setLevel(level);
+      setPosition(position);
 
       await getAddress(position).then((addr) => addr && setAddress(addr));
     },

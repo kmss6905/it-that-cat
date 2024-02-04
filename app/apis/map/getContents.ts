@@ -1,28 +1,35 @@
+'use server';
 import { Coordinates } from '@/types/address';
+import { cookies } from 'next/headers';
 
 export interface GetContentParams {
   position: Coordinates | null;
   size?: number | undefined;
   distance?: 'desc' | 'asc';
   follow: boolean;
-  page?: number;
+  pageParam?: number;
 }
 
 export const getMapContents = async ({
   position,
   distance = 'asc',
-  page = 1,
+  pageParam = 1,
   follow,
 }: GetContentParams) => {
+  const accessToken = cookies().get('accessToken');
+
   let result;
 
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
-  const range = 10000000;
+  const range = 100000000;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=1000&lat=${lat}&lng=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=1000&lat=${lat}&lng=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
 
-  const response = await fetch(url, { method: 'GET' });
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { Authorization: 'Bearer ' + `${accessToken}` },
+  });
 
   result = await response.json();
 
@@ -34,18 +41,23 @@ export const getMapContents = async ({
 
 export const getCardContents = async ({
   position,
-  size = 10,
+  size = 50,
   distance = 'asc',
-  page = 1,
+  pageParam,
   follow = false,
 }: GetContentParams) => {
+  const accessToken = cookies().get('accessToken');
+
   let result;
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${page}&size=${size}&lat=${lat}&lng=${lng}&range=10000&distance_order=${distance}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=10000&distance_order=${distance}&follow=${follow}`;
 
-  const response = await fetch(url, { method: 'GET' });
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { Authorization: 'Bearer ' + `${accessToken}` },
+  });
 
   result = await response.json();
 

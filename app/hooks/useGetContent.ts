@@ -16,11 +16,15 @@ import { useInfiniteQuery, useQuery } from 'react-query';
 export const useCardContents = (data: GetContentParams) => {
   return useInfiniteQuery(
     [queryCardContentsKey, data.position, data.follow],
-    () => getCardContents(data),
+    ({ pageParam = 1 }) => getCardContents({ ...data, pageParam }),
     {
-      getNextPageParam: (lastPage, allPage) => {
+      getNextPageParam: (lastPage) => {
+        const itemsNum = lastPage.totalItems % lastPage.pageSize;
+        const pages = lastPage.totalItems / lastPage.pageSize;
+        const totalPages =
+          itemsNum === 0 ? Math.floor(pages) - 1 : Math.floor(pages);
         return lastPage.currentPage < lastPage.totalPages
-          ? lastPage.page + 1
+          ? lastPage.currentPage + 1
           : undefined;
       },
       staleTime: 1,

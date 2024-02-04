@@ -23,8 +23,8 @@ const getAddress = async (position: Coordinates) => {
     if (data) {
       return result;
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log('🚀 ~ getAddress ~ err:', error);
   }
 };
 
