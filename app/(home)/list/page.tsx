@@ -99,9 +99,7 @@ const ListViewPage = () => {
           catMark && <NoFollowListPage />
         )}
         {/* 등록된 고양이가 없을 때 */}
-        {!isLoading && !catMark && !contentsData && !contentsData ? (
-          <NoListPage />
-        ) : null}
+        {!isLoading && !catMark && !contentsData ? <NoListPage /> : null}
         <div ref={ref}></div>
       </div>
 
