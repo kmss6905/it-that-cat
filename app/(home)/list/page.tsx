@@ -25,7 +25,6 @@ const ListViewPage = () => {
 
   const [page, setPage] = useState(1);
   const [ref, inView] = useInView();
-  console.log('🚀 ~ ListViewPage ~ inView:', inView);
 
   const [selectedFilter, setSelectedFilter] = useState<SelectedFilterState>(
     options[0],
@@ -38,8 +37,6 @@ const ListViewPage = () => {
     follow: catMark,
   });
 
-  console.log('🚀 ~ ListViewPage ~ data:', data);
-  console.log('🚀 ~ ListViewPage ~ hasNextPage:', hasNextPage);
   const contentsData = useMemo(() => {
     const result = data
       ? data.pages.flatMap((items, idx) => (idx !== 1 ? items.items : []))
@@ -47,7 +44,7 @@ const ListViewPage = () => {
 
     if (selectedFilter.id === 'popularity') {
       const filteredItems = result.sort(
-        (a, b) => a.countOfFollowed - b.countOfFollowed,
+        (a, b) => b.countOfFollowed - a.countOfFollowed,
       );
       return filteredItems;
     }
