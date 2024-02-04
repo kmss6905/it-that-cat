@@ -5,9 +5,24 @@ import IconHeartFill from '@/assets/images/icon_heartFill.svg';
 import { useComments } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import ImageWrapper from '../ImageWrapper';
+import deleteLike from '@/apis/contents/deleteLike';
+import postLike from '@/apis/contents/postLike';
+import { ResType } from '@/apis/type';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
-  const { data, isSuccess } = useComments(contentId);
+  const { data, isSuccess, refetch } = useComments(contentId);
+
+  const onClickLike = async (commentId: string) => {
+    if (!contentId) return;
+
+    const res: ResType<string> = data.isFollowed
+      ? await deleteLike({ commentId }, contentId)
+      : await postLike({ commentId }, contentId);
+
+    if (res.result === 'SUCCESS') {
+      refetch();
+    }
+  };
 
   if (isSuccess)
     return (
@@ -46,6 +61,7 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
               </div>
               <div className='flex justify-between items-center'>
                 <button
+                  onClick={() => onClickLike(comment.commentId)}
                   className={`border rounded-full flex gap-[6px] px-[10px] py-[6px] items-center caption
               ${
                 comment.isLike

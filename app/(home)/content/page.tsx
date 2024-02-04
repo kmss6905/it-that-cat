@@ -46,7 +46,6 @@ const SuspenseRegisterPostPage = () => {
       ? await deleteFollow({ contentId })
       : await postFollow({ contentId });
 
-    console.log(res);
     if (res.result === 'SUCCESS') {
       refetch();
     }
