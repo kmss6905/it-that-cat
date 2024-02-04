@@ -8,6 +8,8 @@ export function middleware(request: NextRequest) {
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
 
+  const protectedRoutes = ['/register', '/content/register'];
+
   const url = request.nextUrl.clone();
 
   if (accessToken && refreshToken) {
@@ -23,11 +25,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(url);
       }
     }
-  }
-
-  const protectedRoutes = ['/register', '/content/register'];
-
-  if (!accessToken || !refreshToken) {
+  } else if (!accessToken || !refreshToken) {
     if (
       protectedRoutes.filter((value) =>
         request.nextUrl.pathname.includes(value),
@@ -37,6 +35,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   }
+  return NextResponse.next();
 }
 
 export const config = {

@@ -19,8 +19,8 @@ const ContentCard = ({ content }: ContentCardProps) => {
     name,
     createdAt,
     jibunAddrName,
-    numberOfComments,
-    numberOfCatSlaves,
+    countOfFollowed,
+    countOfComments,
     catEmoji,
   } = content;
 
@@ -58,9 +58,9 @@ const ContentCard = ({ content }: ContentCardProps) => {
           </div>
           <div className='flex flex-col gap-[6px]'>
             <div className='flex gap-1 text-gray-300 caption'>
-              <span>댓글 {numberOfComments}개</span>
+              <span>댓글 {countOfComments}개</span>
               <span>·</span>
-              <span>팔로워 {numberOfCatSlaves}명</span>
+              <span>팔로워 {countOfFollowed}명</span>
             </div>
             <p className='caption text-gray-200'>
               {getDateFormat(createdAt)} 등록
