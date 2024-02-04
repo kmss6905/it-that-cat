@@ -12,10 +12,10 @@ import { ResType } from '@/apis/type';
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
   const { data, isSuccess, refetch } = useComments(contentId);
 
-  const onClickLike = async (commentId: string) => {
+  const onClickLike = async (commentId: string, isCatCommentLiked: string) => {
     if (!contentId) return;
 
-    const res: ResType<string> = data.isFollowed
+    const res: ResType<string> = isCatCommentLiked
       ? await deleteLike({ commentId }, contentId)
       : await postLike({ commentId }, contentId);
 
@@ -61,10 +61,12 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
               </div>
               <div className='flex justify-between items-center'>
                 <button
-                  onClick={() => onClickLike(comment.commentId)}
+                  onClick={() =>
+                    onClickLike(comment.commentId, comment.isCatCommentLiked)
+                  }
                   className={`border rounded-full flex gap-[6px] px-[10px] py-[6px] items-center caption
               ${
-                comment.isLike
+                comment.isCatCommentLiked
                   ? 'text-primary-500 border-primary-300'
                   : 'text-gray-200 border-gray-100'
               }`}
