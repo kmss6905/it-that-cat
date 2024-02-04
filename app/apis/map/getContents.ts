@@ -28,7 +28,7 @@ export const getMapContents = async ({
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: { Authorization: 'Bearer ' + `${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken?.value}` },
   });
 
   result = await response.json();
@@ -47,6 +47,7 @@ export const getCardContents = async ({
   follow = false,
 }: GetContentParams) => {
   const accessToken = cookies().get('accessToken');
+  console.log('🚀 ~ accessToken:', accessToken);
 
   let result;
   const lat = position !== null ? position.lat : 37.574187;
@@ -56,7 +57,7 @@ export const getCardContents = async ({
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: { Authorization: 'Bearer ' + `${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken?.value}` },
   });
 
   result = await response.json();
