@@ -22,7 +22,7 @@ export const useCardContents = (data: GetContentParams) => {
         const itemsNum = lastPage.totalItems % lastPage.pageSize;
         const pages = lastPage.totalItems / lastPage.pageSize;
         const totalPages =
-          itemsNum === 0 ? Math.floor(pages) - 1 : Math.floor(pages);
+          itemsNum === 0 ? Math.floor(pages) : Math.floor(pages) + 1;
         return lastPage.currentPage < lastPage.totalPages
           ? lastPage.currentPage + 1
           : undefined;

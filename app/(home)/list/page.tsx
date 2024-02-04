@@ -57,7 +57,7 @@ const ListViewPage = () => {
   useEffect(() => {
     if (hasNextPage && inView) {
       // setPage((prev) => prev++);
-      fetchNextPage();
+      // fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inView]);
 

@@ -41,7 +41,7 @@ export const getMapContents = async ({
 
 export const getCardContents = async ({
   position,
-  size = 50,
+  size = 100,
   distance = 'asc',
   pageParam,
   follow = false,
@@ -52,7 +52,7 @@ export const getCardContents = async ({
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=10000&distance_order=${distance}&follow=${follow}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=1000&distance_order=${distance}&follow=${follow}`;
 
   const response = await fetch(url, {
     method: 'GET',

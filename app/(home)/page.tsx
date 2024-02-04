@@ -31,6 +31,16 @@ export default function Home() {
   const [cookie, setCookie] = useState<{ [key: string]: any } | null>(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const visited = localStorage.getItem('visited');
+
+      if (!visited) {
+        router.push('/login');
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
       setPosition(currentPosition.position);
     }
