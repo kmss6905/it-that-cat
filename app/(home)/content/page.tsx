@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import IconX from '@/assets/images/icon_x.svg';
+import IconFollowMark from '@/assets/images/icon_followMark.svg';
+import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
 import RegisterBtn from '@/components/RegisterBtn';
 import { catIllust } from '@/constants/catIllust';
 import { DetailInfo } from '@/components/Content/DetailInfo';
@@ -12,6 +14,9 @@ import { CatNews } from '@/components/Content/CatNews';
 import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
+import { ResType } from '@/apis/type';
+import postFollow from '@/apis/contents/postFollow';
+import deleteFollow from '@/apis/contents/deleteFollow';
 
 const RegisterPostPage = () => {
   return (
@@ -32,9 +37,21 @@ const SuspenseRegisterPostPage = () => {
   const [tab, setTab] = useState('detailInfo');
   const params = useSearchParams();
   const contentId = params.get('id');
-  const content = useContent(contentId) as any;
+  const { data, refetch, isSuccess } = useContent(contentId);
 
-  if (content.isSuccess)
+  const onClickFollow = async () => {
+    if (!contentId) return;
+
+    const res: ResType<string> = data.isFollowed
+      ? await deleteFollow({ contentId })
+      : await postFollow({ contentId });
+
+    if (res.result === 'SUCCESS') {
+      refetch();
+    }
+  };
+
+  if (isSuccess)
     return (
       <Fragment>
         <div className='w-full relative p-5 pt-6'>
@@ -47,13 +64,12 @@ const SuspenseRegisterPostPage = () => {
         </div>
 
         <div className='flex h-full flex-col'>
-          <div className='px-6 py-3 flex'>
+          <div className='px-6 py-3 flex relative'>
             <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative mr-3'>
               <Image
                 src={
-                  catIllust.filter(
-                    (cat) => cat.id === Number(content.data.catEmoji),
-                  )[0].image.src
+                  catIllust.filter((cat) => cat.id === Number(data.catEmoji))[0]
+                    .image.src
                 }
                 alt='고양이 일러스트'
                 fill
@@ -62,12 +78,18 @@ const SuspenseRegisterPostPage = () => {
               />
             </div>
             <div className='flex flex-col gap-1'>
-              <h3 className='heading2 text-gray-500'>{content.data.name}</h3>
+              <h3 className='heading2 text-gray-500'>{data.name}</h3>
               <p className='caption text-gray-300 flex items-center'>
-                {content.data.nickname} 등록
+                {data.nickname} 등록
                 <span className='inline-block w-[1.5px] h-[14px] bg-gray-300 mx-[6px] '></span>
-                {getDateFormat(content.data.createdAt)}
+                {getDateFormat(data.createdAt)}
               </p>
+            </div>
+            <div
+              className='absolute right-12 top-4 cursor-pointer'
+              onClick={onClickFollow}
+            >
+              {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
             </div>
           </div>
 
@@ -95,7 +117,7 @@ const SuspenseRegisterPostPage = () => {
           </div>
 
           {tab === 'detailInfo' ? (
-            <DetailInfo content={content.data} />
+            <DetailInfo content={data} />
           ) : (
             <CatNews contentId={contentId} />
           )}

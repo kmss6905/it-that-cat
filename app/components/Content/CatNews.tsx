@@ -5,20 +5,35 @@ import IconHeartFill from '@/assets/images/icon_heartFill.svg';
 import { useComments } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import ImageWrapper from '../ImageWrapper';
+import deleteLike from '@/apis/contents/deleteLike';
+import postLike from '@/apis/contents/postLike';
+import { ResType } from '@/apis/type';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
-  const comments = useComments(contentId) as any;
+  const { data, isSuccess, refetch } = useComments(contentId);
 
-  if (comments.isSuccess)
+  const onClickLike = async (commentId: string, isCatCommentLiked: string) => {
+    if (!contentId) return;
+
+    const res: ResType<string> = isCatCommentLiked
+      ? await deleteLike({ commentId }, contentId)
+      : await postLike({ commentId }, contentId);
+
+    if (res.result === 'SUCCESS') {
+      refetch();
+    }
+  };
+
+  if (isSuccess)
     return (
       <div className='p-6'>
         <div className={`flex gap-1 pb-5 subHeading`}>
           <div>냥이의 근황을 공유해요</div>
-          <span className='text-gray-300'>{comments.data.items.length}개</span>
+          <span className='text-gray-300'>{data.items.length}개</span>
         </div>
 
-        {comments.data.items.length ? (
-          comments.data.items.map((comment: any, index: number) => (
+        {data.items.length ? (
+          data.items.map((comment: any, index: number) => (
             <div key={comment.commentId}>
               <div className='caption2 text-gray-400 mb-2'>
                 {comment.userNickname}
@@ -46,9 +61,12 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
               </div>
               <div className='flex justify-between items-center'>
                 <button
+                  onClick={() =>
+                    onClickLike(comment.commentId, comment.isCatCommentLiked)
+                  }
                   className={`border rounded-full flex gap-[6px] px-[10px] py-[6px] items-center caption
               ${
-                comment.isLike
+                comment.isCatCommentLiked
                   ? 'text-primary-500 border-primary-300'
                   : 'text-gray-200 border-gray-100'
               }`}
@@ -64,7 +82,7 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
                   {getDateFormat(comment.createdAt)}
                 </div>
               </div>
-              {index !== comments.data.items.length - 1 ? (
+              {index !== data.items.length - 1 ? (
                 <div className='w-full h-[1px] bg-gray-50 mt-4 mb-5' />
               ) : null}
             </div>

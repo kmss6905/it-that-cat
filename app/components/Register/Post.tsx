@@ -9,6 +9,8 @@ import React, {
 } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import IconX from '@/assets/images/icon_x.svg';
 import IconRandom from '@/assets/images/icon_random.svg';
@@ -29,6 +31,13 @@ import { saveImage } from '@/apis/image/saveImage';
 import postContent from '@/apis/contents/postContent';
 import { ResType } from '@/apis/type';
 import { CatObjProps, RegisterCatObjProps } from '@/types/content';
+import { catIllust } from '@/constants/catIllust';
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+};
 
 const RegisterPost = ({
   setIsModifying,
@@ -45,6 +54,7 @@ const RegisterPost = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+  const [catEmoji, setCatEmoji] = useState<number>(1);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -146,7 +156,7 @@ const RegisterPost = ({
     const data: RegisterCatObjProps = {
       ...updatedCatInfo,
       images: saveImageUrls,
-      catEmoji: 1,
+      catEmoji: catEmoji,
     };
     const res: ResType<{ contentId: string }> = await postContent(data);
     if (res.result === 'SUCCESS') {
@@ -166,7 +176,7 @@ const RegisterPost = ({
         </button>
       </div>
 
-      <form className='p-6 pt-3 flex flex-col gap-7 pb-[132px]'>
+      <form className='p-6 pt-3 flex flex-col gap-7'>
         <div>
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
@@ -207,6 +217,34 @@ const RegisterPost = ({
               </div>
             </Button>
           </div>
+        </div>
+
+        <div>
+          <Label
+            isRequired={true}
+            addTextBottom='냥이의 털색깔과 얼룩을 참고해 선택해주세요'
+          >
+            프로필 캐릭터
+          </Label>
+          <Swiper slidesPerView={4}>
+            {catIllust.map(({ id, image }) => (
+              <SwiperSlide key={id}>
+                <div
+                  className={`w-[70px] h-[70px] rounded-full  bg-gray-50 relative mb-3 box-border
+                  ${catEmoji === id ? 'border border-primary-300' : null}`}
+                  onClick={() => setCatEmoji(id)}
+                >
+                  <Image
+                    src={image}
+                    alt='고양이 일러스트'
+                    fill
+                    sizes='100'
+                    className='object-contain p-2'
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
         <div>
