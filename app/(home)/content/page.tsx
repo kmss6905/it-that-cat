@@ -46,6 +46,7 @@ const SuspenseRegisterPostPage = () => {
       ? await deleteFollow({ contentId })
       : await postFollow({ contentId });
 
+    console.log(res);
     if (res.result === 'SUCCESS') {
       refetch();
     }
@@ -85,8 +86,11 @@ const SuspenseRegisterPostPage = () => {
                 {getDateFormat(data.createdAt)}
               </p>
             </div>
-            <div className='absolute right-12 top-4' onClick={onClickFollow}>
-              {data.isBookMark ? <IconFollowMarkFill /> : <IconFollowMark />}
+            <div
+              className='absolute right-12 top-4 cursor-pointer'
+              onClick={onClickFollow}
+            >
+              {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
             </div>
           </div>
 
