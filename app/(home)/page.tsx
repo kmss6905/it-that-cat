@@ -31,6 +31,16 @@ export default function Home() {
   const [cookie, setCookie] = useState<{ [key: string]: any } | null>(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const visited = localStorage.getItem('visited');
+
+      if (!visited) {
+        router.push('/login');
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
       setPosition(currentPosition.position);
     }
@@ -52,8 +62,8 @@ export default function Home() {
       const latlng = map.getCenter();
       const position = { lat: latlng.getLat(), lng: latlng.getLng() };
 
-      setPosition(position);
       setLevel(level);
+      setPosition(position);
 
       await getAddress(position).then((addr) => addr && setAddress(addr));
     },
@@ -119,7 +129,7 @@ export default function Home() {
       <div className='absolute bottom-3 px-6 z-20 w-full'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
-          className='absolute -top-3 left-6 -translate-y-full'
+          className='absolute -top-7 left-6 -translate-y-full'
         />
 
         <FloatingBtn
@@ -129,14 +139,14 @@ export default function Home() {
               ? router.push('/register')
               : setPopupOpen(true)
           }
-          className='bg-primary-500 absolute right-6 -top-[68px]'
+          className='bg-primary-500 absolute right-6 -top-[84px]'
         >
           새로운 냥이 등록
         </FloatingBtn>
         <FloatingBtn
           Icon={IconList}
           onClick={() => router.push('/list')}
-          className='bg-gray-500 absolute -top-3 right-6'
+          className='bg-gray-500 absolute -top-7 right-6'
         >
           목록보기
         </FloatingBtn>

@@ -10,7 +10,9 @@ interface TootipProps {
 const Tooltip = ({ children, direction = 'top' }: TootipProps) => {
   return (
     <div className={`tooltipWrapper`}>
-      <IconI />
+      <span>
+        <IconI />
+      </span>
       <div
         className={`tooltip
         ${direction === 'top' ? 'before:block absolute -left-8 -top-16' : ''}

@@ -7,20 +7,25 @@ export function middleware(request: NextRequest) {
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
+
+  const protectedRoutes = ['/register', '/content/register'];
+
   const url = request.nextUrl.clone();
+
   if (accessToken && refreshToken) {
-    if (request.nextUrl.pathname.startsWith('/login')) {
+    if (request.url.includes('/login')) {
       if (nickname && nickname.value) {
         url.pathname = '/';
         return NextResponse.redirect(url);
-      } else {
+      }
+    } else {
+      if (!nickname || !nickname.value) {
         url.pathname = '/login/nickname';
+
         return NextResponse.redirect(url);
       }
     }
-  }
-  const protectedRoutes = ['/register', '/content/register'];
-  if (!accessToken || !refreshToken) {
+  } else if (!accessToken || !refreshToken) {
     if (
       protectedRoutes.filter((value) =>
         request.nextUrl.pathname.includes(value),

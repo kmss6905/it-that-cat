@@ -3,9 +3,20 @@ import LoginBtn from '@/components/Login/LoginBtn';
 import { useRouter } from 'next/navigation';
 import LogoKakao from '@/assets/images/logo_kakao.svg';
 import Logo from '@/assets/images/logo.svg';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const visited = localStorage.getItem('visited');
+
+      if (!visited) {
+        localStorage.setItem('visited', 'true');
+      }
+    }
+  }, []);
 
   return (
     <div className='relative h-full mx-6 flex flex-col justify-center items-center'>

@@ -88,7 +88,7 @@ const RegisterMap = ({
         <IconCurrMapPin />
       </div>
 
-      <div className='absolute bottom-0 left-0 w-full z-30'>
+      <div className='fixed left-1/2 -translate-x-1/2 bottom-0 w-[430px] z-30'>
         <CurrentLocationBtn
           handleClick={handleClickCurrentPosition}
           className='absolute -top-3 left-6 -translate-y-full'

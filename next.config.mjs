@@ -9,14 +9,6 @@ const nextConfig = {
 
     return config;
   },
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/:path*`,
-      },
-    ];
-  },
   images: {
     domains: ['res.cloudinary.com'],
   },
