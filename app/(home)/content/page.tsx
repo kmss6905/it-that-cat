@@ -4,6 +4,7 @@ import React, { Fragment, Suspense, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { deleteFollow, postFollow } from '@/apis/contents';
 import IconX from '@/assets/images/icon_x.svg';
 import IconFollowMark from '@/assets/images/icon_followMark.svg';
 import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
@@ -14,9 +15,7 @@ import { CatNews } from '@/components/Content/CatNews';
 import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
-import { ResType } from '@/apis/type';
-import postFollow from '@/apis/contents/postFollow';
-import deleteFollow from '@/apis/contents/deleteFollow';
+import { ResType } from '@/types/api';
 
 const RegisterPostPage = () => {
   return (

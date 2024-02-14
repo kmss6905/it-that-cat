@@ -27,10 +27,10 @@ import {
 } from '@/constants/catInfoButtons';
 import RegisterBtn from '@/components/RegisterBtn';
 import ImageWrapper from '@/components/ImageWrapper';
+import { postContent } from '@/apis/contents';
 import { saveImage } from '@/apis/image/saveImage';
-import postContent from '@/apis/contents/postContent';
-import { ResType } from '@/apis/type';
 import { CatObjProps, RegisterCatObjProps } from '@/types/content';
+import { ResType } from '@/types/api';
 import { catIllust } from '@/constants/catIllust';
 
 const settings = {

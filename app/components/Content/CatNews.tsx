@@ -5,9 +5,8 @@ import IconHeartFill from '@/assets/images/icon_heartFill.svg';
 import { useComments } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import ImageWrapper from '../ImageWrapper';
-import deleteLike from '@/apis/contents/deleteLike';
-import postLike from '@/apis/contents/postLike';
-import { ResType } from '@/apis/type';
+import { deleteLike, postLike } from '@/apis/contents';
+import { ResType } from '@/types/api';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
   const { data, isSuccess, refetch } = useComments(contentId);
