@@ -28,33 +28,12 @@ export default function Home() {
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [catMark, setCatMark] = useState<boolean>(false);
   const [content, setContent] = useState<ContentObjProps | null>(null);
-  const [cookie, setCookie] = useState<{ [key: string]: any } | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const visited = localStorage.getItem('visited');
-
-      if (!visited) {
-        router.push('/login');
-      }
-    }
-  }, [router]);
 
   useEffect(() => {
     if (geolocation.position === null && currentPosition.position !== null) {
       setPosition(currentPosition.position);
     }
   }, [geolocation.position, currentPosition.position, setPosition]);
-
-  useEffect(() => {
-    if (document) {
-      const cookies = Object.fromEntries(
-        document?.cookie?.split(';').map((cookie) => cookie.trim().split('=')),
-      );
-
-      setCookie(cookies);
-    }
-  }, []);
 
   const handleChangeCenter = useCallback(
     async (map: any) => {
@@ -96,9 +75,6 @@ export default function Home() {
 
   return (
     <div className='relative h-full overflow-hidden'>
-      {popupOpen ? (
-        <UnAuthUserPopup setIsOpen={(value: boolean) => setPopupOpen(value)} />
-      ) : null}
       <CatMark
         isChecked={catMark}
         type='Map'
@@ -134,11 +110,7 @@ export default function Home() {
 
         <FloatingBtn
           Icon={IconNewContent}
-          onClick={() =>
-            cookie && cookie?.accessToken
-              ? router.push('/register')
-              : setPopupOpen(true)
-          }
+          onClick={() => router.push('/register')}
           className='bg-primary-500 absolute right-6 -top-[84px]'
         >
           새로운 냥이 등록
