@@ -19,3 +19,9 @@ export interface catFollowId {
 export interface commentLikeId {
   commentId: string;
 }
+
+export interface SaveTokenProps {
+  accessToken: string;
+  refreshToken: string;
+  nickname: string | null;
+}
