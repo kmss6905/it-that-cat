@@ -2,9 +2,9 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import loginCharacter from '@/assets/images/login_character.png';
-import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
+import { handleValidCheckNickname } from '@/apis/login';
 import { useRouter } from 'next/navigation';
-import handleUpdatedNickname from '@/apis/login/handleUpdatedNickname';
+import { handleUpdatedNickname } from '@/apis/login';
 
 const NicknamePage = () => {
   const router = useRouter();

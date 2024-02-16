@@ -11,6 +11,8 @@ const accessToken = cookieStore.get('accessToken');
 const fetchExtended = returnFetch({
   baseUrl: process.env.NEXT_PUBLIC_SERVER_URL,
   headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': 'true',
     'Content-Type': 'application/json',
     Authorization: 'Bearer ' + `${accessToken?.value}`,
   },
