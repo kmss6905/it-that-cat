@@ -41,14 +41,14 @@ export const saveToken = (data: SaveTokenProps) => {
   return redirect('/login/nickname');
 };
 
-export const handleUpdatedNickname = async (nickname: string) => {
+export const postNickname = async (nickname: string) => {
   const url = '/user/nickname';
   const data = { nickname: nickname };
 
   return await fetchApi(url, 'POST', data);
 };
 
-export const handleValidCheckNickname = async (nickname: string) => {
+export const postValidNickname = async (nickname: string) => {
   const url = '/user/nickname/available-check';
   const data = { nickname: nickname };
 
