@@ -4,15 +4,15 @@ import React, { Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { postComment } from '@/apis/contents';
 import IconX from '@/assets/images/icon_x.svg';
 import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import { Label, TextareaInput } from '@/components/Input';
 import RegisterBtn from '@/components/RegisterBtn';
 import ImageWrapper from '@/components/ImageWrapper';
 import { saveImage } from '@/apis/image/saveImage';
-import { ResType } from '@/apis/type';
-import postComment, { commentProps } from '@/apis/contents/postComment';
 import { contentStore } from '@/stores/comment/store';
+import { commentProps, ResType } from '@/types/api';
 
 const RegisterCommentPage = () => {
   const router = useRouter();

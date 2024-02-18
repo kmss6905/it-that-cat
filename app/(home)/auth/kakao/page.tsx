@@ -1,6 +1,6 @@
 'use client';
-import getToken from '@/apis/login/getToken';
-import saveToken from '@/apis/login/saveToken';
+import { getToken } from '@/apis/login';
+import { saveToken } from '@/apis/login';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 
@@ -20,11 +20,10 @@ const LoginLoading = () => {
   useEffect(() => {
     if (code) {
       const test = async () => {
-        await getToken(code, pathname).then((res) => {
-          if (res !== null && res.result === 'SUCCESS') {
-            saveToken(res.data);
-          }
-        });
+        const response = await getToken(code, pathname);
+        if (response !== null && response.result === 'SUCCESS') {
+          saveToken(response.data);
+        }
       };
       test();
     }

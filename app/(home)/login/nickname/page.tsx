@@ -2,9 +2,9 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import loginCharacter from '@/assets/images/login_character.png';
-import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
+import { postValidNickname } from '@/apis/login';
 import { useRouter } from 'next/navigation';
-import handleUpdatedNickname from '@/apis/login/handleUpdatedNickname';
+import { postNickname } from '@/apis/login';
 
 const NicknamePage = () => {
   const router = useRouter();
@@ -15,11 +15,11 @@ const NicknamePage = () => {
     event.preventDefault();
 
     if (nickname !== null) {
-      await handleValidCheckNickname(nickname).then((res: any) => {
+      await postValidNickname(nickname).then((res: any) => {
         if (res.result === 'SUCCESS') {
           res?.data.isAvailable === false
             ? setError('이미 사용 중인 닉네임이에요.')
-            : handleUpdatedNickname(nickname).then((res: any) => {
+            : postNickname(nickname).then((res: any) => {
                 if (res.result === 'SUCCESS') {
                   router.push('/');
                 }

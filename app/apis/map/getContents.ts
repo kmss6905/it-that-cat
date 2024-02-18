@@ -47,7 +47,6 @@ export const getCardContents = async ({
   follow = false,
 }: GetContentParams) => {
   const accessToken = cookies().get('accessToken');
-  console.log('🚀 ~ accessToken:', accessToken);
 
   let result;
   const lat = position !== null ? position.lat : 37.574187;

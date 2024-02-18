@@ -1,8 +1,8 @@
 'use client';
-import { getAccountCode } from '@/apis/login/getAccountCode';
+import { getAccountCode } from '@/apis/login';
 import { StaticImageData } from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 
 interface LoginBtnProps {
   children?: ReactNode;
@@ -20,9 +20,9 @@ const LoginBtn = ({
   const router = useRouter();
 
   const handleClick = async () => {
-    let redirectURI: string | undefined = await getAccountCode(provider);
+    const redirectURI: string | undefined = await getAccountCode(provider);
     if (redirectURI) {
-      router.push(`${redirectURI}&prompt=select_account`);
+      return router.push(`${redirectURI}&prompt=select_account`);
     }
   };
 

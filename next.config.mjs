@@ -10,7 +10,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'res.cloudinary.com',
+        pathname: '**',
+      },
+    ],
   },
 };
 

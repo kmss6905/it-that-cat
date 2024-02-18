@@ -1,5 +1,4 @@
-import { getComments } from '@/apis/contents/getComments';
-import { getContent } from '@/apis/contents/getContent';
+import { getContent, getComments } from '@/apis/contents';
 import {
   GetContentParams,
   getCardContents,
