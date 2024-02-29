@@ -7,7 +7,7 @@ import { useMapContents } from '@/hooks/useGetContent';
 import { useGeolocationStore } from '@/stores/home/store';
 import { RegionState } from '@/types/address';
 import { ContentObjProps } from '@/types/content';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 interface MapViewerProps {
   selectedPin: number | null;
@@ -35,7 +35,7 @@ const MapViewer = ({
 
   const { data } = useMapContents({ ...query });
 
-  const handleClickMarker = async (data: any) => {
+  const handleClickMarker = async (data?: any, map?: any) => {
     setLevel(3);
     setPosition(data.position);
     setSelectedPin(data.id);
@@ -48,8 +48,8 @@ const MapViewer = ({
   return (
     <MapComponent
       isPanto
-      level={geolocation.level}
       onClick={() => setSelectedPin(null)}
+      handleClickMarker={handleClickMarker}
     >
       {data
         ? data.items.map(({ contentId, lat, lng }: any) => (

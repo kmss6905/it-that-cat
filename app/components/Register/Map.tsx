@@ -9,7 +9,8 @@ import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
 import { Coordinates, GeolocationState, RegionState } from '@/types/address';
-import ContentMarkers from '../Map/ContentMarkers';
+import { useMapContents } from '@/hooks/useGetContent';
+import CustomPin from '../Map/CustomPin';
 
 const RegisterMap = ({
   isModifying,
@@ -31,6 +32,13 @@ const RegisterMap = ({
   setPosition: Dispatch<SetStateAction<Coordinates | null>>;
 }) => {
   const router = useRouter();
+
+  const query = {
+    position: currentGeolocation.position ? currentGeolocation.position : null,
+    follow: false,
+  };
+
+  const { data } = useMapContents({ ...query });
 
   if (currentGeolocation.position === null) return null;
 
@@ -68,20 +76,12 @@ const RegisterMap = ({
         </span>
       </div>
 
-      <MapComponent
-        position={position ? position : currentGeolocation.position}
-        onCenterChanged={handleCenterChanged}
-        isPanto
-      >
-        <ContentMarkers
-          query={{
-            position: currentGeolocation.position
-              ? currentGeolocation.position
-              : null,
-            follow: false,
-          }}
-        />
-        <CurrPin position={currentGeolocation.position} />
+      <MapComponent onCenterChanged={handleCenterChanged}>
+        {data
+          ? data.items.map(({ contentId, lat, lng }: any) => (
+              <CustomPin key={contentId} position={{ lat: lat, lng: lng }} />
+            ))
+          : null}
       </MapComponent>
 
       <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-20'>
