@@ -13,7 +13,7 @@ const base =
  * baseUrl, headers 추가하여 확장된 fetch
  */
 const fetchExtended = returnFetch({
-  baseUrl: process.env.NEXT_PUBLIC_SERVER_URL,
+  baseUrl: base,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': 'true',

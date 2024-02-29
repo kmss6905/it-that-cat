@@ -1,12 +1,11 @@
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import IconCurrLocation from '@/assets/images/icon_currLocation.svg';
 import { Coordinates } from '@/types/address';
+import useGeolocation from '@/hooks/useGeolocation';
 
-interface CustomPinProps {
-  position: Coordinates | null;
-}
+const CurrPin = () => {
+  const { position } = useGeolocation();
 
-const CurrPin = ({ position }: CustomPinProps) => {
   if (!position) return null;
 
   return (

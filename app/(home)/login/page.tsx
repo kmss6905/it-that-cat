@@ -35,10 +35,6 @@ const LoginPage = () => {
         <LoginBtn className='bg-[#FEE500]' provider='kakao' Icon={LogoKakao}>
           카카오로 간편 회원가입
         </LoginBtn>
-
-        <button onClick={() => router.push('/')} className='text-[#afafaf]'>
-          로그인 없이 둘러보기
-        </button>
       </div>
     </div>
   );

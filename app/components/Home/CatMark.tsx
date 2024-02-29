@@ -5,19 +5,19 @@ interface CatMarkProps {
   onClick: () => void;
   isChecked?: boolean;
   className?: string;
-  type?: 'Map' | 'List';
+  type?: 'map' | 'list';
 }
 
 const CatMark = ({
   onClick,
   isChecked = false,
-  type = 'List',
+  type = 'list',
   className = '',
 }: CatMarkProps) => {
   return (
     <div
       className={`catMark transition-colors
-      ${type === 'List' ? 'left-[110px]' : 'left-6'}
+      ${type === 'list' ? 'left-[110px]' : 'left-6'}
       ${isChecked ? 'border-gray-300 text-gray-400' : 'border-gray-100 text-gray-200'}
       ${className}`}
       onClick={onClick}
