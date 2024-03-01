@@ -1,13 +1,13 @@
 import { Coordinates, RegionState } from '@/types/address';
 import { StateCreator, create } from 'zustand';
 
-interface GeolocationState {
+interface GeolocationStoreState {
   position: Coordinates | null;
   address: RegionState | null;
 }
 
 type GeolocationStore = {
-  geolocation: GeolocationState;
+  geolocation: GeolocationStoreState;
   setPosition: (position: Coordinates) => void;
   setAddress: (addr: RegionState) => void;
 };

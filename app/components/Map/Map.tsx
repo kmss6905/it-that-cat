@@ -7,6 +7,7 @@ import useGeolocation from '@/hooks/useGeolocation';
 import { useGeolocationStore } from '@/stores/home/store';
 import CurrPin from './CurrPin';
 import { clusterStyle } from './clusterStyle';
+import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
 
 declare global {
   interface Window {
@@ -24,7 +25,8 @@ interface MapProps {
 
 const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
   const currentPosition = useGeolocation();
-  const { geolocation } = useGeolocationStore();
+  const { geolocation, setPosition } = useGeolocationStore();
+  const setPositionDebounced = useDebounceFunction(setPosition, 300);
 
   const position = useMemo(() => {
     const initPosition = { lat: 36, lng: 127 };
@@ -42,6 +44,14 @@ const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
       className='w-full h-full'
       level={3}
       ref={mapRef}
+      onCenterChanged={(map) => {
+        const latlng = map.getCenter();
+
+        setPositionDebounced({
+          lat: latlng.getLat(),
+          lng: latlng.getLng(),
+        });
+      }}
       {...props}
     >
       <MarkerClusterer
