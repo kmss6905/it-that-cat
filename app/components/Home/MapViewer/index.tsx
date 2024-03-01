@@ -1,18 +1,17 @@
-import getAddress from '@/apis/map/getAddress';
 import getSelectContent from '@/apis/map/getSelectContent';
 import CustomPin from '@/components/Map/CustomPin';
 import MapComponent from '@/components/Map/Map';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useMapContents } from '@/hooks/useGetContent';
 import { useGeolocationStore } from '@/stores/home/store';
-import { RegionState } from '@/types/address';
+import { Coordinates } from '@/types/address';
 import { ContentObjProps } from '@/types/content';
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 
 interface MapViewerProps {
+  catMark: boolean;
   selectedPin: number | null;
   setSelectedPin: (value: number | null) => void;
-  catMark: boolean;
   setContent: (value: ContentObjProps | null) => void;
 }
 
@@ -22,21 +21,26 @@ const MapViewer = ({
   catMark,
   setContent,
 }: MapViewerProps) => {
+  const mapRef = useRef<kakao.maps.Map>(null);
   const currentPosition = useGeolocation();
+  const { setPosition } = useGeolocationStore();
 
-  const { geolocation, setLevel, setAddress, setPosition } =
-    useGeolocationStore();
-
-  const query = {
+  const { data } = useMapContents({
     position: currentPosition.position,
-    level: geolocation.level,
     follow: catMark,
-  };
+  });
 
-  const { data } = useMapContents({ ...query });
+  const handleClickMarker = async (data: {
+    id: number;
+    position: Coordinates;
+  }) => {
+    // macker 클릭할 때마다 확대
+    const map = mapRef.current;
+    if (!map) {
+      return;
+    }
+    map.setLevel(map.getLevel() - 1);
 
-  const handleClickMarker = async (data?: any, map?: any) => {
-    setLevel(3);
     setPosition(data.position);
     setSelectedPin(data.id);
 
@@ -46,11 +50,7 @@ const MapViewer = ({
   };
 
   return (
-    <MapComponent
-      isPanto
-      onClick={() => setSelectedPin(null)}
-      handleClickMarker={handleClickMarker}
-    >
+    <MapComponent isPanto onClick={() => setSelectedPin(null)} mapRef={mapRef}>
       {data
         ? data.items.map(({ contentId, lat, lng }: any) => (
             <CustomPin

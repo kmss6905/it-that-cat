@@ -1,11 +1,12 @@
 'use client';
 
+import React, { ReactNode, RefObject, useMemo } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import CurrPin from './CurrPin';
-import React, { RefObject, useEffect, useMemo, useRef } from 'react';
-import { clusterStyle } from './clusterStyle';
+
 import useGeolocation from '@/hooks/useGeolocation';
 import { useGeolocationStore } from '@/stores/home/store';
+import CurrPin from './CurrPin';
+import { clusterStyle } from './clusterStyle';
 
 declare global {
   interface Window {
@@ -14,25 +15,16 @@ declare global {
 }
 
 interface MapProps {
-  children?: React.ReactNode;
-  onCenterChanged?: (value: any) => void;
   isPanto?: boolean;
+  children?: ReactNode;
+  mapRef?: RefObject<kakao.maps.Map>;
   onClick?: () => void;
-  handleClickMarker?: (data: any, ref: any) => void;
+  onCenterChanged?: (value: any) => void;
 }
 
-const MapComponent = ({ children, ...props }: MapProps) => {
+const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
   const currentPosition = useGeolocation();
-
-  const { geolocation, setLevel } = useGeolocationStore();
-
-  const mapRef = useRef<kakao.maps.Map>(null);
-
-  useEffect(() => {
-    if (!mapRef.current) {
-    }
-    mapRef?.current?.setLevel(geolocation.level);
-  }, [setLevel, geolocation.level]);
+  const { geolocation } = useGeolocationStore();
 
   const position = useMemo(() => {
     const initPosition = { lat: 36, lng: 127 };
@@ -43,14 +35,12 @@ const MapComponent = ({ children, ...props }: MapProps) => {
       : geolocation.position;
   }, [geolocation.position, currentPosition.position]);
 
-  const defaultLevel = 3;
-
   return (
     <Map
       id='map'
       center={position}
       className='w-full h-full'
-      level={defaultLevel}
+      level={3}
       ref={mapRef}
       {...props}
     >

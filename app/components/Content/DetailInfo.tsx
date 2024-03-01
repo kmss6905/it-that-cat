@@ -89,7 +89,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
         <div className={`${titleClassName}`}>주요 출몰 위치</div>
         <div className='caption text-gray-400 mb-3'>{content.addrName}</div>
         <div className='w-full h-[136px]'>
-          <MapComponent position={position} level={4}>
+          <MapComponent>
             <CustomPin position={position} />
           </MapComponent>
         </div>
