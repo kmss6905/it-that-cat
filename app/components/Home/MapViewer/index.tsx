@@ -39,7 +39,7 @@ const MapViewer = ({
     if (!map) {
       return;
     }
-    map.setLevel(map.getLevel() - 1);
+    map.setLevel(3);
 
     setPosition(data.position);
     setSelectedPin(data.id);
