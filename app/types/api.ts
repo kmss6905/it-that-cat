@@ -8,7 +8,7 @@ export interface ResType<T> {
 }
 
 export interface commentProps {
-  commentImageUris: string[];
+  commentImageUris?: string[];
   commentDesc: string;
 }
 
