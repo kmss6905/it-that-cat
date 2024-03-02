@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 script {
-                    def dockerfile = 'prod.Dockerfile'
+                    def dockerfile = 'dev.Dockerfile'
                     def image = docker.build("${env.DOCKER_IMAGE}", "-f ./dockerfiles/${dockerfile} .")
                     env.DOCKER_IMAGE_ID = image.id
                 }
