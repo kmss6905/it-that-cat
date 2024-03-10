@@ -31,26 +31,15 @@
 <br />
 
 ## 📌 목차
-[1. 프로젝트 설치 및 실행 방법](#1-프로젝트-설치-및-실행-방법)<br/>
-[2. 기능 소개](#2-기능-소개)<br/>
-[3. 서버 개발 관련](#3-서버-개발-관련)<br/>
-[4. 팀원 및 참고 자료](#4-팀원-및-참고-자료)<br/>
-[5. 외부 리소스 정보](#5-외부-리소스-정보)<br/>
+[1. 기능 소개](#2-기능-소개)<br/>
+[2. 서버 개발 관련](#3-서버-개발-관련)<br/>
+[3. 팀원 및 참고 자료](#4-팀원-및-참고-자료)<br/>
+[4. 외부 리소스 정보](#5-외부-리소스-정보)<br/>
 
 <br />
 <br />
 
-## 1. 프로젝트 설치 및 실행 방법
-해당 프로젝트를 fork 받기 전, 카카오 API를 발행 받으신 후 .env 파일에 아래와 같이 API KEY 값을 추가해주세요.
-```
-#NEXT_PUBLC_KAKAO_API_KEY='app api key'
-#NEXT_PUBLC_KAKAO_MAP_KEY='javascript api key'
-```
-
-<br />
-<br />
-
-## 2. 기능 소개
+## 1. 기능 소개
 - MVP
   - 홈화면
     - 지도뷰
@@ -68,17 +57,23 @@
 
 - 추가 예정 기능
   - 리스트뷰 무한 스크롤
+  - 검색 기능
+    - 한글 퍼지 검색
+  - 하단 네비게이션 바
+  - 마이 페이지 추가
+    - 회원 탈퇴
+    - 회원 정보 수정
 
 <br />
 <br />
 
-## 3. 서버 개발 관련
+## 2. 서버 개발 관련
 - [서버관련 문서](https://github.com/401-potenday/backend/blob/main/README.md)
 
 <br />
 <br />
 
-## 4. 팀원 및 참고 자료
+## 3. 팀원 및 참고 자료
 |👩‍🚀 기획자|👩‍🎤 디자이너|👩‍💻 개발자(FE)|👨‍💻 개발자(FE)|👩‍💻 개발자(BE)|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/f54af996-6856-464f-9ebd-a9efa2e585f4' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/48fce929-8b8c-40e0-ba0d-817d3ed55cfa' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/c4dbc84d-0125-4222-ba29-713e86527b29' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/a6c1d46a-8739-4dec-b98b-34e8ba681af4' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/8671dea4-7b67-4e09-9a3e-d16e53a48e3e' width='80%'/>|
@@ -88,7 +83,7 @@
 <br />
 <br />
 
-## 5. 외부 리소스 정보
+## 4. 외부 리소스 정보
 - [한글 퍼지 문자열 검색 기능](https://taegon.kim/archives/9919)
 
 <br />
