@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { deleteFollow, postFollow } from '@/apis/contents';
-import IconX from '@/assets/images/icon_x.svg';
+import IconBack from '@/assets/images/icon_back.svg';
+import IconKebab from '@/assets/images/icon_kebab.svg';
 import IconFollowMark from '@/assets/images/icon_followMark.svg';
 import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
+import IconImage from '@/assets/images/icon_image.svg';
 import RegisterBtn from '@/components/RegisterBtn';
 import { catIllust } from '@/constants/catIllust';
 import { DetailInfo } from '@/components/Content/DetailInfo';
@@ -53,17 +55,38 @@ const SuspenseRegisterPostPage = () => {
   if (isSuccess)
     return (
       <Fragment>
-        <div className='w-full relative p-5 pt-6'>
-          <button
+        <div className='w-full h-[344px] relative'>
+          {/* <button
             onClick={() => router.push('/')}
             className='absolute right-5 top-1/2 -translate-y-1/2'
           >
             <IconX />
-          </button>
+          </button> */}
+          <div className='absolute w-full h-16 top-0 z-10'>
+            <IconBack />
+            <IconFollowMark />
+            <IconKebab />
+          </div>
+          <div className='absolute w-full h-16 bottom-0 z-10'>
+            <IconImage />
+          </div>
+          <div className='flex h-[344px]'>
+            {data.images.map((image: string) => (
+              <div key={image}>
+                <Image
+                  src={image as string}
+                  alt={`preview ${image}`}
+                  fill
+                  priority
+                  className='object-cover w-full h-[344px]'
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className='flex h-full flex-col'>
-          <div className='px-6 py-3 flex relative'>
+          <div className='p-6 flex relative'>
             <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative mr-3'>
               <Image
                 src={
@@ -84,12 +107,12 @@ const SuspenseRegisterPostPage = () => {
                 {getDateFormat(data.createdAt)}
               </p>
             </div>
-            <div
+            {/* <div
               className='absolute right-12 top-4 cursor-pointer'
               onClick={onClickFollow}
             >
               {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
-            </div>
+            </div> */}
           </div>
 
           <div className='relative'>
