@@ -20,6 +20,8 @@ import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
+import { useModal } from '@/hooks/useModal';
+import ManuModal from '@/components/Content/ManuModal';
 
 const RegisterPostPage = () => {
   return (
@@ -40,6 +42,7 @@ const SuspenseRegisterPostPage = () => {
   const [tab, setTab] = useState('detailInfo');
   const [swiperIndex, setSwiperIndex] = useState(0);
   const params = useSearchParams();
+  const { openModal } = useModal();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
 
@@ -58,6 +61,8 @@ const SuspenseRegisterPostPage = () => {
   if (isSuccess)
     return (
       <Fragment>
+        <ManuModal />
+
         <div className='w-full relative'>
           <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
             <button onClick={() => router.back()}>
@@ -65,7 +70,9 @@ const SuspenseRegisterPostPage = () => {
             </button>
             <div className='flex justify-between gap-4'>
               <IconFollowMark />
-              <IconKebab />
+              <button onClick={() => openModal()}>
+                <IconKebab />
+              </button>
             </div>
           </div>
           <div
