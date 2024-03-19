@@ -227,20 +227,15 @@ const RegisterPost = ({
             프로필 캐릭터
           </Label>
           <Swiper slidesPerView={4}>
-            {catIllust.map(({ id, image }) => (
-              <SwiperSlide key={id}>
+            {catIllust.map((cat) => (
+              <SwiperSlide key={cat.id}>
                 <div
-                  className={`w-[70px] h-[70px] rounded-full  bg-gray-50 relative mb-3 box-border
-                  ${catEmoji === id ? 'border border-primary-300' : null}`}
-                  onClick={() => setCatEmoji(id)}
+                  className={`w-[70px] h-[70px] rounded-full  bg-gray-50 mb-3 box-border
+                  flex justify-center items-center
+                  ${catEmoji === cat.id ? 'border border-primary-300' : null}`}
+                  onClick={() => setCatEmoji(cat.id)}
                 >
-                  <Image
-                    src={image}
-                    alt='고양이 일러스트'
-                    fill
-                    sizes='100'
-                    className='object-contain p-2'
-                  />
+                  <cat.image />
                 </div>
               </SwiperSlide>
             ))}

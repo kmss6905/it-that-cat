@@ -37,6 +37,9 @@ const SuspenseRegisterPostPage = () => {
   const params = useSearchParams();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
+  console.log('🚀 ~ SuspenseRegisterPostPage ~ data:', data);
+
+  const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
 
   const onClickFollow = async () => {
     if (!contentId) return;
@@ -64,17 +67,8 @@ const SuspenseRegisterPostPage = () => {
 
         <div className='flex h-full flex-col'>
           <div className='px-6 py-3 flex relative'>
-            <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative mr-3'>
-              <Image
-                src={
-                  catIllust.filter((cat) => cat.id === Number(data.catEmoji))[0]
-                    .image.src
-                }
-                alt='고양이 일러스트'
-                fill
-                sizes='100'
-                className='object-contain p-2'
-              />
+            <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center mr-3'>
+              <cat.image />
             </div>
             <div className='flex flex-col gap-1'>
               <h3 className='heading2 text-gray-500'>{data.name}</h3>
