@@ -3,6 +3,8 @@
 import React, { Fragment, Suspense, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import { deleteFollow, postFollow } from '@/apis/contents';
 import IconBack from '@/assets/images/icon_back.svg';
@@ -36,6 +38,7 @@ const SuspenseRegisterPostPage = () => {
   const router = useRouter();
   const { setContentId } = contentStore();
   const [tab, setTab] = useState('detailInfo');
+  const [swiperIndex, setSwiperIndex] = useState(0);
   const params = useSearchParams();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
@@ -55,34 +58,50 @@ const SuspenseRegisterPostPage = () => {
   if (isSuccess)
     return (
       <Fragment>
-        <div className='w-full h-[344px] relative'>
-          {/* <button
-            onClick={() => router.push('/')}
-            className='absolute right-5 top-1/2 -translate-y-1/2'
-          >
-            <IconX />
-          </button> */}
-          <div className='absolute w-full h-16 top-0 z-10'>
-            <IconBack />
-            <IconFollowMark />
-            <IconKebab />
+        <div className='w-full relative'>
+          <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
+            <button onClick={() => router.back()}>
+              <IconBack />
+            </button>
+            <div className='flex justify-between gap-4'>
+              <IconFollowMark />
+              <IconKebab />
+            </div>
           </div>
-          <div className='absolute w-full h-16 bottom-0 z-10'>
+          <div
+            className='absolute bottom-4 right-6 px-3 py-[6px] z-10 flex justify-center items-center gap-1 rounded-full'
+            style={{ background: 'rgba(0, 0, 0, 0.5)' }}
+          >
+            <div className='text-gray-200 body2'>
+              <span>
+                {swiperIndex + 1}/{data.images.length}
+              </span>
+            </div>
             <IconImage />
           </div>
-          <div className='flex h-[344px]'>
+          <Swiper
+            slidesPerView={1}
+            onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
+          >
             {data.images.map((image: string) => (
-              <div key={image}>
-                <Image
-                  src={image as string}
-                  alt={`preview ${image}`}
-                  fill
-                  priority
-                  className='object-cover w-full h-[344px]'
-                />
-              </div>
+              <SwiperSlide
+                key={image}
+                className='relative w-full h-full after:pb-[80%] after:block '
+              >
+                <div className='absolute w-full h-full'>
+                  <div>
+                    <Image
+                      src={image as string}
+                      alt={`preview ${image}`}
+                      fill
+                      priority
+                      className='object-cover'
+                    />
+                  </div>
+                </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
 
         <div className='flex h-full flex-col'>
