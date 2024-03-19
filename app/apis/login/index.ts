@@ -3,6 +3,7 @@ import fetchApi from '../fetchApi';
 import { cookies } from 'next/headers';
 import { SaveTokenProps } from '@/types/api';
 import { redirect } from 'next/navigation';
+import { accessTime, refreshTime } from '@/constants/tokenExpires';
 
 export const getAccountCode = async (provider: string) => {
   const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`;
@@ -28,10 +29,30 @@ export const getToken = async (code: string, provider: string) => {
   return await fetchApi(url, 'POST', data);
 };
 
+export const reissueToken = async () => {
+  const cookieStore = cookies();
+
+  const accessToken = cookieStore.get('accessToken');
+  const refreshToken = cookieStore.get('refreshToken');
+  const url = `/auth/issue/access-token?refresh_token=${refreshToken?.value}`;
+
+  if (refreshToken && !accessToken) {
+    const newAccessToken = (await fetchApi(url, 'GET')).data
+      .accessToken as string;
+    cookieStore.set('accessToken', newAccessToken, { expires: accessTime });
+  }
+};
+
 export const saveToken = (data: SaveTokenProps) => {
   const cookieStore = cookies();
-  cookieStore.set('accessToken', data.accessToken);
-  cookieStore.set('refreshToken', data.refreshToken);
+
+  cookieStore.set('accessToken', data.accessToken, {
+    expires: accessTime,
+  });
+
+  cookieStore.set('refreshToken', data.refreshToken, {
+    expires: refreshTime,
+  });
 
   if (data.nickname) {
     cookieStore.set('nickname', data.nickname);
