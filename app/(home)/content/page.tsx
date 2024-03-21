@@ -69,7 +69,9 @@ const SuspenseRegisterPostPage = () => {
               <IconBack />
             </button>
             <div className='flex justify-between gap-4'>
-              <IconFollowMark />
+              <button onClick={onClickFollow}>
+                {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
+              </button>
               <button onClick={() => openModal()}>
                 <IconKebab />
               </button>
@@ -133,12 +135,6 @@ const SuspenseRegisterPostPage = () => {
                 {getDateFormat(data.createdAt)}
               </p>
             </div>
-            {/* <div
-              className='absolute right-12 top-4 cursor-pointer'
-              onClick={onClickFollow}
-            >
-              {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
-            </div> */}
           </div>
 
           <div className='relative'>
