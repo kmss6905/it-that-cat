@@ -6,7 +6,7 @@ import { useModal } from '@/hooks/useModal';
 const ManuModal = () => {
   const { openModal } = useModal();
   const onClickDeleteButton = () => {
-    openModal(MODAL_TYPE.CONTENT_DELETE);
+    openModal(MODAL_TYPE.CONTENT_ANONYMIZATION);
   };
 
   return (

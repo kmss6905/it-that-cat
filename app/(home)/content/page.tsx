@@ -25,6 +25,7 @@ import ManuModal from '@/components/Content/Modal/ManuModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import UnAuthUserPopup from '@/components/UnAuthUserPopup';
+import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 
 const RegisterPostPage = () => {
   return (
@@ -48,6 +49,7 @@ const SuspenseRegisterPostPage = () => {
   const { openModal } = useModal();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
+  console.log(data);
 
   const onClickFollow = async () => {
     if (!contentId) return;
@@ -66,11 +68,7 @@ const SuspenseRegisterPostPage = () => {
       <Fragment>
         <ManuModal />
         <DeleteModal />
-        {/* <UnAuthUserPopup
-          setIsOpen={function (value: boolean): void {
-            throw new Error('Function not implemented.');
-          }}
-        /> */}
+        <AnonymizeModal />
 
         <div className='w-full relative'>
           <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>

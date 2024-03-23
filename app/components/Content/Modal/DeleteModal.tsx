@@ -21,7 +21,7 @@ const DeleteModal = () => {
           <span>즉시 삭제되며 복구할 수 없습니다.</span>
         </div>
       </div>
-      <div className='border-t border-gray-100 w-full'>
+      <div className='border-t border-gray-100 w-full subHeading'>
         <button
           onClick={closeModal}
           className='w-1/2 py-4 text-center hover:bg-gray-50 active:bg-gray-50 text-black border-r border-gray-100'
