@@ -21,7 +21,10 @@ import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
 import { useModal } from '@/hooks/useModal';
-import ManuModal from '@/components/Content/ManuModal';
+import ManuModal from '@/components/Content/Modal/ManuModal';
+import { MODAL_TYPE } from '@/components/Modal';
+import DeleteModal from '@/components/Content/Modal/DeleteModal';
+import UnAuthUserPopup from '@/components/UnAuthUserPopup';
 
 const RegisterPostPage = () => {
   return (
@@ -62,6 +65,12 @@ const SuspenseRegisterPostPage = () => {
     return (
       <Fragment>
         <ManuModal />
+        <DeleteModal />
+        {/* <UnAuthUserPopup
+          setIsOpen={function (value: boolean): void {
+            throw new Error('Function not implemented.');
+          }}
+        /> */}
 
         <div className='w-full relative'>
           <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
@@ -72,7 +81,7 @@ const SuspenseRegisterPostPage = () => {
               <button onClick={onClickFollow}>
                 {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
               </button>
-              <button onClick={() => openModal()}>
+              <button onClick={() => openModal(MODAL_TYPE.CONTENT_MANU)}>
                 <IconKebab />
               </button>
             </div>
