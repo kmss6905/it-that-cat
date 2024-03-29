@@ -4,6 +4,7 @@ import RootWrapper from '@/components/RootWrapper';
 import Script from 'next/script';
 import pretendard from '@/components/Pretendard';
 import QueryWrapper from '@/components/QueryWrapper';
+import Loading from '@/components/Loading';
 
 export const metadata: Metadata = {
   title: '이냥저냥',
@@ -22,6 +23,7 @@ export default function RootLayout({
         <QueryWrapper>
           <RootWrapper>
             <div className='h-full overflow-hidden'>{children}</div>
+            <Loading />
           </RootWrapper>
         </QueryWrapper>
         <Script

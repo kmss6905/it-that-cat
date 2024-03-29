@@ -13,6 +13,7 @@ import ImageWrapper from '@/components/ImageWrapper';
 import { saveImage } from '@/apis/image/saveImage';
 import { contentStore } from '@/stores/comment/store';
 import { commentProps, ResType } from '@/types/api';
+import { useWithLoading } from '@/hooks/useWithLoading';
 
 const RegisterCommentPage = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const RegisterCommentPage = () => {
   });
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+  const { withLoading } = useWithLoading();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -60,7 +62,11 @@ const RegisterCommentPage = () => {
     }
   };
 
-  const onClickRegister = async () => {
+  const handleRegister = async (
+    contentId: string | null,
+    comment: commentProps,
+    images: any[],
+  ) => {
     const base64s = images.map((image) => (image ? image.toString() : ''));
     const saveImageUrls = await Promise.all(base64s.map(saveImage));
     const data: commentProps = {
@@ -70,6 +76,13 @@ const RegisterCommentPage = () => {
     const res: ResType<{ contentId: string }> = await postComment(
       contentId,
       data,
+    );
+    return res;
+  };
+
+  const onClickRegister = async () => {
+    const res = await withLoading(() =>
+      handleRegister(contentId, comment, images),
     );
     if (res.result === 'SUCCESS') {
       router.push(`/content?id=${contentId}`);

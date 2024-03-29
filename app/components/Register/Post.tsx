@@ -32,12 +32,7 @@ import { saveImage } from '@/apis/image/saveImage';
 import { CatObjProps, RegisterCatObjProps } from '@/types/content';
 import { ResType } from '@/types/api';
 import { catIllust } from '@/constants/catIllust';
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-};
+import { useWithLoading } from '@/hooks/useWithLoading';
 
 const RegisterPost = ({
   setIsModifying,
@@ -55,6 +50,7 @@ const RegisterPost = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
+  const { withLoading } = useWithLoading();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -143,7 +139,7 @@ const RegisterPost = ({
     }
   };
 
-  const onClickRegister = async () => {
+  const handleRegister = async () => {
     const base64s = images.map((image) => (image ? image.toString() : ''));
     const saveImageUrls = await Promise.all(base64s.map(saveImage));
     const updatedCatInfo = {
@@ -159,6 +155,12 @@ const RegisterPost = ({
       catEmoji: catEmoji,
     };
     const res: ResType<{ contentId: string }> = await postContent(data);
+
+    return res;
+  };
+
+  const onClickRegister = async () => {
+    const res = await withLoading(() => handleRegister());
     if (res.result === 'SUCCESS') {
       router.push(`/content?id=${res?.data?.contentId}`);
     }
