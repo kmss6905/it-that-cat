@@ -4,18 +4,17 @@ import { useRouter } from 'next/navigation';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
-import CatMark from '@/components/Home/CatMark';
 import { useGeolocationStore } from '@/stores/home/store';
 import IconList from '@/assets/images/icon_list.svg';
+import IconMap from '@/assets/images/icon_mapView.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
 import { ContentObjProps } from '@/types/content';
 import MapViewer from '@/components/Home/MapViewer';
-import SelectFilter, {
-  SelectedFilterState,
-  options,
-} from '@/components/Home/SelectFilter';
+import { SelectedFilterState, options } from '@/components/Home/SelectFilter';
 import ListViewer from '@/components/Home/ListViewer';
 import useGeolocation from '@/hooks/useGeolocation';
+import SearchBar from '@/components/Home/Search/SearchBar';
+import SearchModal from '@/components/Home/Search/SearchModal';
 
 export default function Home() {
   const router = useRouter();
@@ -47,21 +46,10 @@ export default function Home() {
   return (
     <div
       className={`relative h-full
-    ${viewer === 'list' ? 'pt-[108px] bg-gray-50' : 'overflow-hidden'}`}
+    ${viewer === 'list' ? 'pt-6 bg-gray-50' : 'overflow-hidden'}`}
     >
-      {viewer === 'list' ? (
-        <SelectFilter
-          selectedFilter={selectedFilter}
-          setSelectedFilter={(value) => setSelectedFilter(value)}
-        />
-      ) : null}
-
-      <CatMark
-        isChecked={catMark}
-        type={viewer}
-        onClick={() => setCatMark((prev) => !prev)}
-      />
-
+      <SearchModal />
+      <SearchBar viewer={viewer} />
       {viewer === 'map' ? (
         <MapViewer
           selectedPin={selectedPin}
@@ -70,7 +58,12 @@ export default function Home() {
           setContent={(value) => setContent(value)}
         />
       ) : (
-        <ListViewer catMark={catMark} selectedFilter={selectedFilter} />
+        <ListViewer
+          catMark={catMark}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={(value) => setSelectedFilter(value)}
+          setCatMark={() => setCatMark((prev) => !prev)}
+        />
       )}
 
       <div className='absolute bottom-3 px-6 z-20 w-full'>
@@ -89,11 +82,11 @@ export default function Home() {
           새로운 냥이 등록
         </FloatingBtn>
         <FloatingBtn
-          Icon={IconList}
+          Icon={viewer === 'map' ? IconList : IconMap}
           onClick={() => setViewer((prev) => (prev === 'map' ? 'list' : 'map'))}
           className='bg-gray-500 absolute -top-7 right-6'
         >
-          목록보기
+          {viewer === 'map' ? '목록보기' : '지도보기'}
         </FloatingBtn>
 
         {viewer === 'map' && content !== null && selectedPin !== null ? (

@@ -18,15 +18,11 @@ export const useCardContents = (data: GetContentParams) => {
     ({ pageParam = 1 }) => getCardContents({ ...data, pageParam }),
     {
       getNextPageParam: (lastPage) => {
-        const itemsNum = lastPage.totalItems % lastPage.pageSize;
-        const pages = lastPage.totalItems / lastPage.pageSize;
-        const totalPages =
-          itemsNum === 0 ? Math.floor(pages) : Math.floor(pages) + 1;
-        return lastPage.currentPage < lastPage.totalPages
-          ? lastPage.currentPage + 1
-          : undefined;
+        console.log('🚀 ~ useCardContents ~ lastPage:', lastPage);
+        return lastPage;
       },
       staleTime: 1,
+      keepPreviousData: true,
     },
   );
 };

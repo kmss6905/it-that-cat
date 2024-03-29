@@ -1,10 +1,9 @@
-'use server';
 import { Coordinates } from '@/types/address';
-import { cookies } from 'next/headers';
+import fetchApi from '../fetchApi';
 
 export interface GetContentParams {
   position: Coordinates | null;
-  size?: number | undefined;
+  size?: number;
   distance?: 'desc' | 'asc';
   follow: boolean;
   pageParam?: number;
@@ -12,57 +11,32 @@ export interface GetContentParams {
 
 export const getMapContents = async ({
   position,
-  distance = 'asc',
   pageParam = 1,
   follow,
 }: GetContentParams) => {
-  const accessToken = cookies().get('accessToken');
-
-  let result;
-
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
   const range = 100000000;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=1000&lat=${lat}&lng=${lng}&range=${range}&distance_order=${distance ? distance : 'asc'}&follow=${follow}`;
+  const url = `/contents?page=${pageParam}&size=1000&lat=${lat}&lng=${lng}&range=${range}&distance_order=asc&follow=${follow}`;
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${accessToken?.value}` },
-  });
-
-  result = await response.json();
-
-  if (result.result !== 'SUCCESS') {
-    throw new Error('네트워크의 응답이 없습니다.');
-  }
-  return result.data;
+  return (await fetchApi(url, 'GET')).data;
 };
 
 export const getCardContents = async ({
   position,
-  size = 100,
-  distance = 'asc',
+  size = 10,
   pageParam,
   follow = false,
 }: GetContentParams) => {
-  const accessToken = cookies().get('accessToken');
-
-  let result;
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
 
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=1000000&distance_order=${distance}&follow=${follow}`;
+  const url = `/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=1000000&distance_order=asc&follow=${follow}`;
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${accessToken?.value}` },
-  });
-
-  result = await response.json();
-
-  if (result.result !== 'SUCCESS') {
-    throw new Error('네트워크의 응답이 없습니다.');
-  }
-  return result.data;
+  console.log(
+    "🚀 ~ (await fetchApi(url, 'GET')).data:",
+    (await fetchApi(url, 'GET')).data,
+  );
+  return (await fetchApi(url, 'GET')).data;
 };
