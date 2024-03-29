@@ -31,11 +31,11 @@
   }
 
   .rootContainer {
-    @apply max-w-[430px] w-screen h-full overflow-hidden;
+    @apply max-w-[430px] w-screen h-full overflow-hidden flex flex-col;
   }
 
   .screen {
-    @apply bg-white w-full h-full relative overflow-hidden;
+    @apply bg-white flex-grow relative overflow-hidden;
   }
 
   .tooltipWrapper {
@@ -91,7 +91,7 @@
   .mapFilter > button,
   .filter {
     @apply border-gray-100
-    subHeading2 text-gray-400
+    subHeading3 text-gray-400
     px-3 py-2 bg-white
     flex items-center gap-1
     outline-none;
@@ -100,7 +100,7 @@
   .mapFilter > ul {
     @apply border border-gray-100
     rounded-b-md
-    subHeading2 text-gray-400
+    subHeading3 text-gray-400
     bg-white inline-block overflow-hidden;
   }
 
@@ -129,6 +129,10 @@
   }
 
   .subHeading2 {
+    @apply font-semibold text-[16px] tracking-[-2%] leading-[24px];
+  }
+
+  .subHeading3 {
     @apply font-semibold text-[14px] tracking-[-2%] leading-[20px];
   }
 
@@ -146,5 +150,9 @@
 
   .caption2 {
     @apply font-normal text-[12px] tracking-[-2%] leading-[15px];
+  }
+
+  .nav {
+    @apply font-normal text-[11px] tracking-[-2%] leading-[14px];
   }
 }
