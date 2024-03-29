@@ -11,26 +11,24 @@ import { Dispatch, SetStateAction } from 'react';
 import { Coordinates, GeolocationState, RegionState } from '@/types/address';
 import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from '../Map/CustomPin';
+import useGeolocation from '@/hooks/useGeolocation';
+import { useGeolocationStore } from '@/stores/home/store';
 
 const RegisterMap = ({
   isModifying,
-  address,
-  position,
-  currentGeolocation,
   initAddress,
   setMode,
-  setAddress,
-  setPosition,
 }: {
   isModifying: boolean;
-  address: RegionState | null;
-  position: Coordinates | null;
-  currentGeolocation: GeolocationState;
   initAddress: RegionState | null;
   setMode: Dispatch<SetStateAction<string>>;
-  setAddress: Dispatch<SetStateAction<RegionState | null>>;
-  setPosition: Dispatch<SetStateAction<Coordinates | null>>;
 }) => {
+  const currentGeolocation = useGeolocation();
+  const {
+    geolocation: { position, address },
+    setPosition,
+    setAddress,
+  } = useGeolocationStore();
   const router = useRouter();
 
   const query = {
@@ -76,7 +74,7 @@ const RegisterMap = ({
         </span>
       </div>
 
-      <MapComponent onCenterChanged={handleCenterChanged}>
+      <MapComponent isPanto onCenterChanged={handleCenterChanged}>
         {data
           ? data.items.map(({ contentId, lat, lng }: any) => (
               <CustomPin key={contentId} position={{ lat: lat, lng: lng }} />
