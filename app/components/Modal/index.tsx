@@ -8,6 +8,7 @@ import { useModal } from '@/hooks/useModal';
 export const MODAL_TYPE = {
   CONTENT_MANU: 'contentManu',
   CONTENT_DELETE: 'contentDelete',
+  CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];

@@ -3,13 +3,17 @@ import CatNotNews from '@/assets/images/cats/cat_notNews.svg';
 import IconHeart from '@/assets/images/icon_heart.svg';
 import IconHeartFill from '@/assets/images/icon_heartFill.svg';
 import { useComments } from '@/hooks/useGetContent';
-import getDateFormat from '@/utils/getDateFormat';
-import ImageWrapper from '../ImageWrapper';
 import { deleteLike, postLike } from '@/apis/contents';
 import { ResType } from '@/types/api';
+import { convertTime } from '@/utils/convertTime';
+import ImageWrapper from '@/components/ImageWrapper';
+import DeleteCatNewsModal from './DeleteCatNewsModal';
+import { useModal } from '@/hooks/useModal';
+import { MODAL_TYPE } from '@/components/Modal';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
   const { data, isSuccess, refetch } = useComments(contentId);
+  const { openModal } = useModal();
 
   const onClickLike = async (commentId: string, isCatCommentLiked: string) => {
     if (!contentId) return;
@@ -26,6 +30,8 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
   if (isSuccess)
     return (
       <div className='p-6'>
+        <DeleteCatNewsModal />
+
         <div className={`flex gap-1 pb-5 subHeading`}>
           <div>냥이의 근황을 공유해요</div>
           <span className='text-gray-300'>{data.items.length}개</span>
@@ -34,8 +40,13 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
         {data.items.length ? (
           data.items.map((comment: any, index: number) => (
             <div key={comment.commentId}>
-              <div className='caption2 text-gray-400 mb-2'>
-                {comment.userNickname}
+              <div className='flex items-center gap-1 mb-2'>
+                <div className='caption2 text-gray-500'>
+                  {comment.userNickname}
+                </div>
+                <div className='caption text-gray-300'>
+                  {convertTime(comment.createdAt)}
+                </div>
               </div>
               <div className='caption text-gray-500 mb-4'>
                 {comment.commentDesc}
@@ -77,8 +88,11 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
                   )}
                   {comment.commentLikeCount}
                 </button>
-                <div className='caption text-gray-300'>
-                  {getDateFormat(comment.createdAt)}
+                <div className='flex items-center gap-4 caption text-gray-400'>
+                  <button>수정</button>
+                  <button onClick={() => openModal(MODAL_TYPE.CAT_NEWS_DELETE)}>
+                    삭제
+                  </button>
                 </div>
               </div>
               {index !== data.items.length - 1 ? (

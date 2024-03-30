@@ -49,7 +49,6 @@ const SuspenseRegisterPostPage = () => {
   const { openModal } = useModal();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
-  console.log(data);
 
   const onClickFollow = async () => {
     if (!contentId) return;
@@ -62,6 +61,7 @@ const SuspenseRegisterPostPage = () => {
       refetch();
     }
   };
+  console.log(data);
 
   if (isSuccess)
     return (
