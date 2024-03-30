@@ -71,6 +71,10 @@ const config: Config = {
           '0%': { transform: 'translate(-50%, 100%)' },
           '100%': { transform: 'translate(-50%, 0)' },
         },
+        'slide-side': {
+          '0%': { transform: 'translate(-50%, 0)' },
+          '100%': { transform: 'translate(-50%, 100%)' },
+        },
       },
       animation: {
         tooltip: 'tooltip 1s ease-in-out',

@@ -152,6 +152,6 @@
   }
 
   .searchbar {
-    @apply rounded-full w-full flex justify-between items-center gap-[6px];
+    @apply rounded-full flex justify-between items-center gap-[6px];
   }
 }

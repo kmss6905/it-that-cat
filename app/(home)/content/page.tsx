@@ -49,7 +49,6 @@ const SuspenseRegisterPostPage = () => {
   const { openModal } = useModal();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
-  console.log('🚀 ~ SuspenseRegisterPostPage ~ data:', data);
 
   const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
 

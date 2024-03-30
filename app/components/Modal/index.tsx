@@ -9,12 +9,14 @@ export const MODAL_TYPE = {
   CONTENT_MANU: 'contentManu',
   CONTENT_DELETE: 'contentDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
+  SEARCH: 'search',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
 
 export const MODAL_VARIANT = {
   SLIDE: 'slide',
   CARD: 'card',
+  ALL: 'all',
 };
 export type MODAL_VARIANT = (typeof MODAL_VARIANT)[keyof typeof MODAL_VARIANT];
 
@@ -53,7 +55,7 @@ const Modal = ({ children, type, variant = MODAL_VARIANT.SLIDE }: Props) => {
       </div>
     ) : null;
 
-  return createPortal(modalContent, document.body);
+  return createPortal(modalContent, document?.body);
 };
 
 /**
@@ -85,15 +87,26 @@ const ModalContainer = ({
       </div>
     );
 
-  return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className='animate-slide-up absolute left-1/2 -translate-x-1/2 bottom-0 w-full max-w-[430px]
+  if (variant === MODAL_VARIANT.SLIDE)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='animate-slide-up absolute left-1/2 -translate-x-1/2 bottom-0 w-full max-w-[430px]
       shadow-[0_-10px_60px_rgba(0,0,0,0.15)] rounded-lg bg-white flex flex-col'
-    >
-      {children}
-    </div>
-  );
+      >
+        {children}
+      </div>
+    );
+
+  if (variant === MODAL_VARIANT.ALL)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='w-full h-full bg-white mx-auto absolute left-1/2 -translate-x-1/2 top-0'
+      >
+        {children}
+      </div>
+    );
 };
 
 export default Modal;
