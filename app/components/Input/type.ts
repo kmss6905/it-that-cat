@@ -25,4 +25,6 @@ export interface TextAreaProps {
   error?: boolean;
   required?: boolean;
   maxLength?: number;
+  isDisabled?: boolean;
+  report?: boolean;
 }

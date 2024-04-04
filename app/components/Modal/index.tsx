@@ -10,12 +10,14 @@ export const MODAL_TYPE = {
   CONTENT_DELETE: 'contentDelete',
   CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
+  CONTENT_REPORT: 'contentReport',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
 
 export const MODAL_VARIANT = {
   SLIDE: 'slide',
   CARD: 'card',
+  ALL: 'all',
 };
 export type MODAL_VARIANT = (typeof MODAL_VARIANT)[keyof typeof MODAL_VARIANT];
 
@@ -73,6 +75,16 @@ const ModalContainer = ({
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+  if (variant === MODAL_VARIANT.ALL)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='max-w-lg w-full h-full mx-auto absolute left-1/2 -translate-x-1/2 bg-white'
+      >
+        {children}
+      </div>
+    );
 
   if (variant === MODAL_VARIANT.CARD)
     return (
