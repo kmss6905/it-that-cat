@@ -87,7 +87,7 @@
   .mapFilter > button,
   .filter {
     @apply border-gray-100
-    subHeading3 text-gray-400
+    subHeading2 text-gray-400
     px-3 py-2 bg-white flex items-center gap-1 flex-nowrap
     outline-none;
   }
@@ -95,7 +95,7 @@
   .mapFilter > ul {
     @apply border border-gray-100
     rounded-b-md
-    subHeading3 text-gray-400
+    subHeading2 text-gray-400
     bg-white inline-block overflow-hidden;
   }
 
@@ -124,10 +124,6 @@
   }
 
   .subHeading2 {
-    @apply font-semibold text-[16px] tracking-[-2%] leading-[24px];
-  }
-
-  .subHeading3 {
     @apply font-semibold text-[14px] tracking-[-2%] leading-[20px];
   }
 
