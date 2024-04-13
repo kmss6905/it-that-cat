@@ -17,7 +17,7 @@ const SearchBar = ({ viewer }: SearchBarProps) => {
       onClick={() => openModal(MODAL_TYPE.SEARCH)}
     >
       <div
-        className={`searchbar bg-white px-3 py-10px mt-12 ${viewer === 'map' ? 'shadow-[0_2px_6px_0px_rgba(0,0,0,0.12)]' : 'border border-gray-100'}`}
+        className={`searchbar bg-white cursor-pointer px-3 py-10px mt-12 ${viewer === 'map' ? 'shadow-[0_2px_6px_0px_rgba(0,0,0,0.12)]' : 'border border-gray-100'}`}
       >
         <IconSearch />
         <div className='flex-grow body1 text-gray-300'>
