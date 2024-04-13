@@ -24,7 +24,6 @@ import { useModal } from '@/hooks/useModal';
 import ManuModal from '@/components/Content/Modal/ManuModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import DeleteModal from '@/components/Content/Modal/DeleteModal';
-import UnAuthUserPopup from '@/components/UnAuthUserPopup';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 
 const RegisterPostPage = () => {
