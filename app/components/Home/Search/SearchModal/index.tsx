@@ -5,7 +5,7 @@ import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 import IconRemoveValue from '@/assets/images/Icon_removeValue.svg';
 import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
-import { sameString } from '@/utils/sameString';
+import { highlight } from '@/utils/highlight';
 import getAdmAddr, { AdmAddrData } from '@/utils/getAdmAddr';
 import IconGraySearchM from '@/assets/images/icon_graySearchM.svg';
 
@@ -68,7 +68,7 @@ const SearchModal = () => {
               >
                 <IconGraySearchM />
                 <span className='flex-grow py-[3px]'>
-                  {sameString(searchValue, place.fullAddr)}
+                  {highlight(searchValue, place.fullAddr)}
                 </span>
               </li>
             ))}
