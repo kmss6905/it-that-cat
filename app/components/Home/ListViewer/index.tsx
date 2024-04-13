@@ -7,7 +7,7 @@ import { useCardContents } from '@/hooks/useGetContent';
 import CardSkeleton from '../CardSkeleton';
 import useGeolocation from '@/hooks/useGeolocation';
 import CatMark from '../CatMark';
-import GrayLogo from '@/assets/images/logo_gray.svg';
+import GrayLogo from '@/assets/images/logo/logo_gray.svg';
 import { Loading } from '@/(home)/loading';
 
 interface ListViewerProps {

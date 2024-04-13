@@ -1,15 +1,26 @@
 'use client';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import IconEdit from '@/assets/images/mypage/icon_edit.svg';
 import IconLogout from '@/assets/images/mypage/icon_logout.svg';
 import { useModal } from '@/hooks/useModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
+import getCookie from '@/utils/getCookie';
 
 const MyPage = () => {
   const [nickname, setNickname] = useState<string | null>(null);
   const { openModal } = useModal();
+
+  useEffect(() => {
+    if (nickname === null) {
+      const getNickname = async () => {
+        const response = await getCookie('nickname');
+        response && setNickname(response.value);
+      };
+      getNickname();
+    }
+  }, [nickname]);
 
   const mypageMenu = [
     {

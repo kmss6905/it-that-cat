@@ -2,13 +2,12 @@
 import { useRouter } from 'next/navigation';
 import MapComponent from '@/components/Map/Map';
 import getAddress from '@/apis/map/getAddress';
-import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
+import IconCurrMapPin from '@/assets/images/map/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
-import { Coordinates, GeolocationState, RegionState } from '@/types/address';
+import { Coordinates, RegionState } from '@/types/address';
 import { useMapContents } from '@/hooks/useGetContent';
 import CustomPin from '../Map/CustomPin';
 import useGeolocation from '@/hooks/useGeolocation';

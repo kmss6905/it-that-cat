@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import loginCharacter from '@/assets/images/login_character.png';
+import loginCharacter from '@/assets/images/login/login_character.png';
 import { postValidNickname } from '@/apis/login';
 import { useRouter } from 'next/navigation';
 import { postNickname } from '@/apis/login';

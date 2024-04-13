@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import IconBack from '@/assets/images/icon_back_black.svg';
 import IconGraySearch from '@/assets/images/icon_graySearch.svg';
+import IconGraySearchM from '@/assets/images/icon_graySearchM.svg';
+import IconRemoveValue from '@/assets/images/Icon_removeValue.svg';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
-import IconRemoveValue from '@/assets/images/Icon_removeValue.svg';
 import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
 import { highlight } from '@/utils/highlight';
 import getAdmAddr, { AdmAddrData } from '@/utils/getAdmAddr';
-import IconGraySearchM from '@/assets/images/icon_graySearchM.svg';
 
 const SearchModal = () => {
   const { closeModal } = useModal();

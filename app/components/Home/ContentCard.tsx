@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { catIllust } from '@/constants/catIllust';
-import IconDistance from '@/assets/images/icon_distance.svg';
+import IconDistance from '@/assets/images/map/icon_distance.svg';
 import useGeolocation from '@/hooks/useGeolocation';
 import { getDistance } from '@/utils/calcDistance';
 import getDateFormat from '@/utils/getDateFormat';

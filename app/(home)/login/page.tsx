@@ -1,7 +1,7 @@
 'use client';
 import LoginBtn from '@/components/Login/LoginBtn';
-import LogoKakao from '@/assets/images/logo_kakao.svg';
-import Logo from '@/assets/images/logo.svg';
+import LogoKakao from '@/assets/images/logo/logo_kakao.svg';
+import Logo from '@/assets/images/logo/logo.svg';
 import { useEffect } from 'react';
 
 const LoginPage = () => {

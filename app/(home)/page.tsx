@@ -6,7 +6,7 @@ import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import { useGeolocationStore } from '@/stores/home/store';
 import IconList from '@/assets/images/icon_list.svg';
-import IconMap from '@/assets/images/icon_mapView.svg';
+import IconMap from '@/assets/images/map/icon_mapView.svg';
 import IconNewContent from '@/assets/images/icon_newContent.svg';
 import { ContentObjProps } from '@/types/content';
 import MapViewer from '@/components/Home/MapViewer';
