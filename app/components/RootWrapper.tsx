@@ -9,7 +9,7 @@ const RootWrapper = ({ children }: { children?: ReactNode }) => {
     <div className='rootWrapper'>
       <div className='rootContainer'>
         <div className='screen'>{children}</div>
-        {/* <Nav /> */}
+        <Nav />
       </div>
     </div>
   );
