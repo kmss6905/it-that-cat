@@ -15,9 +15,9 @@ import ListViewer from '@/components/Home/ListViewer';
 import useGeolocation from '@/hooks/useGeolocation';
 import SearchBar from '@/components/Home/Search/SearchBar';
 import SearchModal from '@/components/Home/Search/SearchModal';
+import BookmarkBtn from '@/components/Home/BookmarkBtn';
 
 export default function Home() {
-  const router = useRouter();
   const currentPosition = useGeolocation();
 
   const { setPosition } = useGeolocationStore();
@@ -30,6 +30,7 @@ export default function Home() {
   );
 
   const [catMark, setCatMark] = useState<boolean>(false);
+  console.log('🚀 ~ Home ~ catMark:', catMark);
   const [content, setContent] = useState<ContentObjProps | null>(null);
 
   const handleClickCurrentPosition = useCallback(() => {
@@ -68,19 +69,26 @@ export default function Home() {
 
       <div className='absolute bottom-3 px-6 z-20 w-full'>
         {viewer === 'map' && currentPosition.position ? (
-          <CurrentLocationBtn
-            handleClick={handleClickCurrentPosition}
-            className='absolute -top-7 left-6 -translate-y-full'
-          />
+          <>
+            <BookmarkBtn
+              handleClick={() => setCatMark((prev) => !prev)}
+              className='absolute -top-20 left-6 -translate-y-full'
+              activate={catMark}
+            />
+            <CurrentLocationBtn
+              handleClick={handleClickCurrentPosition}
+              className='absolute -top-7 left-6 -translate-y-full'
+            />
+          </>
         ) : null}
 
-        <FloatingBtn
+        {/* <FloatingBtn
           Icon={IconNewContent}
           onClick={() => router.push('/register')}
           className='bg-primary-500 absolute right-6 -top-[84px]'
         >
           새로운 냥이 등록
-        </FloatingBtn>
+        </FloatingBtn> */}
         <FloatingBtn
           Icon={viewer === 'map' ? IconList : IconMap}
           onClick={() => setViewer((prev) => (prev === 'map' ? 'list' : 'map'))}
