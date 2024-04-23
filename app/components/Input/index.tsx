@@ -44,6 +44,8 @@ export const TextareaInput = ({
   onChange,
   placeholder,
   maxLength,
+  isDisabled,
+  report,
 }: TextAreaProps) => (
   <div className='relative'>
     <textarea
@@ -52,10 +54,12 @@ export const TextareaInput = ({
       onChange={onChange}
       maxLength={maxLength}
       placeholder={placeholder}
+      disabled={isDisabled ? isDisabled : false}
       className={`${InputClass}
     disabled:text-text-disable
     border transition-colors resize-none
     h-[140px] 
+    ${report ? 'body2' : null}
     `}
     />
     <span className='absolute text-gray-200 caption bottom-[-12px] right-[4px]'>

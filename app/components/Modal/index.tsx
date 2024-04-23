@@ -8,10 +8,12 @@ import { useModal } from '@/hooks/useModal';
 export const MODAL_TYPE = {
   CONTENT_MANU: 'contentManu',
   CONTENT_DELETE: 'contentDelete',
+  CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
   SEARCH: 'search',
   MYPAGE_NICKNAME: 'myPageNickname',
   UPDATE_NOTICE: 'updateNotice',
+  CONTENT_REPORT: 'contentReport',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
 
@@ -82,6 +84,16 @@ const ModalContainer = ({
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+  if (variant === MODAL_VARIANT.ALL)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='max-w-lg w-full h-full mx-auto absolute left-1/2 -translate-x-1/2 bg-white'
+      >
+        {children}
+      </div>
+    );
 
   if (variant === MODAL_VARIANT.CARD)
     return (

@@ -1,5 +1,6 @@
 import IconEdit from '@/assets/images/icon_edit.svg';
 import IconDelete from '@/assets/images/icon_delete.svg';
+import IconReport from '@/assets/images/icon_report.svg';
 import Modal, { MODAL_TYPE } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 
@@ -7,6 +8,9 @@ const ManuModal = () => {
   const { openModal } = useModal();
   const onClickDeleteButton = () => {
     openModal(MODAL_TYPE.CONTENT_ANONYMIZATION);
+  };
+  const onClickReportButton = () => {
+    openModal(MODAL_TYPE.CONTENT_REPORT);
   };
 
   return (
@@ -22,6 +26,13 @@ const ManuModal = () => {
         >
           <IconDelete />
           <span>삭제하기</span>
+        </button>
+        <button
+          onClick={onClickReportButton}
+          className='flex gap-[10px] items-center'
+        >
+          <IconReport />
+          <span>신고하기</span>
         </button>
       </div>
     </Modal>

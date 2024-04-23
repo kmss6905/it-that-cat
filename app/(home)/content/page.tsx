@@ -25,6 +25,7 @@ import ManuModal from '@/components/Content/Modal/ManuModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
+import ReportModal from '@/components/Content/Modal/ReportModal';
 
 const RegisterPostPage = () => {
   return (
@@ -62,6 +63,7 @@ const SuspenseRegisterPostPage = () => {
       refetch();
     }
   };
+  console.log(data);
 
   if (isSuccess)
     return (
@@ -69,6 +71,7 @@ const SuspenseRegisterPostPage = () => {
         <ManuModal />
         <DeleteModal />
         <AnonymizeModal />
+        <ReportModal />
 
         <div className='w-full relative'>
           <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
