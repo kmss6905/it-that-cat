@@ -13,7 +13,6 @@ const getAccessToken = async () => {
 
 export const getStepByStepAdress = async () => {
   const accessToken = await getAccessToken();
-  console.log('🚀 ~ getStepByStepAdress ~ accessToken:', accessToken);
 
   const url = `https://sgisapi.kostat.go.kr/OpenAPI3/addr/stage.json?accessToken=${accessToken}&cd=12345`;
 
