@@ -1,5 +1,3 @@
-import { reissueToken } from '@/apis/login';
-import { accessTime } from '@/constants/tokenExpires';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
@@ -16,12 +14,12 @@ export function middleware(request: NextRequest) {
     // 토큰이 있을 경우 로그인 페이지 접근 제한
     if (request.nextUrl.pathname.startsWith('/login')) {
       // 닉네임이 있는 유저일 경우 홈으로 이동
-      if (nickname) return NextResponse.redirect(url.origin);
+      if (nickname) return NextResponse.rewrite(url.origin);
 
       // 닉네임이 없는 유저일 경우 nickname 설정 페이지로 이동
       if (!nickname) {
         url.pathname = '/login/nickname';
-        return NextResponse.redirect(url.pathname);
+        return NextResponse.rewrite(url);
       }
     }
   }
