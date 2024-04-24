@@ -1,14 +1,14 @@
 import { NoFollowListPage, NoListPage } from '@/components/ListUi';
 import ContentCard from '../ContentCard';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import SelectFilter, { SelectedFilterState } from '../SelectFilter';
-import { useInView } from 'react-intersection-observer';
 import { useCardContents } from '@/hooks/useGetContent';
 import CardSkeleton from '../CardSkeleton';
 import useGeolocation from '@/hooks/useGeolocation';
 import CatMark from '../CatMark';
 import GrayLogo from '@/assets/images/logo/logo_gray.svg';
 import { Loading } from '@/(home)/loading';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 
 interface ListViewerProps {
   catMark: boolean;
@@ -22,13 +22,18 @@ const ListViewer = ({
   setCatMark,
   setSelectedFilter,
 }: ListViewerProps) => {
-  const [page, setPage] = useState(1);
-  const [observerRef, inView] = useInView();
   const currentLocation = useGeolocation();
 
-  const { data, isLoading, isFetching } = useCardContents({
-    position: currentLocation.position,
-    follow: catMark,
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
+    useCardContents({
+      position: currentLocation.position,
+      follow: catMark,
+    });
+
+  const target = useIntersectionObserver((entry, observer) => {
+    observer.unobserve(entry.target);
+
+    if (hasNextPage && !isFetching) fetchNextPage();
   });
 
   const contentsData = useMemo(() => {
@@ -44,14 +49,6 @@ const ListViewer = ({
     }
     return result;
   }, [data, selectedFilter.id]);
-
-  console.log('🚀 ~ contentsData ~ contentsData:', contentsData);
-
-  useEffect(() => {
-    if (inView && isLoading && !isFetching) {
-      setPage((prev) => prev + 1);
-    }
-  }, [inView, isLoading, isFetching]);
 
   const renderedComponent = useMemo(() => {
     if (isLoading) {
@@ -83,13 +80,13 @@ const ListViewer = ({
       <div className='overflow-y-scroll layout flex-grow flex flex-col gap-2 px-6'>
         {renderedComponent}
         {isLoading ? (
-          <Loading />
+          <Loading className='h-[128px] pt-16 pb-10' />
         ) : (
           <div className='pt-16 pb-10 w-full flex justify-center'>
             <GrayLogo />
           </div>
         )}
-        <div ref={observerRef}></div>
+        <div ref={target}></div>
       </div>
     </div>
   );

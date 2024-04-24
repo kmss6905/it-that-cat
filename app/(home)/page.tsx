@@ -30,7 +30,6 @@ export default function Home() {
   );
 
   const [catMark, setCatMark] = useState<boolean>(false);
-  console.log('🚀 ~ Home ~ catMark:', catMark);
   const [content, setContent] = useState<ContentObjProps | null>(null);
 
   const handleClickCurrentPosition = useCallback(() => {

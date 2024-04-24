@@ -17,9 +17,9 @@ export const useCardContents = (data: GetContentParams) => {
     [queryCardContentsKey, data.position, data.follow],
     ({ pageParam = 1 }) => getCardContents({ ...data, pageParam }),
     {
-      getNextPageParam: (lastPage) => {
-        console.log('🚀 ~ useCardContents ~ lastPage:', lastPage);
-        return lastPage;
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        return !lastPage?.isEnd ? nextPage : undefined;
       },
       staleTime: 1,
       keepPreviousData: true,
