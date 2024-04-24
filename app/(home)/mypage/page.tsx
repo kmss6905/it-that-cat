@@ -7,6 +7,7 @@ import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
 import getCookie from '@/utils/getCookie';
+import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
 
 const MyPage = () => {
   const [nickname, setNickname] = useState<string | null>(null);
@@ -58,7 +59,15 @@ const MyPage = () => {
     {
       id: 2,
       title: '계정 관리',
-      depth: [{ id: 1, title: '회원탈퇴', handleClick: () => {} }],
+      depth: [
+        {
+          id: 1,
+          title: '회원탈퇴',
+          handleClick: () => {
+            openModal(MODAL_TYPE.DELETE_USER);
+          },
+        },
+      ],
     },
   ];
 
@@ -66,6 +75,7 @@ const MyPage = () => {
     <Fragment>
       <NicknameModal />
       <UpdateNoticeModal />
+      <DeleteUserModal />
       <div className='flex justify-end px-6 pt-7 pb-5'>
         <div className='text-gray-300 caption cursor-pointer pt-3 pb-5 flex items-center gap-1'>
           <IconLogout />

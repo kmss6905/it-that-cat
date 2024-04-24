@@ -12,6 +12,7 @@ export const MODAL_TYPE = {
   CONTENT_ANONYMIZATION: 'contentAnonymization',
   SEARCH: 'search',
   MYPAGE_NICKNAME: 'myPageNickname',
+  DELETE_USER: 'deleteUser',
   UPDATE_NOTICE: 'updateNotice',
   CONTENT_REPORT: 'contentReport',
 };
