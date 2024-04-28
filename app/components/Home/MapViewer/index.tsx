@@ -30,7 +30,6 @@ const MapViewer = ({
     follow: catMark,
   });
 
-  console.log('🚀 ~ data:', data);
   const handleClickMarker = async (data: {
     id: number;
     position: Coordinates;

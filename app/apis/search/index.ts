@@ -18,3 +18,7 @@ export const getStepByStepAdress = async () => {
 
   return (await fetchApi(url, 'GET')).result;
 };
+
+export const getSearchAddress = async () => {
+  return (await fetchApi('/addr', 'GET')).data;
+};

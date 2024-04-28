@@ -1,5 +1,6 @@
 import admAddrData from '@/constants/admAddrData.json';
 import createFuzzyMatcher from './createFuzzyMatcher';
+import { getSearchAddress } from '@/apis/search';
 
 export interface AdmAddrData {
   sidoCode: number;
@@ -16,14 +17,21 @@ export interface AdmAddrData {
  * @param {string} search 입력된 검색어
  * @return {AdmAddrData[]} 행정 주소 리스트 반환
  */
-const getAdmAddr = (search: string) => {
+const getAdmAddr = async (search: string) => {
+  let addrList: AdmAddrData[] = [];
   /* 오탈자 반영 검색어 리턴 */
-  const admAddrs = JSON.parse(JSON.stringify(admAddrData));
+  const response = await getSearchAddress();
+
+  if (response) {
+    addrList.push(...response);
+  }
+
+  // const admAddrs = JSON.parse(JSON.stringify(admAddrData));
 
   if (search !== '') {
     const regex = createFuzzyMatcher(search);
 
-    const searchList = admAddrs.filter((item: AdmAddrData) =>
+    const searchList = addrList.filter((item: AdmAddrData) =>
       regex.test(item.fullAddr),
     );
 

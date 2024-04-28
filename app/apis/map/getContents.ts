@@ -34,9 +34,5 @@ export const getCardContents = async ({
 
   const url = `/contents?page=${pageParam}&size=${size}&lat=${lat}&lng=${lng}&range=1000000&distance_order=asc&follow=${follow}`;
 
-  console.log(
-    "🚀 ~ (await fetchApi(url, 'GET')).data:",
-    (await fetchApi(url, 'GET')).data,
-  );
   return (await fetchApi(url, 'GET')).data;
 };

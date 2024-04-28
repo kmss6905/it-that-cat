@@ -63,7 +63,6 @@ const SuspenseRegisterPostPage = () => {
       refetch();
     }
   };
-  console.log(data);
 
   if (isSuccess)
     return (

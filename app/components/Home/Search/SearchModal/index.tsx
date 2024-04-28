@@ -9,21 +9,42 @@ import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
 import { highlight } from '@/utils/highlight';
 import getAdmAddr, { AdmAddrData } from '@/utils/getAdmAddr';
 
+export interface QueryState {
+  key: string;
+  data: AdmAddrData[];
+}
+
+export interface SearchState {
+  admAddr: AdmAddrData;
+  data: AdmAddrData[] | null;
+}
+
 const SearchModal = () => {
   const { closeModal } = useModal();
 
-  const [searchValue, setSearchValue] = useState('');
-  const [placeList, setPlaceList] = useState<AdmAddrData[]>([]);
+  const [query, setQuery] = useState<QueryState>({ key: '', data: [] });
+  const [search, setSearch] = useState<SearchState>({
+    admAddr: {
+      sidoCode: 0,
+      sidoName: '',
+      guCode: 0,
+      siGunGuName: '',
+      dongCode: 0,
+      dongName: '',
+      fullAddr: '',
+    },
+    data: null,
+  });
 
-  const getPlaceList = (search: string) => {
-    const response = getAdmAddr(search);
-    setPlaceList(response);
+  const getPlaceList = async (search: string) => {
+    const response = await getAdmAddr(search);
+    response && setQuery((prev) => ({ ...prev, data: response }));
   };
 
   const setDebouncePlaceList = useDebounceFunction(getPlaceList, 300);
 
   const handleChangeSearchValue = (value: string) => {
-    setSearchValue(value);
+    setQuery((prev) => ({ ...prev, key: value }));
     setDebouncePlaceList(value);
   };
 
@@ -42,16 +63,16 @@ const SearchModal = () => {
             <IconGraySearch />
             <input
               type='text'
-              value={searchValue}
+              value={query.key}
               onChange={(e) => handleChangeSearchValue(e.target.value)}
               placeholder='지역, 동네명, 주소 검색'
               className='flex-grow body1 bg-transparent
               placeholder:text-gray-300 caret-primary-500'
             />
-            {searchValue !== '' && (
+            {query.key !== '' && (
               <div
                 className='cursor-pointer'
-                onClick={() => setSearchValue('')}
+                onClick={() => setQuery((prev) => ({ ...prev, key: '' }))}
               >
                 <IconRemoveValue />
               </div>
@@ -59,16 +80,24 @@ const SearchModal = () => {
           </div>
         </form>
 
-        {searchValue !== '' && placeList?.length > 0 ? (
+        {/* 검색어 추천 */}
+        {query.key !== '' && query.data?.length > 0 && search.data === null ? (
           <ul className='px-6 py-5 flex flex-col gap-1'>
-            {placeList.map((place) => (
+            {query.data.map((place) => (
               <li
                 key={place.fullAddr}
+                onClick={() => {
+                  setSearch({
+                    admAddr: place,
+                    data: [],
+                  });
+                  setQuery((prev) => ({ ...prev, key: place.fullAddr }));
+                }}
                 className='flex justify-between items-center gap-[10px] text-gray-500 cursor-pointer'
               >
                 <IconGraySearchM />
                 <span className='flex-grow py-[3px]'>
-                  {highlight(searchValue, place.fullAddr)}
+                  {highlight(query.key, place.fullAddr)}
                 </span>
               </li>
             ))}
