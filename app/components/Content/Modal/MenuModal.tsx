@@ -4,7 +4,7 @@ import IconReport from '@/assets/images/icon_report.svg';
 import Modal, { MODAL_TYPE } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 
-const ManuModal = () => {
+const MenuModal = () => {
   const { openModal } = useModal();
   const onClickDeleteButton = () => {
     openModal(MODAL_TYPE.CONTENT_ANONYMIZATION);
@@ -14,7 +14,7 @@ const ManuModal = () => {
   };
 
   return (
-    <Modal type={MODAL_TYPE.CONTENT_MANU}>
+    <Modal type={MODAL_TYPE.CONTENT_MENU}>
       <div className='px-6 pt-[34px] pb-14 flex flex-col gap-[22px]'>
         <button className='flex gap-[10px] items-center'>
           <IconEdit />
@@ -39,4 +39,4 @@ const ManuModal = () => {
   );
 };
 
-export default ManuModal;
+export default MenuModal;

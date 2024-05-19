@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { useModal } from '@/hooks/useModal';
 
 export const MODAL_TYPE = {
-  CONTENT_MANU: 'contentManu',
+  CONTENT_MENU: 'contentMenu',
   CONTENT_DELETE: 'contentDelete',
   CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',

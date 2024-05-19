@@ -21,7 +21,7 @@ import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
 import { useModal } from '@/hooks/useModal';
-import ManuModal from '@/components/Content/Modal/ManuModal';
+import MenuModal from '@/components/Content/Modal/MenuModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import UnAuthUserPopup from '@/components/UnAuthUserPopup';
@@ -67,7 +67,7 @@ const SuspenseRegisterPostPage = () => {
   if (isSuccess)
     return (
       <Fragment>
-        <ManuModal />
+        <MenuModal />
         <DeleteModal />
         <AnonymizeModal />
         <ReportModal />
@@ -81,7 +81,7 @@ const SuspenseRegisterPostPage = () => {
               <button onClick={onClickFollow}>
                 {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
               </button>
-              <button onClick={() => openModal(MODAL_TYPE.CONTENT_MANU)}>
+              <button onClick={() => openModal(MODAL_TYPE.CONTENT_MENU)}>
                 <IconKebab />
               </button>
             </div>
