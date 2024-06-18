@@ -1,14 +1,39 @@
+'use client';
+import { updateNickname } from '@/apis/mypage';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
-import React, { ReactNode, useState } from 'react';
+import getCookie from '@/utils/getCookie';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const NicknameModal = () => {
-  const [nickname, setNickname] = useState('test');
+  const [nickname, setNickname] = useState<string | null>(null);
   const { closeModal } = useModal();
-  const handleClick = (type: 'reset' | 'submit') => {
-    if (type === 'reset') return closeModal();
-    return;
+
+  const handleClick = async (type: 'reset' | 'submit') => {
+    if (type === 'reset') {
+      setNickname(null);
+      return closeModal();
+    }
+
+    if (nickname) {
+      const res = await updateNickname(nickname);
+      console.log('🚀 ~ handleClick ~ res:', res);
+      // if (res === 200) {
+      //   setNickname(null);
+      //   return closeModal();
+      // }
+    }
   };
+
+  useEffect(() => {
+    if (nickname === null) {
+      const getNickname = async () => {
+        const nick = (await getCookie('nickname'))?.value;
+        nick && setNickname(nick);
+      };
+      getNickname();
+    }
+  }, [nickname]);
 
   return (
     <Modal type={MODAL_TYPE.MYPAGE_NICKNAME} variant={MODAL_VARIANT.CARD}>
@@ -17,12 +42,12 @@ const NicknameModal = () => {
         <form className='relative'>
           <input
             type='text'
-            value={nickname}
+            value={nickname ? nickname : ''}
             onChange={(e) => setNickname(e.target.value)}
             className='border-b subHeading mt-10 border-gray-200 w-full caret-primary-500 text-primary-500'
           />
           <span className='absolute right-0 top-[45px] text-gray-300 caption'>
-            {nickname.length}/10
+            {nickname === null ? 0 : nickname.length}/10
           </span>
         </form>
       </div>
