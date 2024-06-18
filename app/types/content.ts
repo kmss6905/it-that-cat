@@ -14,7 +14,17 @@ export interface CatObjProps {
   neuter: string;
   group: string;
   catPersonalities: string[];
-  images: string[];
+  images?: string[];
+}
+
+export interface UpdateCatObjProps {
+  name: string;
+  description: string;
+  neuter: string;
+  group: string;
+  catPersonalities: string[];
+  imageKeys: string[];
+  catEmoji: number;
 }
 
 export interface RegisterCatObjProps extends CatObjProps {

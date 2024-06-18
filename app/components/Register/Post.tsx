@@ -29,8 +29,12 @@ import {
   personalityButtons,
 } from '@/constants/catInfoButtons';
 import { postContent, putContent } from '@/apis/contents';
-import { saveImage } from '@/apis/image/saveImage';
-import { CatObjProps, RegisterCatObjProps } from '@/types/content';
+import { saveImageAWS } from '@/apis/image/saveImage';
+import {
+  CatObjProps,
+  RegisterCatObjProps,
+  UpdateCatObjProps,
+} from '@/types/content';
 import { ResType } from '@/types/api';
 import { catIllust } from '@/constants/catIllust';
 import { useWithLoading } from '@/hooks/useWithLoading';
@@ -51,12 +55,18 @@ const RegisterPost = ({
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+  const [thumbImages, setThumbImages] = useState<
+    (string | ArrayBuffer | null)[]
+  >([]);
+  const [images, setImages] = useState<(File | string)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
   const { withLoading } = useWithLoading();
 
   useEffect(() => {
-    setImages(catInfo.images);
+    if (catInfo.images) {
+      setThumbImages(catInfo.images);
+      setImages(catInfo.images);
+    }
   }, [catInfo?.images]);
 
   const onChange = (e: any) => {
@@ -118,7 +128,7 @@ const RegisterPost = ({
   };
 
   const onClickInputImage = () => {
-    if (images.length === 3) {
+    if (thumbImages.length === 3) {
       return;
     }
     inputRef.current?.click();
@@ -126,20 +136,24 @@ const RegisterPost = ({
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const newImages: (string | ArrayBuffer | null)[] = [...images];
+    const newThumbImages: (string | ArrayBuffer | null)[] = [...thumbImages];
+    const newImages: (File | string)[] = [...images];
+    newImages.push(files?.[0] || new File([], ''));
+    setImages(newImages);
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.readAsDataURL(files[i]);
         reader.onloadend = () => {
-          newImages.push(reader.result);
-          setImages(newImages);
+          newThumbImages.push(reader.result);
+          setThumbImages(newThumbImages);
         };
       }
     }
   };
 
   const handleImageRemove = (index: number) => {
+    setThumbImages(thumbImages.filter((_, i) => i !== index));
     setImages(images.filter((_, i) => i !== index));
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -147,8 +161,7 @@ const RegisterPost = ({
   };
 
   const handleRegister = async () => {
-    const base64s = images.map((image) => (image ? image.toString() : ''));
-    const saveImageUrls = await Promise.all(base64s.map(saveImage));
+    const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const updatedCatInfo = {
       ...catInfo,
       group: catInfo.group ? catInfo.group : UNSURE,
@@ -156,26 +169,33 @@ const RegisterPost = ({
         ? catInfo.catPersonalities
         : [UNSURE],
     };
-    const data: RegisterCatObjProps = {
-      ...updatedCatInfo,
-      imageKeys: saveImageUrls,
+    if (isNew) {
+      const data: RegisterCatObjProps = {
+        ...updatedCatInfo,
+        imageKeys: saveImageKeys,
+        catEmoji: catEmoji,
+      };
+      return (await postContent(data)) as ResType<{ contentId: string }>;
+    }
+    const data: UpdateCatObjProps = {
+      name: updatedCatInfo.name,
+      description: updatedCatInfo.description,
+      neuter: updatedCatInfo.neuter,
+      group: updatedCatInfo.group,
+      catPersonalities: updatedCatInfo.catPersonalities,
+      imageKeys: saveImageKeys,
       catEmoji: catEmoji,
     };
-    if (isNew) {
-      const res: ResType<{ contentId: string }> = await postContent(data);
-      return res;
-    }
-    const res: ResType<{ contentId: string }> = await putContent(
-      data,
-      catInfo.contentId,
-    );
-    return res;
+    return (await putContent(data, catInfo.contentId)) as ResType<{
+      contentId: string;
+    }>;
   };
 
   const onClickRegister = async () => {
     const res = await withLoading(() => handleRegister());
     if (res.result === 'SUCCESS') {
-      router.push(`/content?id=${res?.data?.contentId}`);
+      const contentId = res?.data?.contentId ?? catInfo.contentId;
+      router.push(`/content?id=${contentId}`);
     }
   };
 
@@ -278,7 +298,9 @@ const RegisterPost = ({
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>{images?.length}/3</div>
+              <div className='text-gray-200 caption'>
+                {thumbImages?.length}/3
+              </div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -288,7 +310,7 @@ const RegisterPost = ({
                 data-testid='puzzleImage-input'
               />
             </div>
-            {images?.map((image, index) => (
+            {thumbImages?.map((image, index) => (
               <ImageWrapper
                 key={index}
                 size='S'
