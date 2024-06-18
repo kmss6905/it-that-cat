@@ -28,7 +28,7 @@ import {
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
-import { postContent } from '@/apis/contents';
+import { postContent, putContent } from '@/apis/contents';
 import { saveImage } from '@/apis/image/saveImage';
 import { CatObjProps, RegisterCatObjProps } from '@/types/content';
 import { ResType } from '@/types/api';
@@ -158,11 +158,17 @@ const RegisterPost = ({
     };
     const data: RegisterCatObjProps = {
       ...updatedCatInfo,
-      images: saveImageUrls,
+      imageKeys: saveImageUrls,
       catEmoji: catEmoji,
     };
-    const res: ResType<{ contentId: string }> = await postContent(data);
-
+    if (isNew) {
+      const res: ResType<{ contentId: string }> = await postContent(data);
+      return res;
+    }
+    const res: ResType<{ contentId: string }> = await putContent(
+      data,
+      catInfo.contentId,
+    );
     return res;
   };
 

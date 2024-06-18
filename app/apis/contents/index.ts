@@ -1,4 +1,3 @@
-'use server';
 import { catFollowId, commentLikeId, commentProps } from '@/types/api';
 import { RegisterCatObjProps } from '@/types/content';
 import fetchApi from '../fetchApi';
@@ -10,6 +9,14 @@ export const getContent = async (contentId: string | null) => {
 
 export const postContent = async (data: RegisterCatObjProps) => {
   return await fetchApi<RegisterCatObjProps>(`/contents`, 'POST', data);
+};
+
+export const putContent = async (
+  data: RegisterCatObjProps,
+  contentId: string | undefined,
+) => {
+  const url = `/contents/${contentId}`;
+  return await fetchApi<RegisterCatObjProps>(url, 'PUT', data);
 };
 
 export const getComments = async (contentId: string | null) => {
