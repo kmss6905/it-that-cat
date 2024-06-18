@@ -21,7 +21,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
         </div>
         <div className={`${titleClassName}`}>동네 집사의 한 줄 소개</div>
         <div className='body2 text-gray-400 mb-4'>{content.description}</div>
-        <div className='flex gap-2'>
+        {/* <div className='flex gap-2'>
           {content.images.map((image, index) => (
             <ImageWrapper key={index}>
               <Image
@@ -34,7 +34,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
               />
             </ImageWrapper>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className={`${barClassName}`} />
@@ -89,7 +89,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
         <div className={`${titleClassName}`}>주요 출몰 위치</div>
         <div className='caption text-gray-400 mb-3'>{content.addrName}</div>
         <div className='w-full h-[136px]'>
-          <MapComponent position={position} level={4}>
+          <MapComponent>
             <CustomPin position={position} />
           </MapComponent>
         </div>

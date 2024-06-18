@@ -2,35 +2,40 @@
 import { useRouter } from 'next/navigation';
 import MapComponent from '@/components/Map/Map';
 import getAddress from '@/apis/map/getAddress';
-import CurrPin from '@/components/Map/CurrPin';
 import RegisterBtn from '@/components/RegisterBtn';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
-import IconCurrMapPin from '@/assets/images/icon_currentMapPin.svg';
+import IconCurrMapPin from '@/assets/images/map/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
-import { Coordinates, GeolocationState, RegionState } from '@/types/address';
-import ContentMarkers from '../Map/ContentMarkers';
+import { Coordinates, RegionState } from '@/types/address';
+import { useMapContents } from '@/hooks/useGetContent';
+import CustomPin from '../Map/CustomPin';
+import useGeolocation from '@/hooks/useGeolocation';
+import { useGeolocationStore } from '@/stores/home/store';
 
 const RegisterMap = ({
   isModifying,
-  address,
-  position,
-  currentGeolocation,
   initAddress,
   setMode,
-  setAddress,
-  setPosition,
 }: {
   isModifying: boolean;
-  address: RegionState | null;
-  position: Coordinates | null;
-  currentGeolocation: GeolocationState;
   initAddress: RegionState | null;
   setMode: Dispatch<SetStateAction<string>>;
-  setAddress: Dispatch<SetStateAction<RegionState | null>>;
-  setPosition: Dispatch<SetStateAction<Coordinates | null>>;
 }) => {
+  const currentGeolocation = useGeolocation();
+  const {
+    geolocation: { position, address },
+    setPosition,
+    setAddress,
+  } = useGeolocationStore();
   const router = useRouter();
+
+  const query = {
+    position: currentGeolocation.position ? currentGeolocation.position : null,
+    follow: false,
+  };
+
+  const { data } = useMapContents({ ...query });
 
   if (currentGeolocation.position === null) return null;
 
@@ -68,20 +73,12 @@ const RegisterMap = ({
         </span>
       </div>
 
-      <MapComponent
-        position={position ? position : currentGeolocation.position}
-        onCenterChanged={handleCenterChanged}
-        isPanto
-      >
-        <ContentMarkers
-          query={{
-            position: currentGeolocation.position
-              ? currentGeolocation.position
-              : null,
-            follow: false,
-          }}
-        />
-        <CurrPin position={currentGeolocation.position} />
+      <MapComponent isPanto onCenterChanged={handleCenterChanged}>
+        {data
+          ? data.items.map(({ contentId, lat, lng }: any) => (
+              <CustomPin key={contentId} position={{ lat: lat, lng: lng }} />
+            ))
+          : null}
       </MapComponent>
 
       <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-20'>

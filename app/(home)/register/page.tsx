@@ -6,14 +6,17 @@ import { CatObjProps } from '@/types/content';
 import { Coordinates, RegionState } from '@/types/address';
 import useGeolocation from '@/hooks/useGeolocation';
 import useAddress from '@/hooks/useAddress';
+import { useGeolocationStore } from '@/stores/home/store';
 
 const RegisterPage = () => {
   const currentGeolocation = useGeolocation();
   const initAddress = useAddress();
   const [mode, setMode] = useState<string>('map');
   const [isModifying, setIsModifying] = useState<boolean>(false);
-  const [address, setAddress] = useState<RegionState | null>(null);
-  const [position, setPosition] = useState<Coordinates | null>(null);
+  const {
+    geolocation: { position, address },
+  } = useGeolocationStore();
+
   const [catInfo, setCatInfo] = useState<CatObjProps>({
     name: '',
     description: '',
@@ -64,12 +67,7 @@ const RegisterPage = () => {
         <RegisterMap
           isModifying={isModifying}
           setMode={setMode}
-          address={address}
-          currentGeolocation={currentGeolocation}
           initAddress={initAddress}
-          setAddress={setAddress}
-          position={position}
-          setPosition={setPosition}
         />
       ) : (
         <RegisterPost

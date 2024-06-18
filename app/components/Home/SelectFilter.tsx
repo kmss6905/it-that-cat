@@ -39,11 +39,11 @@ const SelectFilter = ({
     return (
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`absolute left-6 top-10 z-10 filter ${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
+        className={`filter ${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
         {selectedFilter.content}
         <span
-          className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
+          className={`rotate-0 transition-transform ${isOpen ? 'rotate-180 transition-transform' : ''}`}
         >
           <IconDropdown />
         </span>
@@ -52,7 +52,7 @@ const SelectFilter = ({
 
   return (
     <div
-      className={`mapFilter w-full h-full z-10`}
+      className={`mapFilter`}
       ref={ref}
       onClick={(e) => handleClickOutsideFilter(e)}
     >
@@ -61,14 +61,13 @@ const SelectFilter = ({
         className={`${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
         {selectedFilter.content}
-        <span
+        <IconDropdown
           className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
-        >
-          <IconDropdown />
-        </span>
+        />
       </button>
+
       {isOpen && (
-        <ul>
+        <ul className='absolute'>
           {options
             .filter((items) => items.id !== selectedFilter.id)
             .map((items) => (

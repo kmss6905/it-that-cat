@@ -67,10 +67,19 @@ const config: Config = {
           '75%': { scale: '1.5', opacity: '0' },
           '100%': { scale: '1.5', opacity: '0' },
         },
+        'slide-up': {
+          '0%': { transform: 'translate(-50%, 100%)' },
+          '100%': { transform: 'translate(-50%, 0)' },
+        },
+        'slide-side': {
+          '0%': { transform: 'translate(-50%, 0)' },
+          '100%': { transform: 'translate(-50%, 100%)' },
+        },
       },
       animation: {
         tooltip: 'tooltip 1s ease-in-out',
         pingCustom: 'pingCustom 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'slide-up': 'slide-up 0.4s ease-out',
       },
     },
   },

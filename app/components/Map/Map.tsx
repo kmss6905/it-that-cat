@@ -1,9 +1,13 @@
 'use client';
 
-import useGeolocation from '@/hooks/useGeolocation';
+import React, { ReactNode, RefObject, useMemo } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+
+import useGeolocation from '@/hooks/useGeolocation';
+import { useGeolocationStore } from '@/stores/home/store';
 import CurrPin from './CurrPin';
-import { useMemo } from 'react';
+import { clusterStyle } from './clusterStyle';
+import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
 
 declare global {
   interface Window {
@@ -12,102 +16,42 @@ declare global {
 }
 
 interface MapProps {
-  children?: React.ReactNode;
-  position?: { lat: number; lng: number };
-  onCenterChanged?: (value: any) => void;
   isPanto?: boolean;
-  level?: number;
+  children?: ReactNode;
+  mapRef?: RefObject<kakao.maps.Map>;
   onClick?: () => void;
+  onCenterChanged?: (value: any) => void;
 }
 
-const MapComponent = ({ children, ...props }: MapProps) => {
-  const geolocation = useGeolocation();
-
-  const clusterStyle = [
-    {
-      width: '40px',
-      height: '40px',
-      background: 'rgba(255,205,133)',
-      border: '3px solid white',
-      borderRadius: '100%',
-      color: '#2b2b2b',
-      boxShadow: '0 0 15px 2px rgba(255,205,133, 0.8)',
-      textAlign: 'center',
-      fontWeight: '400',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      lineHeight: '24px',
-    },
-    {
-      width: '40px',
-      height: '40px',
-      background: 'rgba(144,144,144)',
-      border: '3px solid white',
-      borderRadius: '100%',
-      color: '#2b2b2b',
-      boxShadow: '0 0 15px 2px rgba(144,144,144, 0.8)',
-      textAlign: 'center',
-      fontWeight: '400',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      lineHeight: '24px',
-    },
-
-    {
-      width: '40px',
-      height: '40px',
-      background: 'rgba(255, 155, 30)',
-      border: '3px solid white',
-      borderRadius: '100%',
-      color: '#fff',
-      boxShadow: '0 0 15px 2px rgba(255, 155, 30, 0.8)',
-      textAlign: 'center',
-      fontWeight: '400',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      lineHeight: '24px',
-    },
-    {
-      width: '40px',
-      height: '40px',
-      background: 'rgba(43,43,43)',
-      border: '3px solid white',
-      borderRadius: '100%',
-      color: '#fff',
-      boxShadow: '0 0 15px 2px rgba(43,43,43, 0.5)',
-      textAlign: 'center',
-      fontWeight: '400',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      lineHeight: '24px',
-    },
-  ];
+const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
+  const currentPosition = useGeolocation();
+  const { geolocation, setPosition } = useGeolocationStore();
+  const setPositionDebounced = useDebounceFunction(setPosition, 300);
 
   const position = useMemo(() => {
-    if (props.position) {
-      return props.position;
-    } else if (geolocation.position) {
-      return {
-        lat: geolocation.position.lat,
-        lng: geolocation.position.lng,
-      };
-    }
-
-    return null;
-  }, [props.position, geolocation.position]);
-
-  if (!position) return null;
+    const initPosition = { lat: 36, lng: 127 };
+    return geolocation.position === null
+      ? currentPosition.position === null
+        ? initPosition
+        : currentPosition.position
+      : geolocation.position;
+  }, [geolocation.position, currentPosition.position]);
 
   return (
     <Map
       id='map'
       center={position}
       className='w-full h-full'
-      level={props.level ? props.level : 3}
+      level={3}
+      ref={mapRef}
+      onCenterChanged={(map) => {
+        const latlng = map.getCenter();
+
+        setPositionDebounced({
+          lat: latlng.getLat(),
+          lng: latlng.getLng(),
+        });
+      }}
       {...props}
     >
       <MarkerClusterer
@@ -119,9 +63,7 @@ const MapComponent = ({ children, ...props }: MapProps) => {
         {children}
       </MarkerClusterer>
 
-      {geolocation.position ? (
-        <CurrPin position={geolocation.position} />
-      ) : null}
+      <CurrPin />
     </Map>
   );
 };
