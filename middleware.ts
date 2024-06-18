@@ -10,20 +10,21 @@ export function middleware(request: NextRequest) {
 
   const url = request.nextUrl.clone();
 
-  if (accessToken && refreshToken) {
+  if (refreshToken) {
     // 토큰이 있을 경우 로그인 페이지 접근 제한
     if (request.nextUrl.pathname.startsWith('/login')) {
       // 닉네임이 있는 유저일 경우 홈으로 이동
-      if (nickname && nickname.value) {
-        return NextResponse.redirect(url.origin);
-      }
+      if (nickname) return NextResponse.rewrite(url.origin);
+
       // 닉네임이 없는 유저일 경우 nickname 설정 페이지로 이동
-      else if (!nickname || !nickname.value) {
+      if (!nickname) {
         url.pathname = '/login/nickname';
-        return NextResponse.redirect(url.pathname);
+        return NextResponse.rewrite(url);
       }
     }
-  } else if (!accessToken || !refreshToken) {
+  }
+
+  if (!accessToken && !refreshToken) {
     // 토큰 없이 로그인 페이지 외 페이지 접근 시 로그인으로 이동
     if (!request.nextUrl.pathname.startsWith('/login')) {
       // auth 페이지는 제외

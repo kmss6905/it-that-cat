@@ -17,16 +17,12 @@ export const useCardContents = (data: GetContentParams) => {
     [queryCardContentsKey, data.position, data.follow],
     ({ pageParam = 1 }) => getCardContents({ ...data, pageParam }),
     {
-      getNextPageParam: (lastPage) => {
-        const itemsNum = lastPage.totalItems % lastPage.pageSize;
-        const pages = lastPage.totalItems / lastPage.pageSize;
-        const totalPages =
-          itemsNum === 0 ? Math.floor(pages) : Math.floor(pages) + 1;
-        return lastPage.currentPage < lastPage.totalPages
-          ? lastPage.currentPage + 1
-          : undefined;
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        return !lastPage?.isEnd ? nextPage : undefined;
       },
       staleTime: 1,
+      keepPreviousData: true,
     },
   );
 };

@@ -31,11 +31,11 @@
   }
 
   .rootContainer {
-    @apply max-w-[430px] w-screen h-full overflow-hidden;
+    @apply max-w-[430px] w-screen h-full overflow-hidden flex flex-col;
   }
 
   .screen {
-    @apply bg-white w-full h-full relative overflow-hidden;
+    @apply bg-white flex-grow relative overflow-hidden;
   }
 
   .tooltipWrapper {
@@ -79,21 +79,16 @@
   }
 
   .catMark {
-    @apply absolute top-10 z-10 cursor-pointer
+    @apply cursor-pointer
     flex items-center gap-[6px] rounded-md border
     bg-white px-3 py-2 subHeading2;
-  }
-
-  .mapFilter {
-    @apply absolute top-0 left-0 z-10 px-6 py-10;
   }
 
   .mapFilter > button,
   .filter {
     @apply border-gray-100
     subHeading2 text-gray-400
-    px-3 py-2 bg-white
-    flex items-center gap-1
+    px-3 py-2 bg-white flex items-center gap-1 flex-nowrap
     outline-none;
   }
 
@@ -146,5 +141,13 @@
 
   .caption2 {
     @apply font-normal text-[12px] tracking-[-2%] leading-[15px];
+  }
+
+  .nav {
+    @apply font-normal text-[11px] tracking-[-2%] leading-[14px];
+  }
+
+  .searchbar {
+    @apply rounded-full flex justify-between items-center gap-[6px];
   }
 }

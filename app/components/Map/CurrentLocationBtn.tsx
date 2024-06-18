@@ -1,5 +1,5 @@
 import React from 'react';
-import IconCurrLocation from '@/assets/images/icon_currentLocation.svg';
+import IconCurrLocation from '@/assets/images/map/icon_currentLocation.svg';
 
 interface CurrentLocationBtnProps {
   handleClick: () => void;

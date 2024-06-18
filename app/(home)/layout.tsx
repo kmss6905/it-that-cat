@@ -30,6 +30,10 @@ export default function RootLayout({
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=clusterer&autoload=false`}
           strategy='beforeInteractive'
         />
+        <Script
+          src={`https://developers.kakao.com/sdk/js/kakao.js`}
+          strategy='afterInteractive'
+        />
       </body>
     </html>
   );

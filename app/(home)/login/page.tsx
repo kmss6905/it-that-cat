@@ -1,13 +1,10 @@
 'use client';
 import LoginBtn from '@/components/Login/LoginBtn';
-import { useRouter } from 'next/navigation';
-import LogoKakao from '@/assets/images/logo_kakao.svg';
-import Logo from '@/assets/images/logo.svg';
+import LogoKakao from '@/assets/images/logo/logo_kakao.svg';
+import Logo from '@/assets/images/logo/logo.svg';
 import { useEffect } from 'react';
 
 const LoginPage = () => {
-  const router = useRouter();
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const visited = localStorage.getItem('visited');
@@ -21,7 +18,7 @@ const LoginPage = () => {
   return (
     <div className='relative h-full mx-6 flex flex-col justify-center items-center'>
       <div className='flex-grow flex flex-col justify-center items-center gap-5 mb-28'>
-        <p className='text-gray-50 body2 font-light text-center'>
+        <p className='text-gray-50 subHeading2 font-light text-center'>
           우리 동네 길고양이,
           <br />
           <span className='font-medium'>올바른 돌봄 문화의 시작</span>
@@ -35,10 +32,6 @@ const LoginPage = () => {
         <LoginBtn className='bg-[#FEE500]' provider='kakao' Icon={LogoKakao}>
           카카오로 간편 회원가입
         </LoginBtn>
-
-        <button onClick={() => router.push('/')} className='text-[#afafaf]'>
-          로그인 없이 둘러보기
-        </button>
       </div>
     </div>
   );

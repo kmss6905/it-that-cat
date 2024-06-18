@@ -1,6 +1,5 @@
 'use client';
-import { getToken } from '@/apis/login';
-import { saveToken } from '@/apis/login';
+import { getToken, saveToken } from '@/apis/login';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, useEffect } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useModal } from '@/hooks/useModal';
@@ -10,6 +10,10 @@ export const MODAL_TYPE = {
   CONTENT_DELETE: 'contentDelete',
   CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
+  SEARCH: 'search',
+  MYPAGE_NICKNAME: 'myPageNickname',
+  DELETE_USER: 'deleteUser',
+  UPDATE_NOTICE: 'updateNotice',
   CONTENT_REPORT: 'contentReport',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
@@ -38,6 +42,11 @@ interface Props {
 
 const Modal = ({ children, type, variant = MODAL_VARIANT.SLIDE }: Props) => {
   const { modal, closeModal } = useModal();
+  const [body, setBody] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') setBody(document.body);
+  }, []);
 
   const removeModal = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
@@ -56,7 +65,8 @@ const Modal = ({ children, type, variant = MODAL_VARIANT.SLIDE }: Props) => {
       </div>
     ) : null;
 
-  return createPortal(modalContent, document.body);
+  if (!body) return;
+  return createPortal(modalContent, body);
 };
 
 /**
@@ -98,15 +108,26 @@ const ModalContainer = ({
       </div>
     );
 
-  return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className='animate-slide-up absolute left-1/2 -translate-x-1/2 bottom-0 w-full max-w-[430px]
+  if (variant === MODAL_VARIANT.SLIDE)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='animate-slide-up absolute left-1/2 -translate-x-1/2 bottom-0 w-full max-w-[430px]
       shadow-[0_-10px_60px_rgba(0,0,0,0.15)] rounded-lg bg-white flex flex-col'
-    >
-      {children}
-    </div>
-  );
+      >
+        {children}
+      </div>
+    );
+
+  if (variant === MODAL_VARIANT.ALL)
+    return (
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='w-full h-full bg-white mx-auto absolute left-1/2 -translate-x-1/2 top-0'
+      >
+        {children}
+      </div>
+    );
 };
 
 export default Modal;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { catIllust } from '@/constants/catIllust';
-import IconDistance from '@/assets/images/icon_distance.svg';
+import IconDistance from '@/assets/images/map/icon_distance.svg';
 import useGeolocation from '@/hooks/useGeolocation';
 import { getDistance } from '@/utils/calcDistance';
 import getDateFormat from '@/utils/getDateFormat';
@@ -39,14 +38,8 @@ const ContentCard = ({ content }: ContentCardProps) => {
   return (
     <Link href={`/content?id=${content.contentId}`}>
       <div className='flex gap-3 w-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.06)]'>
-        <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative'>
-          <Image
-            src={cat.image.src}
-            alt='고양이 일러스트'
-            fill
-            sizes='100%'
-            className='object-contain p-2'
-          />
+        <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center'>
+          <cat.image />
         </div>
         <div className='flex-grow flex flex-col gap-[10px]'>
           <div className='flex flex-col gap-1'>

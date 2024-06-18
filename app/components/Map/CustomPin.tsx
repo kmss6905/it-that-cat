@@ -1,6 +1,6 @@
 import { MapMarker } from 'react-kakao-maps-sdk';
-import mapPin from '@/assets/images/icon_mapMarker.png';
-import currPin from '@/assets/images/icon_currMapMarker.png';
+import mapPin from '@/assets/images/map/icon_mapMarker.png';
+import currPin from '@/assets/images/map/icon_currMapMarker.png';
 
 interface CustomPinProps {
   position?: { lat: number; lng: number };

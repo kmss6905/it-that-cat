@@ -1,4 +1,4 @@
-import { Coordinates } from '@/types/address';
+import { Coordinates, RegionState } from '@/types/address';
 
 const getAddress = async (position: Coordinates) => {
   const URL = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${position.lng}&y=${position.lat}`;
@@ -12,7 +12,7 @@ const getAddress = async (position: Coordinates) => {
     const data = await response.json();
     const address = data.documents[0].address;
 
-    const result = {
+    const result: RegionState = {
       addrName: address.address_name,
       mainAddrNo: address.main_address_no,
       sido: address.region_1depth_name,
