@@ -12,7 +12,7 @@ import { Coordinates, GeolocationState, RegionState } from '@/types/address';
 import ContentMarkers from '../Map/ContentMarkers';
 
 const RegisterMap = ({
-  isModifying,
+  isFillingIn,
   address,
   position,
   currentGeolocation,
@@ -21,7 +21,7 @@ const RegisterMap = ({
   setAddress,
   setPosition,
 }: {
-  isModifying: boolean;
+  isFillingIn: boolean;
   address: RegionState | null;
   position: Coordinates | null;
   currentGeolocation: GeolocationState;
@@ -51,7 +51,7 @@ const RegisterMap = ({
   };
 
   const onClickClose = () => {
-    isModifying ? setMode('post') : router.back();
+    isFillingIn ? setMode('post') : router.back();
   };
 
   return (

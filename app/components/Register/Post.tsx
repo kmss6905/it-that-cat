@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   Fragment,
   SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -18,6 +19,8 @@ import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import Tooltip from '@/components/Tooltip';
 import { Label, TextInput, TextareaInput } from '@/components/Input';
 import Button from '@/components/Button';
+import RegisterBtn from '@/components/RegisterBtn';
+import ImageWrapper from '@/components/ImageWrapper';
 import { randomCatNameList } from '@/constants/randomCatNameList';
 import {
   UNSURE,
@@ -25,8 +28,6 @@ import {
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
-import RegisterBtn from '@/components/RegisterBtn';
-import ImageWrapper from '@/components/ImageWrapper';
 import { postContent } from '@/apis/contents';
 import { saveImage } from '@/apis/image/saveImage';
 import { CatObjProps, RegisterCatObjProps } from '@/types/content';
@@ -35,15 +36,17 @@ import { catIllust } from '@/constants/catIllust';
 import { useWithLoading } from '@/hooks/useWithLoading';
 
 const RegisterPost = ({
-  setIsModifying,
+  setIsFillingIn,
   catInfo,
   setMode,
   setCatInfo,
+  isNew,
 }: {
-  setIsModifying: Dispatch<SetStateAction<boolean>>;
+  setIsFillingIn: Dispatch<SetStateAction<boolean>>;
   catInfo: CatObjProps;
   setMode: Dispatch<SetStateAction<string>>;
   setCatInfo: Dispatch<SetStateAction<CatObjProps>>;
+  isNew: boolean;
 }) => {
   const router = useRouter();
 
@@ -51,6 +54,10 @@ const RegisterPost = ({
   const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
   const { withLoading } = useWithLoading();
+
+  useEffect(() => {
+    setImages(catInfo.images);
+  }, [catInfo?.images]);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -186,7 +193,7 @@ const RegisterPost = ({
             <div
               onClick={() => {
                 setMode('map');
-                setIsModifying(true);
+                setIsFillingIn(true);
               }}
               className='text-primary-500 cursor-pointer'
             >
@@ -270,7 +277,7 @@ const RegisterPost = ({
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>{images.length}/3</div>
+              <div className='text-gray-200 caption'>{images?.length}/3</div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -280,7 +287,7 @@ const RegisterPost = ({
                 data-testid='puzzleImage-input'
               />
             </div>
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
               <ImageWrapper
                 key={index}
                 size='S'
@@ -346,8 +353,8 @@ const RegisterPost = ({
               <Button
                 key={value}
                 onClick={() => onClickPersonalities(value)}
-                border={catInfo.catPersonalities.includes(value)}
-                gray={!catInfo.catPersonalities.includes(value)}
+                border={catInfo.catPersonalities?.includes(value)}
+                gray={!catInfo.catPersonalities?.includes(value)}
               >
                 {name}
               </Button>
@@ -363,10 +370,10 @@ const RegisterPost = ({
             !catInfo.jibunAddrName ||
             !catInfo.name ||
             !catInfo.neuter ||
-            !images.length
+            !images?.length
           }
         >
-          등록하기
+          {isNew ? '등록하기' : '수정하기'}
         </RegisterBtn>
       </div>
     </Fragment>

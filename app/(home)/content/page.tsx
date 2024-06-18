@@ -16,17 +16,16 @@ import RegisterBtn from '@/components/RegisterBtn';
 import { catIllust } from '@/constants/catIllust';
 import { DetailInfo } from '@/components/Content/DetailInfo';
 import { CatNews } from '@/components/Content/CatNews';
+import MenuModal from '@/components/Content/Modal/MenuModal';
+import { MODAL_TYPE } from '@/components/Modal';
+import DeleteModal from '@/components/Content/Modal/DeleteModal';
+import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
+import ReportModal from '@/components/Content/Modal/ReportModal';
+import { useModal } from '@/hooks/useModal';
 import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
-import { useModal } from '@/hooks/useModal';
-import MenuModal from '@/components/Content/Modal/MenuModal';
-import { MODAL_TYPE } from '@/components/Modal';
-import DeleteModal from '@/components/Content/Modal/DeleteModal';
-import UnAuthUserPopup from '@/components/UnAuthUserPopup';
-import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
-import ReportModal from '@/components/Content/Modal/ReportModal';
 
 const RegisterPostPage = () => {
   return (
@@ -62,12 +61,11 @@ const SuspenseRegisterPostPage = () => {
       refetch();
     }
   };
-  console.log(data);
 
   if (isSuccess)
     return (
       <Fragment>
-        <MenuModal />
+        <MenuModal contentId={contentId} />
         <DeleteModal />
         <AnonymizeModal />
         <ReportModal />

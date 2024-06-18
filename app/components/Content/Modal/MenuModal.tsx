@@ -1,11 +1,18 @@
+import { useRouter } from 'next/navigation';
+
 import IconEdit from '@/assets/images/icon_edit.svg';
 import IconDelete from '@/assets/images/icon_delete.svg';
 import IconReport from '@/assets/images/icon_report.svg';
 import Modal, { MODAL_TYPE } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 
-const MenuModal = () => {
-  const { openModal } = useModal();
+const MenuModal = ({ contentId }: { contentId: string | null }) => {
+  const router = useRouter();
+  const { openModal, closeModal } = useModal();
+  const onClickModifyButton = () => {
+    closeModal();
+    router.push(`/register/${contentId}`);
+  };
   const onClickDeleteButton = () => {
     openModal(MODAL_TYPE.CONTENT_ANONYMIZATION);
   };
@@ -16,7 +23,10 @@ const MenuModal = () => {
   return (
     <Modal type={MODAL_TYPE.CONTENT_MENU}>
       <div className='px-6 pt-[34px] pb-14 flex flex-col gap-[22px]'>
-        <button className='flex gap-[10px] items-center'>
+        <button
+          onClick={onClickModifyButton}
+          className='flex gap-[10px] items-center'
+        >
           <IconEdit />
           <span>수정하기</span>
         </button>
