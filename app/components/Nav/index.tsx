@@ -8,7 +8,7 @@ const Nav = () => {
   const permissionPath = ['/mypage'];
 
   if (
-    permissionPath.filter((path) => pathname === '/' || pathname.includes(path))
+    permissionPath.filter((path) => pathname === '/' || pathname === path)
       .length > 0
   )
     return (

@@ -1,5 +1,7 @@
 'use client';
 import { Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import IconEdit from '@/assets/images/mypage/icon_edit.svg';
 import IconLogout from '@/assets/images/mypage/icon_logout.svg';
 import { useModal } from '@/hooks/useModal';
@@ -10,6 +12,7 @@ import getCookie from '@/utils/getCookie';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
 
 const MyPage = () => {
+  const router = useRouter();
   const [nickname, setNickname] = useState<string | null>(null);
   const { openModal } = useModal();
 
@@ -31,7 +34,7 @@ const MyPage = () => {
         {
           id: 0,
           title: '내가 등록한 냥이',
-          handleClick: () => openModal(MODAL_TYPE.UPDATE_NOTICE),
+          handleClick: () => router.push('/mypage/mycontent'),
         },
         {
           id: 1,
