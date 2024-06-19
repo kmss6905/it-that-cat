@@ -65,11 +65,15 @@ const SuspenseRegisterPostPage = () => {
     }
   };
 
-  if (isSuccess)
+  if (isSuccess && data)
     return (
       <Fragment>
-        <MenuModal contentId={contentId} isAuthor={data.isAuthor} />
-        <DeleteModal />
+        <MenuModal
+          contentId={contentId}
+          isAuthor={data.isAuthor}
+          isArchived={data.isArchived}
+        />
+        <DeleteModal contentId={contentId} />
         <AnonymizeModal />
         <ReportModal />
 

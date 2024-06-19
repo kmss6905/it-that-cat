@@ -19,6 +19,11 @@ export const putContent = async (
   return await fetchApi<UpdateCatObjProps>(url, 'PUT', data);
 };
 
+export const deleteContent = async (contentId: string | null) => {
+  const url = `/contents/${contentId}`;
+  return await fetchApi(url, 'DELETE');
+};
+
 export const getComments = async (contentId: string | null) => {
   const url = `/contents/${contentId}/comments?sort=likes:desc&page=1&size=1000&created_at=desc`;
   return (await fetchApi(url, 'GET')).data;

@@ -9,9 +9,11 @@ import { useModal } from '@/hooks/useModal';
 const MenuModal = ({
   contentId,
   isAuthor,
+  isArchived,
 }: {
   contentId: string | null;
   isAuthor: boolean;
+  isArchived: boolean;
 }) => {
   const router = useRouter();
   const { openModal, closeModal } = useModal();
@@ -20,7 +22,9 @@ const MenuModal = ({
     router.push(`/register/${contentId}`);
   };
   const onClickDeleteButton = () => {
-    openModal(MODAL_TYPE.CONTENT_ANONYMIZATION);
+    openModal(
+      isArchived ? MODAL_TYPE.CONTENT_ANONYMIZATION : MODAL_TYPE.CONTENT_DELETE,
+    );
   };
   const onClickReportButton = () => {
     openModal(MODAL_TYPE.CONTENT_REPORT);
