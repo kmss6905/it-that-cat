@@ -14,6 +14,11 @@ interface ToastProps {
   addToast: (message: string, icon?: IconType) => void;
 }
 
+/**
+ * @method addToast 토스트 메시지 설정 메소드
+ * @param message 필수, 띄울 토스트 메세지
+ * @param icon 선택, 토스트 메시지 앞 아이콘 타입
+ */
 export const useToast = create<ToastProps>((set) => ({
   toasts: [],
   addToast: (message, icon) => {
