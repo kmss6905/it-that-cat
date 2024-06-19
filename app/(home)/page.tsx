@@ -1,13 +1,12 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+
+import IconList from '@/assets/images/icon_list.svg';
+import IconMap from '@/assets/images/map/icon_mapView.svg';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import { useGeolocationStore } from '@/stores/home/store';
-import IconList from '@/assets/images/icon_list.svg';
-import IconMap from '@/assets/images/map/icon_mapView.svg';
-import IconNewContent from '@/assets/images/icon_newContent.svg';
 import { ContentObjProps } from '@/types/content';
 import MapViewer from '@/components/Home/MapViewer';
 import { SelectedFilterState, options } from '@/components/Home/SelectFilter';
@@ -16,15 +15,9 @@ import useGeolocation from '@/hooks/useGeolocation';
 import SearchBar from '@/components/Home/Search/SearchBar';
 import SearchModal from '@/components/Home/Search/SearchModal';
 import BookmarkBtn from '@/components/Home/BookmarkBtn';
-import { useToast } from '@/stores/toast/store';
 
 export default function Home() {
   const currentPosition = useGeolocation();
-  const { addToast } = useToast();
-  useEffect(() => {
-    addToast('토스트 테스트', 'check');
-    addToast('토스트 테스트2', 'check');
-  }, [addToast]);
 
   const { setPosition } = useGeolocationStore();
 
