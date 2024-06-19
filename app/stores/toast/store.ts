@@ -11,31 +11,52 @@ export type ToastType = {
 
 interface ToastProps {
   toasts: ToastType[];
-  addToast: (message: string, icon?: IconType) => void;
+  addToast: {
+    default: (message: string) => void;
+    check: (message: string) => void;
+  };
 }
 
 /**
- * @method addToast 토스트 메시지 설정 메소드
- * @param message 필수, 띄울 토스트 메세지
- * @param icon 선택, 토스트 메시지 앞 아이콘 타입
+ * @param addToast.default 토스트 메세지만 띄울 때
+ * @param addToast.check 체크 아이콘과 메세지를 같이 띄울 때
  */
 export const useToast = create<ToastProps>((set) => ({
   toasts: [],
-  addToast: (message, icon) => {
-    const key = Date.now();
-    const TOAST_DURATION = 3000;
+  addToast: {
+    default: (message) => {
+      const key = Date.now();
+      const TOAST_DURATION = 3000;
 
-    set((prev) => ({
-      toasts: [...prev.toasts, { id: key, message, icon }],
-    }));
+      set((prev) => ({
+        toasts: [...prev.toasts, { id: key, message }],
+      }));
 
-    setTimeout(() => {
-      set((prev) => {
-        const deleteToasts = prev.toasts.filter((toast) => toast.id !== key);
-        return {
-          toasts: deleteToasts,
-        };
-      });
-    }, TOAST_DURATION);
+      setTimeout(() => {
+        set((prev) => {
+          const deleteToasts = prev.toasts.filter((toast) => toast.id !== key);
+          return {
+            toasts: deleteToasts,
+          };
+        });
+      }, TOAST_DURATION);
+    },
+    check: (message) => {
+      const key = Date.now();
+      const TOAST_DURATION = 3000;
+
+      set((prev) => ({
+        toasts: [...prev.toasts, { id: key, message, icon: 'check' }],
+      }));
+
+      setTimeout(() => {
+        set((prev) => {
+          const deleteToasts = prev.toasts.filter((toast) => toast.id !== key);
+          return {
+            toasts: deleteToasts,
+          };
+        });
+      }, TOAST_DURATION);
+    },
   },
 }));
