@@ -6,7 +6,13 @@ import IconReport from '@/assets/images/icon_report.svg';
 import Modal, { MODAL_TYPE } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 
-const MenuModal = ({ contentId }: { contentId: string | null }) => {
+const MenuModal = ({
+  contentId,
+  isAuthor,
+}: {
+  contentId: string | null;
+  isAuthor: boolean;
+}) => {
   const router = useRouter();
   const { openModal, closeModal } = useModal();
   const onClickModifyButton = () => {
@@ -23,27 +29,33 @@ const MenuModal = ({ contentId }: { contentId: string | null }) => {
   return (
     <Modal type={MODAL_TYPE.CONTENT_MENU}>
       <div className='px-6 pt-[34px] pb-14 flex flex-col gap-[22px]'>
-        <button
-          onClick={onClickModifyButton}
-          className='flex gap-[10px] items-center'
-        >
-          <IconEdit />
-          <span>수정하기</span>
-        </button>
-        <button
-          onClick={onClickDeleteButton}
-          className='flex gap-[10px] items-center'
-        >
-          <IconDelete />
-          <span>삭제하기</span>
-        </button>
-        <button
-          onClick={onClickReportButton}
-          className='flex gap-[10px] items-center'
-        >
-          <IconReport />
-          <span>신고하기</span>
-        </button>
+        {isAuthor && (
+          <button
+            onClick={onClickModifyButton}
+            className='flex gap-[10px] items-center'
+          >
+            <IconEdit />
+            <span>수정하기</span>
+          </button>
+        )}
+        {isAuthor && (
+          <button
+            onClick={onClickDeleteButton}
+            className='flex gap-[10px] items-center'
+          >
+            <IconDelete />
+            <span>삭제하기</span>
+          </button>
+        )}
+        {!isAuthor && (
+          <button
+            onClick={onClickReportButton}
+            className='flex gap-[10px] items-center'
+          >
+            <IconReport />
+            <span>신고하기</span>
+          </button>
+        )}
       </div>
     </Modal>
   );
