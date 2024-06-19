@@ -216,15 +216,17 @@ const RegisterPost = ({
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
             <div>{catInfo.jibunAddrName}</div>
-            <div
-              onClick={() => {
-                setMode('map');
-                setIsFillingIn(true);
-              }}
-              className='text-primary-500 cursor-pointer'
-            >
-              수정
-            </div>
+            {isNew && (
+              <div
+                onClick={() => {
+                  setMode('map');
+                  setIsFillingIn(true);
+                }}
+                className='text-primary-500 cursor-pointer'
+              >
+                수정
+              </div>
+            )}
           </div>
         </div>
 
@@ -242,15 +244,18 @@ const RegisterPost = ({
               onChange={onChange}
               maxLength={9}
               placeholder={'ex. 키키'}
+              isDisabled={!isNew}
             />
-            <Button onClick={setRandomCatName}>
-              <div className='flex'>
-                <div className='flex justify-center items-center mr-[6px]'>
-                  <IconRandom />
+            {isNew && (
+              <Button onClick={setRandomCatName}>
+                <div className='flex'>
+                  <div className='flex justify-center items-center mr-[6px]'>
+                    <IconRandom />
+                  </div>
+                  <span className='whitespace-nowrap'>랜덤 생성</span>
                 </div>
-                <span className='whitespace-nowrap'>랜덤 생성</span>
-              </div>
-            </Button>
+              </Button>
+            )}
           </div>
         </div>
 

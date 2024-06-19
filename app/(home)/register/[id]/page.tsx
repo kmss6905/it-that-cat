@@ -6,7 +6,7 @@ const RegisterPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const { data } = useContent(id);
 
-  return <RegisterContent data={data} initMode='post' />;
+  return <RegisterContent data={data} initMode='post' isNew={false} />;
 };
 
 export default RegisterPage;

@@ -23,6 +23,7 @@ export const TextInput = ({
   onChange,
   placeholder,
   maxLength,
+  isDisabled,
 }: TextInputProps) => (
   <input
     type='text'
@@ -35,6 +36,7 @@ export const TextInput = ({
       disabled:text-text-disable
       border transition-colors
     `}
+    disabled={isDisabled ? isDisabled : false}
   />
 );
 

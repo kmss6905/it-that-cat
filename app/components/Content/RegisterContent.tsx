@@ -11,15 +11,16 @@ import { useGeolocationStore } from '@/stores/home/store';
 const RegisterContent = ({
   data,
   initMode,
+  isNew = true,
 }: {
   data?: CatObjProps;
   initMode: 'map' | 'post';
+  isNew?: boolean;
 }) => {
   const currentGeolocation = useGeolocation();
   const initAddress = useAddress();
   const [mode, setMode] = useState<string>(initMode);
   const [isFillingIn, setIsFillingIn] = useState<boolean>(false);
-  const [isNew, _] = useState<boolean>(!data);
   const {
     geolocation: { position, address },
   } = useGeolocationStore();
@@ -58,10 +59,10 @@ const RegisterContent = ({
 
   useEffect(() => {
     // 등록 페이지에서 사용하는 컴포넌트일 경우 초기 주소 사용
-    if (initMode === 'map') {
+    if (isNew) {
       updateCatInfo(currentGeolocation.position, initAddress);
     }
-  }, [currentGeolocation, initAddress, initMode]);
+  }, [currentGeolocation, initAddress, isNew]);
 
   useEffect(() => {
     updateCatInfo(position, address);
