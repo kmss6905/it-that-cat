@@ -49,6 +49,7 @@ const SuspenseRegisterPostPage = () => {
   const { openModal } = useModal();
   const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
+  const [isImageError, setIsImageError] = useState<boolean>(false);
 
   const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
 
@@ -109,11 +110,16 @@ const SuspenseRegisterPostPage = () => {
                 <div className='absolute w-full h-full'>
                   <div>
                     <Image
-                      src={image as string}
+                      src={
+                        !isImageError
+                          ? `${image}?size=500`
+                          : `https://image.itthatcat.xyz/origin${new URL(image).pathname}`
+                      }
                       alt={`preview ${image}`}
                       fill
                       priority
                       className='object-cover'
+                      onError={() => setIsImageError(true)}
                     />
                   </div>
                 </div>
