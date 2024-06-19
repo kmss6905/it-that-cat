@@ -32,7 +32,7 @@ const Toast = ({ id, message, icon }: ToastType) => {
       ${opacity === 0 ? 'translate-y-[50px]' : 'translate-y-0'}
       `}
     >
-      <div className='flex justify-center items-center gap-2 text-white caption'>
+      <div className='flex justify-center items-center gap-1 text-white caption'>
         {icon === 'check' && <IconToastCheck />}
         {message}
       </div>
