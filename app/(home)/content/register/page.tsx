@@ -14,6 +14,7 @@ import { saveImageAWS } from '@/apis/image/saveImage';
 import { contentStore } from '@/stores/comment/store';
 import { commentProps, ResType } from '@/types/api';
 import { useWithLoading } from '@/hooks/useWithLoading';
+import { useToast } from '@/stores/toast/store';
 
 const RegisterCommentPage = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const RegisterCommentPage = () => {
   >([]);
   const [images, setImages] = useState<(File | string)[]>([]);
   const { withLoading } = useWithLoading();
+  const { addToast } = useToast();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -91,6 +93,7 @@ const RegisterCommentPage = () => {
       handleRegister(contentId, comment, images),
     );
     if (res.result === 'SUCCESS') {
+      addToast.check('새로운 소식을 등록했어요!');
       router.push(`/content?id=${contentId}`);
     }
   };
