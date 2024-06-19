@@ -81,7 +81,7 @@
 |👩‍🚀 기획자|👩‍🎤 디자이너|👩‍💻 개발자(FE)|👨‍💻 개발자(FE)|👩‍💻 개발자(BE)|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/f54af996-6856-464f-9ebd-a9efa2e585f4' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/48fce929-8b8c-40e0-ba0d-817d3ed55cfa' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/c4dbc84d-0125-4222-ba29-713e86527b29' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/a6c1d46a-8739-4dec-b98b-34e8ba681af4' width='80%'/>|<img src='https://github.com/401-potenday/it-that-cat/assets/39180932/8671dea4-7b67-4e09-9a3e-d16e53a48e3e' width='80%'/>|
-|[황유정](https://instagram.com/youjung_sunshine/)|[박선영](https://www.linkedin.com/in/선영-박-a58a9219b)|김동균|[박수아](https://github.com/Dorabang)|김민식|
+|[황유정](https://instagram.com/youjung_sunshine/)|[박선영](https://www.linkedin.com/in/선영-박-a58a9219b)|[김동균](https://github.com/catca)|[박수아](https://github.com/Dorabang)|김민식|
 |`#서비스기획` `#서비스운영` `#WireFrame` `#Figma`|`#서비스디자인` `#UX설계` `#IA&WireFrame` `#디자인시스템` `#GUI디자인` `#Figma`|`#웹개발` `#HTML/CSS` `#TypeScript` `#React.js` `#Next.js` `#Github` `#Postman` `#Figma`|`#웹개발` `#HTML/CSS` `#TypeScript` `#React.js` `#Next.js` `#Github` `#Postman` `#Figma`|`#java` `#spring` `#AWS EC2` `#MySQL` `#Postman`|
 
 <br />
