@@ -5,6 +5,7 @@ import Script from 'next/script';
 import pretendard from '@/components/Pretendard';
 import QueryWrapper from '@/components/QueryWrapper';
 import Loading from '@/components/Loading';
+import ToastProvider from '@/components/Toast/ToastProvider';
 
 export const metadata: Metadata = {
   title: '이냥저냥',
@@ -23,6 +24,7 @@ export default function RootLayout({
         <QueryWrapper>
           <RootWrapper>
             <div className='h-full overflow-hidden'>{children}</div>
+            <ToastProvider />
             <Loading />
           </RootWrapper>
         </QueryWrapper>

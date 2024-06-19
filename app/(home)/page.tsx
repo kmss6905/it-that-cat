@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
 import ContentCard from '@/components/Home/ContentCard';
@@ -16,9 +16,15 @@ import useGeolocation from '@/hooks/useGeolocation';
 import SearchBar from '@/components/Home/Search/SearchBar';
 import SearchModal from '@/components/Home/Search/SearchModal';
 import BookmarkBtn from '@/components/Home/BookmarkBtn';
+import { useToast } from '@/stores/toast/store';
 
 export default function Home() {
   const currentPosition = useGeolocation();
+  const { addToast } = useToast();
+  useEffect(() => {
+    addToast('토스트 테스트', 'check');
+    addToast('토스트 테스트2', 'check');
+  }, [addToast]);
 
   const { setPosition } = useGeolocationStore();
 
