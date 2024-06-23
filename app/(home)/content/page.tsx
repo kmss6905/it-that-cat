@@ -74,7 +74,7 @@ const SuspenseRegisterPostPage = () => {
           isArchived={data.isArchived}
         />
         <DeleteModal contentId={contentId} />
-        <AnonymizeModal />
+        <AnonymizeModal contentId={contentId} nickname={data.nickname} />
         <ReportModal />
 
         <div className='w-full relative'>
@@ -140,7 +140,7 @@ const SuspenseRegisterPostPage = () => {
             <div className='flex flex-col gap-1'>
               <h3 className='heading2 text-gray-500'>{data.name}</h3>
               <p className='caption text-gray-300 flex items-center'>
-                {data.nickname} 등록
+                {data.nickname ?? '익명의 집사'}님 등록
                 <span className='inline-block w-[1.5px] h-[14px] bg-gray-300 mx-[6px] '></span>
                 {getDateFormat(data.createdAt)}
               </p>
