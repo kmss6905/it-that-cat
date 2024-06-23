@@ -9,11 +9,11 @@ import { useModal } from '@/hooks/useModal';
 const MenuModal = ({
   contentId,
   isAuthor,
-  isArchived,
+  countOfComments,
 }: {
   contentId: string | null;
   isAuthor: boolean;
-  isArchived: boolean;
+  countOfComments: number;
 }) => {
   const router = useRouter();
   const { openModal, closeModal } = useModal();
@@ -23,7 +23,9 @@ const MenuModal = ({
   };
   const onClickDeleteButton = () => {
     openModal(
-      isArchived ? MODAL_TYPE.CONTENT_ANONYMIZATION : MODAL_TYPE.CONTENT_DELETE,
+      countOfComments
+        ? MODAL_TYPE.CONTENT_ANONYMIZATION
+        : MODAL_TYPE.CONTENT_DELETE,
     );
   };
   const onClickReportButton = () => {

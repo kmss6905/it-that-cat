@@ -71,7 +71,7 @@ const SuspenseRegisterPostPage = () => {
         <MenuModal
           contentId={contentId}
           isAuthor={data.isAuthor}
-          isArchived={data.isArchived}
+          countOfComments={data.countOfComments}
         />
         <DeleteModal contentId={contentId} />
         <AnonymizeModal contentId={contentId} nickname={data.nickname} />
