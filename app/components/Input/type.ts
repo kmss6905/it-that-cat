@@ -15,6 +15,7 @@ export interface TextInputProps {
   error?: boolean;
   required?: boolean;
   maxLength?: number;
+  isDisabled?: boolean;
 }
 
 export interface TextAreaProps {

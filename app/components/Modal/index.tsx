@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { useModal } from '@/hooks/useModal';
 
 export const MODAL_TYPE = {
-  CONTENT_MANU: 'contentManu',
+  CONTENT_MENU: 'contentMenu',
   CONTENT_DELETE: 'contentDelete',
   CAT_NEWS_DELETE: 'catNewsDelete',
   CONTENT_ANONYMIZATION: 'contentAnonymization',
@@ -15,6 +15,8 @@ export const MODAL_TYPE = {
   DELETE_USER: 'deleteUser',
   UPDATE_NOTICE: 'updateNotice',
   CONTENT_REPORT: 'contentReport',
+  CONTENT_REPORT_COMPLETED: 'contentReporCompleted',
+  CONTENT_REPORT_NOTIFICATION: 'contentReporNotification',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
 

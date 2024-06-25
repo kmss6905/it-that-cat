@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   Fragment,
   SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -18,6 +19,8 @@ import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import Tooltip from '@/components/Tooltip';
 import { Label, TextInput, TextareaInput } from '@/components/Input';
 import Button from '@/components/Button';
+import RegisterBtn from '@/components/RegisterBtn';
+import ImageWrapper from '@/components/ImageWrapper';
 import { randomCatNameList } from '@/constants/randomCatNameList';
 import {
   UNSURE,
@@ -25,32 +28,46 @@ import {
   neuterButtons,
   personalityButtons,
 } from '@/constants/catInfoButtons';
-import RegisterBtn from '@/components/RegisterBtn';
-import ImageWrapper from '@/components/ImageWrapper';
-import { postContent } from '@/apis/contents';
-import { saveImage } from '@/apis/image/saveImage';
-import { CatObjProps, RegisterCatObjProps } from '@/types/content';
+import { postContent, putContent } from '@/apis/contents';
+import { saveImageAWS } from '@/apis/image/saveImage';
+import {
+  CatObjProps,
+  RegisterCatObjProps,
+  UpdateCatObjProps,
+} from '@/types/content';
 import { ResType } from '@/types/api';
 import { catIllust } from '@/constants/catIllust';
 import { useWithLoading } from '@/hooks/useWithLoading';
 
 const RegisterPost = ({
-  setIsModifying,
+  setIsFillingIn,
   catInfo,
   setMode,
   setCatInfo,
+  isNew,
 }: {
-  setIsModifying: Dispatch<SetStateAction<boolean>>;
+  setIsFillingIn: Dispatch<SetStateAction<boolean>>;
   catInfo: CatObjProps;
   setMode: Dispatch<SetStateAction<string>>;
   setCatInfo: Dispatch<SetStateAction<CatObjProps>>;
+  isNew: boolean;
 }) => {
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+  const [thumbImages, setThumbImages] = useState<
+    (string | ArrayBuffer | null)[]
+  >([]);
+  const [images, setImages] = useState<(File | string)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
   const { withLoading } = useWithLoading();
+
+  useEffect(() => {
+    if (catInfo.images) {
+      setThumbImages(catInfo.images);
+      setImages(catInfo.images);
+    }
+  }, [catInfo?.images]);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -111,7 +128,7 @@ const RegisterPost = ({
   };
 
   const onClickInputImage = () => {
-    if (images.length === 3) {
+    if (thumbImages.length === 3) {
       return;
     }
     inputRef.current?.click();
@@ -119,20 +136,24 @@ const RegisterPost = ({
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const newImages: (string | ArrayBuffer | null)[] = [...images];
+    const newThumbImages: (string | ArrayBuffer | null)[] = [...thumbImages];
+    const newImages: (File | string)[] = [...images];
+    newImages.push(files?.[0] || new File([], ''));
+    setImages(newImages);
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.readAsDataURL(files[i]);
         reader.onloadend = () => {
-          newImages.push(reader.result);
-          setImages(newImages);
+          newThumbImages.push(reader.result);
+          setThumbImages(newThumbImages);
         };
       }
     }
   };
 
   const handleImageRemove = (index: number) => {
+    setThumbImages(thumbImages.filter((_, i) => i !== index));
     setImages(images.filter((_, i) => i !== index));
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -140,8 +161,7 @@ const RegisterPost = ({
   };
 
   const handleRegister = async () => {
-    const base64s = images.map((image) => (image ? image.toString() : ''));
-    const saveImageUrls = await Promise.all(base64s.map(saveImage));
+    const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const updatedCatInfo = {
       ...catInfo,
       group: catInfo.group ? catInfo.group : UNSURE,
@@ -149,20 +169,33 @@ const RegisterPost = ({
         ? catInfo.catPersonalities
         : [UNSURE],
     };
-    const data: RegisterCatObjProps = {
-      ...updatedCatInfo,
-      images: saveImageUrls,
+    if (isNew) {
+      const data: RegisterCatObjProps = {
+        ...updatedCatInfo,
+        imageKeys: saveImageKeys,
+        catEmoji: catEmoji,
+      };
+      return (await postContent(data)) as ResType<{ contentId: string }>;
+    }
+    const data: UpdateCatObjProps = {
+      name: updatedCatInfo.name,
+      description: updatedCatInfo.description,
+      neuter: updatedCatInfo.neuter,
+      group: updatedCatInfo.group,
+      catPersonalities: updatedCatInfo.catPersonalities,
+      imageKeys: saveImageKeys,
       catEmoji: catEmoji,
     };
-    const res: ResType<{ contentId: string }> = await postContent(data);
-
-    return res;
+    return (await putContent(data, catInfo.contentId)) as ResType<{
+      contentId: string;
+    }>;
   };
 
   const onClickRegister = async () => {
     const res = await withLoading(() => handleRegister());
     if (res.result === 'SUCCESS') {
-      router.push(`/content?id=${res?.data?.contentId}`);
+      const contentId = res?.data?.contentId ?? catInfo.contentId;
+      router.push(`/content?id=${contentId}`);
     }
   };
 
@@ -183,15 +216,17 @@ const RegisterPost = ({
           <Label isRequired={true}>냥이의 주요 출몰 위치</Label>
           <div className='w-full rounded-lg text-text-title body1 bg-gray-50 px-4 py-[10px] text-gray-300 flex justify-between'>
             <div>{catInfo.jibunAddrName}</div>
-            <div
-              onClick={() => {
-                setMode('map');
-                setIsModifying(true);
-              }}
-              className='text-primary-500 cursor-pointer'
-            >
-              수정
-            </div>
+            {isNew && (
+              <div
+                onClick={() => {
+                  setMode('map');
+                  setIsFillingIn(true);
+                }}
+                className='text-primary-500 cursor-pointer'
+              >
+                수정
+              </div>
+            )}
           </div>
         </div>
 
@@ -209,15 +244,18 @@ const RegisterPost = ({
               onChange={onChange}
               maxLength={9}
               placeholder={'ex. 키키'}
+              isDisabled={!isNew}
             />
-            <Button onClick={setRandomCatName}>
-              <div className='flex'>
-                <div className='flex justify-center items-center mr-[6px]'>
-                  <IconRandom />
+            {isNew && (
+              <Button onClick={setRandomCatName}>
+                <div className='flex'>
+                  <div className='flex justify-center items-center mr-[6px]'>
+                    <IconRandom />
+                  </div>
+                  <span className='whitespace-nowrap'>랜덤 생성</span>
                 </div>
-                <span className='whitespace-nowrap'>랜덤 생성</span>
-              </div>
-            </Button>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -265,7 +303,9 @@ const RegisterPost = ({
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>{images.length}/3</div>
+              <div className='text-gray-200 caption'>
+                {thumbImages?.length}/3
+              </div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -275,7 +315,7 @@ const RegisterPost = ({
                 data-testid='puzzleImage-input'
               />
             </div>
-            {images.map((image, index) => (
+            {thumbImages?.map((image, index) => (
               <ImageWrapper
                 key={index}
                 size='S'
@@ -341,8 +381,8 @@ const RegisterPost = ({
               <Button
                 key={value}
                 onClick={() => onClickPersonalities(value)}
-                border={catInfo.catPersonalities.includes(value)}
-                gray={!catInfo.catPersonalities.includes(value)}
+                border={catInfo.catPersonalities?.includes(value)}
+                gray={!catInfo.catPersonalities?.includes(value)}
               >
                 {name}
               </Button>
@@ -358,10 +398,10 @@ const RegisterPost = ({
             !catInfo.jibunAddrName ||
             !catInfo.name ||
             !catInfo.neuter ||
-            !images.length
+            !images?.length
           }
         >
-          등록하기
+          {isNew ? '등록하기' : '수정하기'}
         </RegisterBtn>
       </div>
     </Fragment>

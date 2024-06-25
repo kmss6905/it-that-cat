@@ -1,9 +1,21 @@
+import { useRouter } from 'next/navigation';
+
+import { deleteContent } from '@/apis/contents';
 import IconDeleteModal from '@/assets/images/icon_deleteModal.svg';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
+import { ResType } from '@/types/api';
 
-const DeleteModal = () => {
+const DeleteModal = ({ contentId }: { contentId: string | null }) => {
+  const router = useRouter();
   const { closeModal } = useModal();
+  const onClickDeleteButton = async () => {
+    const res: ResType<string> = await deleteContent(contentId);
+
+    if (res.result === 'SUCCESS') {
+      router.push(`/`);
+    }
+  };
   return (
     <Modal type={MODAL_TYPE.CONTENT_DELETE} variant={MODAL_VARIANT.CARD}>
       <div className='flex justify-center items-center flex-col py-8'>
@@ -28,7 +40,10 @@ const DeleteModal = () => {
         >
           취소
         </button>
-        <button className='w-1/2 py-4 text-center hover:bg-gray-50 active:bg-gray-50 text-error'>
+        <button
+          onClick={onClickDeleteButton}
+          className='w-1/2 py-4 text-center hover:bg-gray-50 active:bg-gray-50 text-error'
+        >
           삭제
         </button>
       </div>

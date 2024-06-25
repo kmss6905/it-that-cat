@@ -10,10 +10,11 @@ import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import { Label, TextareaInput } from '@/components/Input';
 import RegisterBtn from '@/components/RegisterBtn';
 import ImageWrapper from '@/components/ImageWrapper';
-import { saveImage } from '@/apis/image/saveImage';
+import { saveImageAWS } from '@/apis/image/saveImage';
 import { contentStore } from '@/stores/comment/store';
 import { commentProps, ResType } from '@/types/api';
 import { useWithLoading } from '@/hooks/useWithLoading';
+import { useToast } from '@/stores/toast/store';
 
 const RegisterCommentPage = () => {
   const router = useRouter();
@@ -22,8 +23,12 @@ const RegisterCommentPage = () => {
     commentDesc: '',
   });
   const inputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+  const [thumbImages, setThumbImages] = useState<
+    (string | ArrayBuffer | null)[]
+  >([]);
+  const [images, setImages] = useState<(File | string)[]>([]);
   const { withLoading } = useWithLoading();
+  const { addToast } = useToast();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -34,7 +39,7 @@ const RegisterCommentPage = () => {
   };
 
   const onClickInputImage = () => {
-    if (images.length === 3) {
+    if (thumbImages.length === 3) {
       return;
     }
     inputRef.current?.click();
@@ -42,20 +47,24 @@ const RegisterCommentPage = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const newImages: (string | ArrayBuffer | null)[] = [...images];
+    const newThumbImages: (string | ArrayBuffer | null)[] = [...thumbImages];
+    const newImages: (File | string)[] = [...images];
+    newImages.push(files?.[0] || new File([], ''));
+    setImages(newImages);
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.readAsDataURL(files[i]);
         reader.onloadend = () => {
-          newImages.push(reader.result);
-          setImages(newImages);
+          newThumbImages.push(reader.result);
+          setThumbImages(newThumbImages);
         };
       }
     }
   };
 
   const handleImageRemove = (index: number) => {
+    setThumbImages(thumbImages.filter((_, i) => i !== index));
     setImages(images.filter((_, i) => i !== index));
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -67,11 +76,10 @@ const RegisterCommentPage = () => {
     comment: commentProps,
     images: any[],
   ) => {
-    const base64s = images.map((image) => (image ? image.toString() : ''));
-    const saveImageUrls = await Promise.all(base64s.map(saveImage));
+    const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const data: commentProps = {
       ...comment,
-      commentImageUris: saveImageUrls,
+      commentImageKeys: saveImageKeys,
     };
     const res: ResType<{ contentId: string }> = await postComment(
       contentId,
@@ -85,6 +93,7 @@ const RegisterCommentPage = () => {
       handleRegister(contentId, comment, images),
     );
     if (res.result === 'SUCCESS') {
+      addToast.check('새로운 소식을 등록했어요!');
       router.push(`/content?id=${contentId}`);
     }
   };
@@ -128,7 +137,9 @@ const RegisterCommentPage = () => {
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>{images.length}/3</div>
+              <div className='text-gray-200 caption'>
+                {thumbImages.length}/3
+              </div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -138,7 +149,7 @@ const RegisterCommentPage = () => {
                 data-testid='puzzleImage-input'
               />
             </div>
-            {images.map((image, index) => (
+            {thumbImages.map((image, index) => (
               <ImageWrapper
                 key={index}
                 size='S'

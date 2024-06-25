@@ -1,4 +1,9 @@
+'use client';
+
 import { Suspense } from 'react';
+import Lottie from 'react-lottie-player';
+
+import loadingLottie from '@/assets/images/lottie/loading.json';
 
 const LoadingPage = () => {
   return (
@@ -10,10 +15,8 @@ const LoadingPage = () => {
 
 export const Loading = ({ className = '' }: { className?: string }) => {
   return (
-    <div
-      className={`text-center flex justify-center items-center h-screen bg-gray-50 ${className}`}
-    >
-      <div className='animate-spin rounded-full w-10 h-10 border-4 border-solid border-black/80 border-l-black'></div>
+    <div className='fixed w-full top-0 left-1/2 -translate-x-1/2 flex justify-center items-center h-screen bg-white/60 z-40 px-20'>
+      <Lottie loop animationData={loadingLottie} play />
     </div>
   );
 };
