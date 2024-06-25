@@ -8,8 +8,8 @@ import { useModal } from '@/hooks/useModal';
 import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
-import getCookie from '@/utils/getCookie';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
+import getCookie from '@/utils/getCookie';
 
 const MyPage = () => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const MyPage = () => {
         },
         {
           id: 1,
-          title: '작성한 근황 소식',
+          title: '내가 쓴 냥이 소식',
           handleClick: () => openModal(MODAL_TYPE.UPDATE_NOTICE),
         },
       ],
@@ -76,7 +76,9 @@ const MyPage = () => {
 
   return (
     <Fragment>
-      <NicknameModal />
+      <NicknameModal
+        handleUpdateNickname={(nickname: string) => setNickname(nickname)}
+      />
       <UpdateNoticeModal />
       <DeleteUserModal />
       <div className='flex justify-end px-6 pt-7 pb-5'>
@@ -88,7 +90,12 @@ const MyPage = () => {
 
       <div className='px-6'>
         <h3 className='heading2 text-black flex gap-[6px] items-center'>
-          {nickname}님
+          {nickname !== null ? (
+            nickname
+          ) : (
+            <span className='w-20 h-6 bg-gray-50 rounded-sm animate-pulse' />
+          )}
+          님
           <span
             onClick={() => openModal(MODAL_TYPE.MYPAGE_NICKNAME)}
             className='cursor-pointer'

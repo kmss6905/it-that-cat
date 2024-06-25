@@ -8,4 +8,9 @@ const getCookie = async (name: string) => {
   return cookie;
 };
 
+export const setCookie = async (data: { name: string; value: string }) => {
+  const cookieStore = cookies();
+  cookieStore.set(data.name, data.value);
+};
+
 export default getCookie;
