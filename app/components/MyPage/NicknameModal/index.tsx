@@ -2,11 +2,16 @@
 import { updateNickname } from '@/apis/mypage';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
-import getCookie from '@/utils/getCookie';
+import getCookie, { setCookie } from '@/utils/getCookie';
 import React, { ReactNode, useEffect, useState } from 'react';
 
-const NicknameModal = () => {
+const NicknameModal = ({
+  handleUpdateNickname,
+}: {
+  handleUpdateNickname: (nickname: string) => void;
+}) => {
   const [nickname, setNickname] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const { closeModal } = useModal();
 
   const handleClick = async (type: 'reset' | 'submit') => {
@@ -17,11 +22,16 @@ const NicknameModal = () => {
 
     if (nickname) {
       const res = await updateNickname(nickname);
-      console.log('🚀 ~ handleClick ~ res:', res);
-      // if (res === 200) {
-      //   setNickname(null);
-      //   return closeModal();
-      // }
+      if (res.result === 'SUCCESS') {
+        await setCookie({ name: 'nickname', value: nickname });
+        setNickname(null);
+        handleUpdateNickname(nickname);
+        setError(null);
+        return closeModal();
+      }
+      if (res.result === 'ERROR') {
+        setError(res.error.message);
+      }
     }
   };
 
@@ -50,11 +60,16 @@ const NicknameModal = () => {
             {nickname === null ? 0 : nickname.length}/10
           </span>
         </form>
+        {error !== null ? <p className='error inline-block'>{error}</p> : null}
       </div>
+
       <div className='w-full flex'>
         <CardBtn
           type='reset'
-          onClick={(value) => handleClick(value)}
+          onClick={(value) => {
+            setError(null);
+            handleClick(value);
+          }}
           className='border-r border-gray-100'
         >
           취소

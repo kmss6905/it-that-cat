@@ -65,7 +65,7 @@ const ListViewer = ({
   }, [catMark, isLoading, contentsData]);
 
   return (
-    <div className='h-[calc(100%-142px)] flex flex-col'>
+    <div className='h-[calc(100%-94px)] flex flex-col'>
       <div className='px-6'>
         <h2 className='text-black heading2 pb-4'>우리 동네 이냥저냥이</h2>
         <div className='flex gap-[6px] pb-4'>

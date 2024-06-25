@@ -43,6 +43,7 @@ const config: Config = {
           500: '#FF9B1E',
         },
         gray: {
+          10: '#F0F0F0',
           50: '#F2F2F2',
           100: '#DDDDDD',
           200: '#B7B7B7',
