@@ -1,5 +1,9 @@
 import { catFollowId, commentLikeId, commentProps } from '@/types/api';
-import { RegisterCatObjProps, UpdateCatObjProps } from '@/types/content';
+import {
+  ContentReportProps,
+  RegisterCatObjProps,
+  UpdateCatObjProps,
+} from '@/types/content';
 import fetchApi from '../fetchApi';
 
 export const getContent = async (contentId: string | null) => {
@@ -22,6 +26,11 @@ export const putContent = async (
 export const deleteContent = async (contentId: string | null) => {
   const url = `/contents/${contentId}`;
   return await fetchApi(url, 'DELETE');
+};
+
+export const reportContent = async (data: ContentReportProps) => {
+  const url = `/reports/content`;
+  return await fetchApi(url, 'POST', data);
 };
 
 export const getComments = async (contentId: string | null) => {

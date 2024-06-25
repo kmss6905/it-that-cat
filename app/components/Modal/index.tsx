@@ -15,6 +15,8 @@ export const MODAL_TYPE = {
   DELETE_USER: 'deleteUser',
   UPDATE_NOTICE: 'updateNotice',
   CONTENT_REPORT: 'contentReport',
+  CONTENT_REPORT_COMPLETED: 'contentReporCompleted',
+  CONTENT_REPORT_NOTIFICATION: 'contentReporNotification',
 };
 export type MODAL_TYPE = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
 

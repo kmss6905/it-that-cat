@@ -46,3 +46,9 @@ export interface ContentObjProps extends RegisterCatObjProps {
 export interface ContentCardProps {
   content: ContentObjProps;
 }
+
+export interface ContentReportProps {
+  contentId: string | null;
+  category: string;
+  content: string;
+}

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import IconBackBlack from '@/assets/images/icon_backBlack.svg';
@@ -7,11 +8,15 @@ import Button from '@/components/Button';
 import { reportButtons } from '@/constants/reportButtons';
 import { TextareaInput } from '@/components/Input';
 import RegisterBtn from '@/components/RegisterBtn';
+import { reportContent } from '@/apis/contents';
+import { ContentReportProps } from '@/types/content';
+import { ResType } from '@/types/api';
 
-const ReportModal = () => {
-  const { closeModal } = useModal();
-  const [report, setReport] = useState<{ reason: string; content: string }>({
-    reason: '',
+const ReportModal = ({ contentId }: { contentId: string | null }) => {
+  const router = useRouter();
+  const { closeModal, openModal } = useModal();
+  const [report, setReport] = useState<{ category: string; content: string }>({
+    category: '',
     content: '',
   });
   const onClickOnlyOne = (name: string, value: string) => {
@@ -28,8 +33,19 @@ const ReportModal = () => {
     });
   };
   const resetAndcloseModal = () => {
-    setReport({ reason: '', content: '' });
+    setReport({ category: '', content: '' });
     closeModal();
+  };
+  const onClickReportButton = async () => {
+    const data: ContentReportProps = {
+      ...report,
+      contentId,
+    };
+    const res: ResType<string> = await reportContent(data);
+
+    if (res.result === 'SUCCESS') {
+      openModal(MODAL_TYPE.CONTENT_REPORT_COMPLETED);
+    }
   };
   return (
     <Modal type={MODAL_TYPE.CONTENT_REPORT} variant={MODAL_VARIANT.ALL}>
@@ -50,9 +66,9 @@ const ReportModal = () => {
         {reportButtons.map(({ name, value }) => (
           <Button
             key={value}
-            onClick={() => onClickOnlyOne('reason', value)}
-            border={report.reason === value}
-            gray={report.reason !== value}
+            onClick={() => onClickOnlyOne('category', value)}
+            border={report.category === value}
+            gray={report.category !== value}
             report
           >
             {name}
@@ -64,15 +80,15 @@ const ReportModal = () => {
           onChange={onChange}
           maxLength={299}
           placeholder={'신고 내용을 입력해주세요.'}
-          isDisabled={report.reason !== '직접 입력하기'}
+          isDisabled={report.category !== 'OTHER'}
           report
         />
       </div>
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
         <RegisterBtn
+          onClick={onClickReportButton}
           isDisabled={
-            !report.reason ||
-            (report.reason === '직접 입력하기' && !report.content)
+            !report.category || (report.category === 'OTHER' && !report.content)
           }
         >
           신고 접수하기

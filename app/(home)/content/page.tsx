@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, Suspense, useState } from 'react';
+import React, { Fragment, Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,6 +8,7 @@ import 'swiper/css';
 
 import { deleteFollow, postFollow } from '@/apis/contents';
 import IconBack from '@/assets/images/icon_back.svg';
+import ContentBlur from '@/assets/images/content/content_blur.svg';
 import IconKebab from '@/assets/images/icon_kebab.svg';
 import IconFollowMark from '@/assets/images/icon_followMark.svg';
 import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
@@ -26,6 +27,8 @@ import { useContent } from '@/hooks/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
+import ReportCompletedModal from '@/components/Content/Modal/ReportCompletedModal';
+import ReportNotificationModal from '@/components/Content/Modal/ReportNotificationModal';
 
 const RegisterPostPage = () => {
   return (
@@ -65,6 +68,35 @@ const SuspenseRegisterPostPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (data?.isReported) {
+      openModal(MODAL_TYPE.CONTENT_REPORT_NOTIFICATION);
+    }
+  }, [data, openModal]);
+
+  if (isSuccess && data?.isReported) {
+    return (
+      <Fragment>
+        <ReportNotificationModal />
+
+        <div className='w-full h-full'>
+          <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
+            <button onClick={() => router.back()}>
+              <IconBack />
+            </button>
+            <div className='flex justify-between gap-4'></div>
+          </div>
+          <div className='absolute w-full h-full overflow-y-scroll layout'>
+            <ContentBlur />
+          </div>
+          <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
+            <RegisterBtn isDisabled>냥이 소식 작성하기</RegisterBtn>
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
+
   if (isSuccess && data)
     return (
       <Fragment>
@@ -75,7 +107,8 @@ const SuspenseRegisterPostPage = () => {
         />
         <DeleteModal contentId={contentId} />
         <AnonymizeModal contentId={contentId} nickname={data.nickname} />
-        <ReportModal />
+        <ReportModal contentId={contentId} />
+        <ReportCompletedModal contentId={contentId} />
 
         <div className='w-full relative'>
           <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
