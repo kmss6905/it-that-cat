@@ -75,26 +75,7 @@ const SuspenseRegisterPostPage = () => {
   }, [data, openModal]);
 
   if (isSuccess && data?.isReported) {
-    return (
-      <Fragment>
-        <ReportNotificationModal />
-
-        <div className='w-full h-full'>
-          <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
-            <button onClick={() => router.back()}>
-              <IconBack />
-            </button>
-            <div className='flex justify-between gap-4'></div>
-          </div>
-          <div className='absolute w-full h-full overflow-y-scroll layout'>
-            <ContentBlur />
-          </div>
-          <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-            <RegisterBtn isDisabled>냥이 소식 작성하기</RegisterBtn>
-          </div>
-        </div>
-      </Fragment>
-    );
+    return <ReportedContent />;
   }
 
   if (isSuccess && data)
@@ -226,3 +207,27 @@ const SuspenseRegisterPostPage = () => {
 };
 
 export default RegisterPostPage;
+
+const ReportedContent = () => {
+  const router = useRouter();
+  return (
+    <Fragment>
+      <ReportNotificationModal />
+
+      <div className='w-full h-full'>
+        <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
+          <button onClick={() => router.back()}>
+            <IconBack />
+          </button>
+          <div className='flex justify-between gap-4'></div>
+        </div>
+        <div className='absolute w-full h-full overflow-y-scroll layout'>
+          <ContentBlur />
+        </div>
+        <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
+          <RegisterBtn isDisabled>냥이 소식 작성하기</RegisterBtn>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
