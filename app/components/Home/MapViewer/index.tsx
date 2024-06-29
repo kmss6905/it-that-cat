@@ -1,3 +1,4 @@
+import { getContent } from '@/apis/contents';
 import getSelectContent from '@/apis/map/getSelectContent';
 import CustomPin from '@/components/Map/CustomPin';
 import MapComponent from '@/components/Map/Map';
@@ -45,7 +46,7 @@ const MapViewer = ({
     setSelectedPin(data.id);
 
     /* 선택한 컨텐츠 내용 가져오기 */
-    const content = await getSelectContent(data.id);
+    const content = await getContent(String(data.id));
     setContent(content);
   };
 
