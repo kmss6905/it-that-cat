@@ -1,6 +1,6 @@
 'use client';
 import { reissueToken } from '@/apis/login';
-import getCookie from '@/utils/getCookie';
+import { getCookie } from '@/utils/cookieStore';
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { useEffect, useState } from 'react';
 
@@ -14,13 +14,17 @@ const useTokenReissue = () => {
 
   useEffect(() => {
     if (accessToken === null) {
-      const token = getCookie('accessToken');
-      setAccessToken(token);
+      (async () => {
+        const token = await getCookie('accessToken');
+        setAccessToken(token);
+      })();
     }
 
     if (refreshToken === null) {
-      const token = getCookie('refreshToken');
-      setRefreshToken(token);
+      (async () => {
+        const token = await getCookie('refreshToken');
+        setRefreshToken(token);
+      })();
     }
   }, [accessToken, refreshToken]);
 

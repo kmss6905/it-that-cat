@@ -2,7 +2,7 @@
 import { updateNickname } from '@/apis/mypage';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
-import getCookie, { setCookie } from '@/utils/getCookie';
+import { getCookie, setCookie } from '@/utils/cookieStore';
 import React, { ReactNode, useEffect, useState } from 'react';
 
 const NicknameModal = ({
@@ -37,8 +37,10 @@ const NicknameModal = ({
 
   useEffect(() => {
     if (nickname === null) {
-      const nick = getCookie('nickname')?.value;
-      nick && setNickname(nick);
+      (async () => {
+        const nick = (await getCookie('nickname'))?.value;
+        nick && setNickname(nick);
+      })();
     }
   }, [nickname]);
 

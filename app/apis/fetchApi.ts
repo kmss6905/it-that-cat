@@ -1,4 +1,4 @@
-import getCookie from '@/utils/getCookie';
+import { getCookie } from '@/utils/cookieStore';
 import fetchExtended from './fetch'; // 새롭게 만든 fetchExtended 파일을 import
 
 /**
@@ -11,7 +11,7 @@ const fetchApi = async <T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   data?: T,
 ) => {
-  const accessToken = getCookie('accessToken');
+  const accessToken = await getCookie('accessToken');
 
   try {
     const response = await fetchExtended(url, {

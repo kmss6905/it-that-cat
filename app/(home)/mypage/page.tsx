@@ -9,7 +9,7 @@ import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
-import getCookie from '@/utils/getCookie';
+import { getCookie } from '@/utils/cookieStore';
 
 const MyPage = () => {
   const router = useRouter();
@@ -18,8 +18,10 @@ const MyPage = () => {
 
   useEffect(() => {
     if (nickname === null) {
-      const response = getCookie('nickname');
-      response && setNickname(response.value);
+      (async () => {
+        const response = await getCookie('nickname');
+        response && setNickname(response.value);
+      })();
     }
   }, [nickname]);
 
