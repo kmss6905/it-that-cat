@@ -37,11 +37,8 @@ const NicknameModal = ({
 
   useEffect(() => {
     if (nickname === null) {
-      const getNickname = async () => {
-        const nick = (await getCookie('nickname'))?.value;
-        nick && setNickname(nick);
-      };
-      getNickname();
+      const nick = getCookie('nickname')?.value;
+      nick && setNickname(nick);
     }
   }, [nickname]);
 

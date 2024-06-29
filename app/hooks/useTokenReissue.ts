@@ -14,21 +14,13 @@ const useTokenReissue = () => {
 
   useEffect(() => {
     if (accessToken === null) {
-      const getAccessToken = async () => {
-        const token = await getCookie('accessToken');
-        setAccessToken(token);
-      };
-
-      getAccessToken();
+      const token = getCookie('accessToken');
+      setAccessToken(token);
     }
 
     if (refreshToken === null) {
-      const getRefreshToken = async () => {
-        const token = await getCookie('refreshToken');
-        setRefreshToken(token);
-      };
-
-      getRefreshToken();
+      const token = getCookie('refreshToken');
+      setRefreshToken(token);
     }
   }, [accessToken, refreshToken]);
 

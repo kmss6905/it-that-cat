@@ -1,7 +1,8 @@
 'use client';
-import { getToken, saveToken } from '@/apis/login';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+
+import { getToken, saveToken } from '@/apis/login';
 
 const KakaoAuthPage = () => {
   return (
@@ -15,18 +16,23 @@ const LoginLoading = () => {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
   const pathname = usePathname().split('/')[2];
+  const router = useRouter();
 
   useEffect(() => {
     if (code) {
       const test = async () => {
         const response = await getToken(code, pathname);
-        if (response !== null && response.result === 'SUCCESS') {
+        if (response?.result === 'SUCCESS') {
+          const redriectUrl = !!response.data.nickname
+            ? '/'
+            : '/login/nickname';
           saveToken(response.data);
+          router.replace(redriectUrl);
         }
       };
       test();
     }
-  }, [code, pathname]);
+  }, [code, pathname, router]);
 
   return (
     <div className='text-center flex justify-center items-center h-screen bg-bgBlack'>
