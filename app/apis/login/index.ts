@@ -1,9 +1,9 @@
-'use server';
-import fetchApi from '../fetchApi';
-import { cookies } from 'next/headers';
+'use client';
+import { setCookie, getCookie } from 'cookies-next';
+
 import { SaveTokenProps } from '@/types/api';
-import { redirect } from 'next/navigation';
 import { accessTime, refreshTime } from '@/constants/tokenExpires';
+import fetchApi from '../fetchApi';
 
 export const getAccountCode = async (provider: string) => {
   const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`;
@@ -30,35 +30,29 @@ export const getToken = async (code: string, provider: string) => {
 };
 
 export const reissueToken = async () => {
-  const cookieStore = cookies();
-
-  const accessToken = cookieStore.get('accessToken');
-  const refreshToken = cookieStore.get('refreshToken');
-  const url = `/auth/issue/access-token?refresh_token=${refreshToken?.value}`;
+  const accessToken = getCookie('accessToken');
+  const refreshToken = getCookie('refreshToken');
+  const url = `/auth/issue/access-token?refresh_token=${refreshToken}`;
 
   if (refreshToken && !accessToken) {
     const newAccessToken = (await fetchApi(url, 'GET')).data
       .accessToken as string;
-    cookieStore.set('accessToken', newAccessToken, { expires: accessTime });
+    setCookie('accessToken', newAccessToken, { maxAge: accessTime });
   }
 };
 
 export const saveToken = (data: SaveTokenProps) => {
-  const cookieStore = cookies();
-
-  cookieStore.set('accessToken', data.accessToken, {
-    expires: accessTime,
+  setCookie('accessToken', data.accessToken, {
+    maxAge: accessTime,
   });
 
-  cookieStore.set('refreshToken', data.refreshToken, {
-    expires: refreshTime,
+  setCookie('refreshToken', data.refreshToken, {
+    maxAge: refreshTime,
   });
 
   if (data.nickname) {
-    cookieStore.set('nickname', data.nickname);
-    return redirect('/');
+    setCookie('nickname', data.nickname);
   }
-  return redirect('/login/nickname');
 };
 
 export const postNickname = async (nickname: string) => {

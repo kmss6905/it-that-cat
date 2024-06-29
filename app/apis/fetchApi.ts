@@ -11,7 +11,7 @@ const fetchApi = async <T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   data?: T,
 ) => {
-  const accessToken = await getCookie('accessToken');
+  const accessToken = getCookie('accessToken');
 
   try {
     const response = await fetchExtended(url, {

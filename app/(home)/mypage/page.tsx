@@ -18,11 +18,8 @@ const MyPage = () => {
 
   useEffect(() => {
     if (nickname === null) {
-      const getNickname = async () => {
-        const response = await getCookie('nickname');
-        response && setNickname(response.value);
-      };
-      getNickname();
+      const response = getCookie('nickname');
+      response && setNickname(response.value);
     }
   }, [nickname]);
 
