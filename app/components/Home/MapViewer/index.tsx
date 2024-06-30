@@ -1,5 +1,6 @@
+import { useRef } from 'react';
+
 import { getContent } from '@/apis/contents';
-import getSelectContent from '@/apis/map/getSelectContent';
 import CustomPin from '@/components/Map/CustomPin';
 import MapComponent from '@/components/Map/Map';
 import useGeolocation from '@/hooks/useGeolocation';
@@ -7,7 +8,6 @@ import { useMapContents } from '@/hooks/useGetContent';
 import { useGeolocationStore } from '@/stores/home/store';
 import { Coordinates } from '@/types/address';
 import { ContentObjProps } from '@/types/content';
-import { useRef } from 'react';
 
 interface MapViewerProps {
   catMark: boolean;
