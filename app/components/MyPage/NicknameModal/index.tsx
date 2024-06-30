@@ -1,31 +1,29 @@
 'use client';
 import { updateNickname } from '@/apis/mypage';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import useNickname from '@/hooks/useNickname';
 import { useModal } from '@/hooks/useModal';
-import { getCookie, setCookie } from '@/utils/cookieStore';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 const NicknameModal = ({
-  handleUpdateNickname,
+  handleRefetchNickname,
 }: {
-  handleUpdateNickname: (nickname: string) => void;
+  handleRefetchNickname: () => void;
 }) => {
-  const [nickname, setNickname] = useState<string | null>(null);
+  const { data: prevNickname } = useNickname();
+  const [nickname, setNickname] = useState<string>(prevNickname);
   const [error, setError] = useState<string | null>(null);
   const { closeModal } = useModal();
 
   const handleClick = async (type: 'reset' | 'submit') => {
     if (type === 'reset') {
-      setNickname(null);
       return closeModal();
     }
 
     if (nickname) {
       const res = await updateNickname(nickname);
       if (res.result === 'SUCCESS') {
-        await setCookie('nickname', nickname);
-        setNickname(null);
-        handleUpdateNickname(nickname);
+        handleRefetchNickname();
         setError(null);
         return closeModal();
       }
@@ -34,15 +32,6 @@ const NicknameModal = ({
       }
     }
   };
-
-  useEffect(() => {
-    if (nickname === null) {
-      (async () => {
-        const nick = (await getCookie('nickname'))?.value;
-        nick && setNickname(nick);
-      })();
-    }
-  }, [nickname]);
 
   return (
     <Modal type={MODAL_TYPE.MYPAGE_NICKNAME} variant={MODAL_VARIANT.CARD}>
