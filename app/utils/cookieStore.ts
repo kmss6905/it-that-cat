@@ -8,7 +8,11 @@ export const getCookie = async (name: string) => {
   return cookie;
 };
 
-export const setCookie = async (data: { name: string; value: string }) => {
+export const setCookie = async (
+  name: string,
+  value: string,
+  options?: { maxAge: number },
+) => {
   const cookieStore = cookies();
-  cookieStore.set(data.name, data.value);
+  cookieStore.set(name, value, { ...options });
 };

@@ -1,9 +1,9 @@
 'use client';
-import { setCookie, getCookie } from 'cookies-next';
 
 import { SaveTokenProps } from '@/types/api';
 import { accessTime, refreshTime } from '@/constants/tokenExpires';
 import fetchApi from '../fetchApi';
+import { getCookie, setCookie } from '@/utils/cookieStore';
 
 export const getAccountCode = async (provider: string) => {
   const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`;
@@ -30,8 +30,8 @@ export const getToken = async (code: string, provider: string) => {
 };
 
 export const reissueToken = async () => {
-  const accessToken = getCookie('accessToken');
-  const refreshToken = getCookie('refreshToken');
+  const accessToken = (await getCookie('accessToken'))?.value;
+  const refreshToken = (await getCookie('refreshToken'))?.value;
   const url = `/auth/issue/access-token?refresh_token=${refreshToken}`;
 
   if (refreshToken && !accessToken) {

@@ -23,7 +23,7 @@ const NicknameModal = ({
     if (nickname) {
       const res = await updateNickname(nickname);
       if (res.result === 'SUCCESS') {
-        await setCookie({ name: 'nickname', value: nickname });
+        await setCookie('nickname', nickname);
         setNickname(null);
         handleUpdateNickname(nickname);
         setError(null);
