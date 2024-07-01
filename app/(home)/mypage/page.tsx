@@ -1,29 +1,21 @@
 'use client';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { useRouter } from 'next/navigation';
 
 import IconEdit from '@/assets/images/mypage/icon_edit.svg';
 import IconLogout from '@/assets/images/mypage/icon_logout.svg';
 import { useModal } from '@/hooks/useModal';
+import useNickname from '@/hooks/useNickname';
 import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
-import { getCookie } from '@/utils/cookieStore';
+import Loading from '@/components/Loading';
 
 const MyPage = () => {
   const router = useRouter();
-  const [nickname, setNickname] = useState<string | null>(null);
+  const { data: nickname, refetch, isLoading } = useNickname();
   const { openModal } = useModal();
-
-  useEffect(() => {
-    if (nickname === null) {
-      (async () => {
-        const response = await getCookie('nickname');
-        response && setNickname(response.value);
-      })();
-    }
-  }, [nickname]);
 
   const mypageMenu = [
     {
@@ -73,11 +65,11 @@ const MyPage = () => {
     },
   ];
 
+  if (isLoading && !nickname) return <Loading />;
+
   return (
     <Fragment>
-      <NicknameModal
-        handleUpdateNickname={(nickname: string) => setNickname(nickname)}
-      />
+      <NicknameModal handleRefetchNickname={() => refetch()} />
       <UpdateNoticeModal />
       <DeleteUserModal />
       <div className='flex justify-end px-6 pt-7 pb-5'>
@@ -89,7 +81,7 @@ const MyPage = () => {
 
       <div className='px-6'>
         <h3 className='heading2 text-black flex gap-[6px] items-center'>
-          {nickname !== null ? (
+          {!isLoading && nickname ? (
             nickname
           ) : (
             <span className='w-20 h-6 bg-gray-50 rounded-sm animate-pulse' />
