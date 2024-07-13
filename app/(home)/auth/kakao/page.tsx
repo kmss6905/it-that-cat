@@ -26,7 +26,7 @@ const LoginLoading = () => {
           const redriectUrl = !!response.data.nickname
             ? '/'
             : '/login/nickname';
-          saveToken(response.data);
+          await saveToken(response.data);
           router.replace(redriectUrl);
         }
       };

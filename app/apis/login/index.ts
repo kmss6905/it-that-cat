@@ -41,17 +41,19 @@ export const reissueToken = async () => {
   }
 };
 
-export const saveToken = (data: SaveTokenProps) => {
-  setCookie('accessToken', data.accessToken, {
+export const saveToken = async (data: SaveTokenProps) => {
+  await setCookie('accessToken', data.accessToken, {
     maxAge: accessTime,
   });
 
-  setCookie('refreshToken', data.refreshToken, {
+  await setCookie('refreshToken', data.refreshToken, {
     maxAge: refreshTime,
   });
 
   if (data.nickname) {
-    setCookie('nickname', data.nickname);
+    await setCookie('nickname', data.nickname, {
+      maxAge: refreshTime,
+    });
   }
 };
 
