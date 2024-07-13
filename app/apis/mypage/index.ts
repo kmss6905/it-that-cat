@@ -16,7 +16,7 @@ export const getNickname = async () => {
 
 export const logout = async () => {
   const url = '/auth/logout';
-  const refreshToken = await getCookie('refreshToken');
+  const refreshToken = (await getCookie('refreshToken'))?.value;
 
   return await fetchApi(url, 'POST', { refreshToken });
 };

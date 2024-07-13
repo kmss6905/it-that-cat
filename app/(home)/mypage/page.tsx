@@ -11,6 +11,8 @@ import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
 import Loading from '@/components/Loading';
+import { logout } from '@/apis/mypage';
+import { deleteCookie } from '@/utils/cookieStore';
 
 const MyPage = () => {
   const router = useRouter();
@@ -65,6 +67,16 @@ const MyPage = () => {
     },
   ];
 
+  const handleLogOut = async () => {
+    const response = await logout();
+    if (response?.result === 'SUCCESS') {
+      await deleteCookie('accessToken');
+      await deleteCookie('nickname');
+      await deleteCookie('refreshToken');
+      router.push('/login');
+    }
+  };
+
   if (isLoading && !nickname) return <Loading />;
 
   return (
@@ -73,7 +85,10 @@ const MyPage = () => {
       <UpdateNoticeModal />
       <DeleteUserModal />
       <div className='flex justify-end px-6 pt-7 pb-5'>
-        <div className='text-gray-300 caption cursor-pointer pt-3 pb-5 flex items-center gap-1'>
+        <div
+          className='text-gray-300 caption cursor-pointer pt-3 pb-5 flex items-center gap-1'
+          onClick={handleLogOut}
+        >
           <IconLogout />
           로그아웃
         </div>
