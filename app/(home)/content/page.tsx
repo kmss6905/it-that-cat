@@ -23,7 +23,7 @@ import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 import ReportModal from '@/components/Content/Modal/ReportModal';
 import { useModal } from '@/hooks/useModal';
-import { useContent } from '@/hooks/useGetContent';
+import { useContent } from '@/hooks/queries/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';

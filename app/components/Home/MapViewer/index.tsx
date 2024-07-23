@@ -4,7 +4,7 @@ import { getContent } from '@/apis/contents';
 import CustomPin from '@/components/Map/CustomPin';
 import MapComponent from '@/components/Map/Map';
 import useGeolocation from '@/hooks/useGeolocation';
-import { useMapContents } from '@/hooks/useGetContent';
+import { useMapContents } from '@/hooks/queries/useGetContent';
 import { useGeolocationStore } from '@/stores/home/store';
 import { Coordinates } from '@/types/address';
 import { ContentObjProps } from '@/types/content';

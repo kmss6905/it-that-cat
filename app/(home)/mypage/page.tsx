@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import IconEdit from '@/assets/images/mypage/icon_edit.svg';
 import IconLogout from '@/assets/images/mypage/icon_logout.svg';
 import { useModal } from '@/hooks/useModal';
-import useNickname from '@/hooks/useNickname';
+import useNickname from '@/hooks/queries/useNickname';
 import { MODAL_TYPE } from '@/components/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';

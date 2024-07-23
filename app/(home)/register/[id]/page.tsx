@@ -1,6 +1,6 @@
 'use client';
 import RegisterContent from '@/components/Content/RegisterContent';
-import { useContent } from '@/hooks/useGetContent';
+import { useContent } from '@/hooks/queries/useGetContent';
 
 const RegisterPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
