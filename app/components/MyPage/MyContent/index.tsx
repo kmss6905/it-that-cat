@@ -3,41 +3,33 @@ import { useRouter } from 'next/navigation';
 
 import IconBack from '@/assets/images/icon_backBlack.svg';
 import MyContentFormat from './MyContentFormat';
+import { useMyContents } from '@/hooks/queries/useMyContents';
+import { useMemo, useState } from 'react';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { NoListPage } from '@/components/ListUi';
+import { NoContent } from './NoContent';
 
 const MyContent = () => {
   const router = useRouter();
+  const [selectedContent, setSelectedContent] = useState<
+    string | null | undefined
+  >(null);
 
-  const dummyData = {
-    contentId: 2,
-    name: '냥이이름',
-    description: 'ds',
-    group: 'YES',
-    catPersonalities: ['UNSURE'],
-    lat: '37.212321',
-    lng: '126.223123',
-    jibunAddrName: '서울 마포구 망원동 415-31',
-    jibunMainAddrNo: 'main',
-    jibunSido: '시도',
-    jibunSigungu: '시군구',
-    jibunDong: '지번동',
-    jibunSubAddrNo: '서브동',
-    images: [],
-    neuter: 'YES',
-    createdAt: '2024-03-09T21:15:38',
-    updatedAt: '2024-04-09T23:47:40',
-    catEmoji: 10,
-    isFollowed: false,
-    countOfFollowed: 0,
-    countOfComments: 0,
-    userUid: 0,
-    nickname: null,
-    isArchived: true,
-    isAuthor: false,
-  };
+  const { data, fetchNextPage, hasNextPage, isFetching } = useMyContents();
 
-  const dummyArr = new Array(2).fill(dummyData);
+  const target = useIntersectionObserver((entry, observer) => {
+    observer.unobserve(entry.target);
+
+    if (hasNextPage && !isFetching) fetchNextPage();
+  });
+
+  const myContents = useMemo(() => {
+    const contents = data ? data.pages.flatMap((doc) => doc.items) : [];
+    return contents;
+  }, [data]);
+
   return (
-    <div>
+    <div className='h-full'>
       <div className='w-full flex justify-between px-5 pt-6 pb-4 border-b border-gray-10'>
         <span onClick={() => router.back()} className='cursor-pointer'>
           <IconBack />
@@ -46,10 +38,23 @@ const MyContent = () => {
         <div />
       </div>
 
-      <div className='flex flex-col last:[&_div]:!border-b-0 px-6'>
-        {dummyArr.map((item) => (
-          <MyContentFormat content={item} key={item.id} />
-        ))}
+      <div
+        className={`flex flex-col last:[&_div]:!border-b-0 ${myContents && myContents.length > 0 ? 'px-6' : ''} h-[calc(100%-65px)] overflow-y-scroll layout`}
+      >
+        {myContents &&
+          (myContents.length > 0 ? (
+            myContents.map((item) => (
+              <MyContentFormat
+                content={item}
+                key={item.contentId}
+                selectedContent={selectedContent}
+                setSelectedContent={(id) => setSelectedContent(id)}
+              />
+            ))
+          ) : (
+            <NoContent />
+          ))}
+        <div ref={target} />
       </div>
     </div>
   );

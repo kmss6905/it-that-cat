@@ -20,3 +20,8 @@ export const logout = async () => {
 
   return await fetchApi(url, 'POST', { refreshToken });
 };
+
+export const getMyContents = async ({ pageParam = 1, size = 15 }) => {
+  const url = `/contents/me?page=${pageParam}&size=${size}`;
+  return (await fetchApi(url, 'GET')).data;
+};

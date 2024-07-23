@@ -1,6 +1,6 @@
 export interface CatObjProps {
   [key: string]: string | string[] | number | boolean | null | undefined;
-  contentId?: string;
+  contentId?: string | null;
   name: string;
   description: string;
   lng: string | null;
@@ -36,6 +36,8 @@ export interface ContentObjProps extends RegisterCatObjProps {
   numberOfCatSlaves: number;
   numberOfComments: number;
   countOfBookMark: number;
+  countOfComments: number;
+  isReported: boolean;
   userUid: number;
   nickname: string;
   bookMark: boolean;
