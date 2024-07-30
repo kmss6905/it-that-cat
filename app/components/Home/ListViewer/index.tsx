@@ -2,7 +2,7 @@ import { NoFollowListPage, NoListPage } from '@/components/ListUi';
 import ContentCard from '../ContentCard';
 import { useMemo } from 'react';
 import SelectFilter, { SelectedFilterState } from '../SelectFilter';
-import { useCardContents } from '@/hooks/useGetContent';
+import { useCardContents } from '@/hooks/queries/useGetContent';
 import CardSkeleton from '../CardSkeleton';
 import useGeolocation from '@/hooks/useGeolocation';
 import CatMark from '../CatMark';

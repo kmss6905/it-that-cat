@@ -1,7 +1,7 @@
 'use client';
 import { updateNickname } from '@/apis/mypage';
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
-import useNickname from '@/hooks/useNickname';
+import useNickname from '@/hooks/queries/useNickname';
 import { useModal } from '@/hooks/useModal';
 import React, { ReactNode, useState } from 'react';
 

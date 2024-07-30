@@ -1,5 +1,5 @@
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
-import { useContent } from '@/hooks/useGetContent';
+import { useContent } from '@/hooks/queries/useGetContent';
 import { useModal } from '@/hooks/useModal';
 
 const ReportCompletedModal = ({ contentId }: { contentId: string | null }) => {

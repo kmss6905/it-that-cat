@@ -5,7 +5,7 @@ import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import { useModal } from '@/hooks/useModal';
 import { ResType } from '@/types/api';
 import { deleteContent } from '@/apis/contents';
-import { useContent } from '@/hooks/useGetContent';
+import { useContent } from '@/hooks/queries/useGetContent';
 
 const AnonymizeModal = ({
   contentId,

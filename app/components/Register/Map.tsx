@@ -8,7 +8,7 @@ import IconCurrMapPin from '@/assets/images/map/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
 import { Coordinates, GeolocationState, RegionState } from '@/types/address';
-import { useMapContents } from '@/hooks/useGetContent';
+import { useMapContents } from '@/hooks/queries/useGetContent';
 import CustomPin from '../Map/CustomPin';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useGeolocationStore } from '@/stores/home/store';

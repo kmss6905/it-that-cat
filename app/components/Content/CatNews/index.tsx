@@ -2,7 +2,7 @@ import Image from 'next/image';
 import CatNotNews from '@/assets/images/cats/cat_notNews.svg';
 import IconHeart from '@/assets/images/icon_heart.svg';
 import IconHeartFill from '@/assets/images/icon_heartFill.svg';
-import { useComments } from '@/hooks/useGetContent';
+import { useComments } from '@/hooks/queries/useGetContent';
 import { deleteLike, postLike } from '@/apis/contents';
 import { ResType } from '@/types/api';
 import { convertTime } from '@/utils/convertTime';
