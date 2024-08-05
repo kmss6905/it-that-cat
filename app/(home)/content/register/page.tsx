@@ -94,7 +94,7 @@ const RegisterCommentPage = () => {
     );
     if (res.result === 'SUCCESS') {
       addToast.check('새로운 소식을 등록했어요!');
-      router.push(`/content?id=${contentId}`);
+      router.push(`/content/${contentId}`);
     }
   };
 
