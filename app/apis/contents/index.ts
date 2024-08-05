@@ -46,6 +46,11 @@ export const postComment = async (
   return await fetchApi<commentProps>(url, 'POST', data);
 };
 
+export const deleteComment = async (commentId: string | null) => {
+  const url = `/comments/${commentId}`;
+  return await fetchApi(url, 'DELETE');
+};
+
 export const postFollow = async (data: catFollowId) => {
   return await fetchApi<catFollowId>(`/contents/follow`, 'POST', data);
 };

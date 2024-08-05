@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Image from 'next/image';
+
 import CatNotNews from '@/assets/images/cats/cat_notNews.svg';
 import IconHeart from '@/assets/images/icon_heart.svg';
 import IconHeartFill from '@/assets/images/icon_heartFill.svg';
@@ -14,6 +16,7 @@ import { MODAL_TYPE } from '@/components/Modal';
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
   const { data, isSuccess, refetch } = useComments(contentId);
   const { openModal } = useModal();
+  const [commentId, setCommentId] = useState('');
 
   const onClickLike = async (commentId: string, isCatCommentLiked: string) => {
     if (!contentId) return;
@@ -30,7 +33,7 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
   if (isSuccess)
     return (
       <div className='p-6'>
-        <DeleteCatNewsModal />
+        <DeleteCatNewsModal commentId={commentId} refetch={refetch} />
 
         <div className={`flex gap-1 pb-5 subHeading`}>
           <div>냥이의 근황을 공유해요</div>
@@ -90,7 +93,12 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
                 </button>
                 <div className='flex items-center gap-4 caption text-gray-400'>
                   <button>수정</button>
-                  <button onClick={() => openModal(MODAL_TYPE.CAT_NEWS_DELETE)}>
+                  <button
+                    onClick={() => {
+                      setCommentId(comment.commentId);
+                      openModal(MODAL_TYPE.CAT_NEWS_DELETE);
+                    }}
+                  >
                     삭제
                   </button>
                 </div>
