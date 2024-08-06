@@ -8,7 +8,7 @@ import fetchApi from '../fetchApi';
 
 export const getContent = async (contentId: string | null) => {
   const url = `/contents/${contentId}`;
-  return (await fetchApi(url, 'GET')).data;
+  return await fetchApi(url, 'GET');
 };
 
 export const postContent = async (data: RegisterCatObjProps) => {

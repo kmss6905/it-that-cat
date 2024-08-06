@@ -51,7 +51,7 @@ const SuspenseRegisterPostPage = () => {
   const params = useSearchParams();
   const { openModal } = useModal();
   const contentId = params.get('id');
-  const { data, refetch, isSuccess } = useContent(contentId);
+  const { data: { data } = {}, refetch, isSuccess } = useContent(contentId);
   const [isImageError, setIsImageError] = useState<boolean>(false);
 
   const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
