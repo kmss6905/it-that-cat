@@ -137,7 +137,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
           </Swiper>
         </div>
 
-        <div className='flex h-full flex-col'>
+        <div className='flex flex-col'>
           <div className='px-6 py-3 flex relative'>
             <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center mr-3'>
               <cat.image />
@@ -186,7 +186,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
           <RegisterBtn
             onClick={() => {
               setContentId(contentId);
-              router.push('/content/register');
+              router.push(`/content/${contentId}/register`);
             }}
           >
             냥이 소식 작성하기
