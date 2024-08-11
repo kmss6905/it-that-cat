@@ -1,24 +1,31 @@
 'use client';
 
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { postComment } from '@/apis/contents';
+import { postComment, putComment } from '@/apis/contents';
 import IconX from '@/assets/images/icon_x.svg';
 import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
 import { Label, TextareaInput } from '@/components/Input';
 import RegisterBtn from '@/components/RegisterBtn';
 import ImageWrapper from '@/components/ImageWrapper';
 import { saveImageAWS } from '@/apis/image/saveImage';
-import { contentStore } from '@/stores/comment/store';
 import { commentProps, ResType } from '@/types/api';
 import { useWithLoading } from '@/hooks/useWithLoading';
 import { useToast } from '@/stores/toast/store';
+import { useComment } from '@/hooks/queries/useGetContent';
 
-const RegisterCommentPage = () => {
+const RegisterComment = ({
+  contentId,
+  commentId,
+}: {
+  contentId: string;
+  commentId: string;
+}) => {
   const router = useRouter();
-  const { contentId } = contentStore();
+  const { data } = useComment(contentId, commentId);
+  const isNew = !commentId;
   const [comment, setComment] = useState({
     commentDesc: '',
   });
@@ -29,6 +36,12 @@ const RegisterCommentPage = () => {
   const [images, setImages] = useState<(File | string)[]>([]);
   const { withLoading } = useWithLoading();
   const { addToast } = useToast();
+
+  useEffect(() => {
+    if (data) {
+      setComment(() => data);
+    }
+  }, [data]);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -81,8 +94,15 @@ const RegisterCommentPage = () => {
       ...comment,
       commentImageKeys: saveImageKeys,
     };
-    const res: ResType<{ contentId: string }> = await postComment(
-      contentId,
+    if (isNew) {
+      const res: ResType<{ contentId: string }> = await postComment(
+        contentId,
+        data,
+      );
+      return res;
+    }
+    const res: ResType<{ contentId: string }> = await putComment(
+      commentId,
       data,
     );
     return res;
@@ -93,10 +113,20 @@ const RegisterCommentPage = () => {
       handleRegister(contentId, comment, images),
     );
     if (res.result === 'SUCCESS') {
-      addToast.check('새로운 소식을 등록했어요!');
-      router.push(`/content?id=${contentId}`);
+      const message = isNew
+        ? '새로운 소식을 등록했어요!'
+        : '소식을 수정했어요!';
+      addToast.check(message);
+      router.push(`/content/${contentId}`);
     }
   };
+
+  useEffect(() => {
+    if (data?.commentImageUris) {
+      setThumbImages(data.commentImageUris);
+      setImages(data.commentImageUris);
+    }
+  }, [data?.commentImageUris]);
 
   return (
     <Fragment>
@@ -181,4 +211,4 @@ const RegisterCommentPage = () => {
   );
 };
 
-export default RegisterCommentPage;
+export default RegisterComment;

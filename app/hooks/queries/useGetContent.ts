@@ -1,4 +1,4 @@
-import { getContent, getComments } from '@/apis/contents';
+import { getContent, getComments, getComment } from '@/apis/contents';
 import {
   GetContentParams,
   getCardContents,
@@ -43,6 +43,15 @@ export const useContent = (contentId: string | null) => {
 
 export const useComments = (contentId: string | null) => {
   return useQuery([queryCommentsKey], () => getComments(contentId), {
+    staleTime: 1,
+  });
+};
+
+export const useComment = (
+  contentId: string | null,
+  commentId: string | null,
+) => {
+  return useQuery([queryCommentsKey], () => getComment(contentId, commentId), {
     staleTime: 1,
   });
 };

@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import CatNotNews from '@/assets/images/cats/cat_notNews.svg';
 import IconHeart from '@/assets/images/icon_heart.svg';
 import IconHeartFill from '@/assets/images/icon_heartFill.svg';
@@ -10,12 +13,15 @@ import ImageWrapper from '@/components/ImageWrapper';
 import DeleteCatNewsModal from './DeleteCatNewsModal';
 import { useModal } from '@/hooks/useModal';
 import { MODAL_TYPE } from '@/components/Modal';
+import { CatNewsProps } from '@/types/content';
 
 export const CatNews = ({ contentId }: { contentId: string | null }) => {
+  const router = useRouter();
   const { data, isSuccess, refetch } = useComments(contentId);
   const { openModal } = useModal();
+  const [commentId, setCommentId] = useState('');
 
-  const onClickLike = async (commentId: string, isCatCommentLiked: string) => {
+  const onClickLike = async (commentId: string, isCatCommentLiked: boolean) => {
     if (!contentId) return;
 
     const res: ResType<string> = isCatCommentLiked
@@ -27,18 +33,18 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
     }
   };
 
-  if (isSuccess)
+  if (isSuccess && data)
     return (
       <div className='p-6'>
-        <DeleteCatNewsModal />
+        <DeleteCatNewsModal commentId={commentId} refetch={refetch} />
 
         <div className={`flex gap-1 pb-5 subHeading`}>
           <div>냥이의 근황을 공유해요</div>
-          <span className='text-gray-300'>{data.items.length}개</span>
+          <span className='text-gray-300'>{data.items?.length}개</span>
         </div>
 
-        {data.items.length ? (
-          data.items.map((comment: any, index: number) => (
+        {data.items?.length ? (
+          data.items.map((comment: CatNewsProps, index: number) => (
             <div key={comment.commentId}>
               <div className='flex items-center gap-1 mb-2'>
                 <div className='caption2 text-gray-500'>
@@ -88,14 +94,30 @@ export const CatNews = ({ contentId }: { contentId: string | null }) => {
                   )}
                   {comment.commentLikeCount}
                 </button>
-                <div className='flex items-center gap-4 caption text-gray-400'>
-                  <button>수정</button>
-                  <button onClick={() => openModal(MODAL_TYPE.CAT_NEWS_DELETE)}>
-                    삭제
-                  </button>
-                </div>
+                {comment.isAuthor && (
+                  <div className='flex items-center gap-4 caption text-gray-400'>
+                    <button
+                      onClick={() => {
+                        setCommentId(comment.commentId);
+                        router.push(
+                          `${contentId}/register/${comment.commentId}`,
+                        );
+                      }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCommentId(comment.commentId);
+                        openModal(MODAL_TYPE.CAT_NEWS_DELETE);
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
               </div>
-              {index !== data.items.length - 1 ? (
+              {index !== data.items?.length - 1 ? (
                 <div className='w-full h-[1px] bg-gray-50 mt-4 mb-5' />
               ) : null}
             </div>

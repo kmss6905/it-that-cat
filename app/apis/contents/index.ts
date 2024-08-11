@@ -38,12 +38,33 @@ export const getComments = async (contentId: string | null) => {
   return (await fetchApi(url, 'GET')).data;
 };
 
+export const getComment = async (
+  contentId: string | null,
+  commentId: string | null,
+) => {
+  const url = `/contents/${contentId}/comments/${commentId}`;
+  return (await fetchApi(url, 'GET')).data;
+};
+
 export const postComment = async (
   contentId: string | null,
   data: commentProps,
 ) => {
   const url = `/contents/${contentId}/comments`;
   return await fetchApi<commentProps>(url, 'POST', data);
+};
+
+export const putComment = async (
+  commentId: string | null,
+  data: commentProps,
+) => {
+  const url = `/comments/${commentId}`;
+  return await fetchApi<commentProps>(url, 'PUT', data);
+};
+
+export const deleteComment = async (commentId: string | null) => {
+  const url = `/comments/${commentId}`;
+  return await fetchApi(url, 'DELETE');
 };
 
 export const postFollow = async (data: catFollowId) => {
