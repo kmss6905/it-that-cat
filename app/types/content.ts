@@ -54,3 +54,15 @@ export interface ContentReportProps {
   category: string;
   content: string;
 }
+
+export interface CatNewsProps {
+  commentId: string;
+  commentDesc: string;
+  commentLikeCount: number;
+  commentImageUris: string[];
+  userNickname: string;
+  isCatCommentLiked: boolean;
+  isAuthor: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

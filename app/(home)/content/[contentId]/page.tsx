@@ -1,8 +1,8 @@
 'use client';
 
-import React, { Fragment, Suspense, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -30,27 +30,18 @@ import { ResType } from '@/types/api';
 import ReportCompletedModal from '@/components/Content/Modal/ReportCompletedModal';
 import ReportNotificationModal from '@/components/Content/Modal/ReportNotificationModal';
 
-const RegisterPostPage = () => {
-  return (
-    <Suspense>
-      <SuspenseRegisterPostPage />
-    </Suspense>
-  );
-};
-
 const tabName = [
   { name: '상세 정보', value: 'detailInfo' },
   { name: '냥이 소식', value: 'catNews' },
 ];
 
-const SuspenseRegisterPostPage = () => {
+const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   const router = useRouter();
   const { setContentId } = contentStore();
+  const { contentId } = params;
   const [tab, setTab] = useState('detailInfo');
   const [swiperIndex, setSwiperIndex] = useState(0);
-  const params = useSearchParams();
   const { openModal } = useModal();
-  const contentId = params.get('id');
   const { data, refetch, isSuccess } = useContent(contentId);
   const [isImageError, setIsImageError] = useState<boolean>(false);
 
@@ -146,7 +137,7 @@ const SuspenseRegisterPostPage = () => {
           </Swiper>
         </div>
 
-        <div className='flex h-full flex-col'>
+        <div className='flex flex-col'>
           <div className='px-6 py-3 flex relative'>
             <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center mr-3'>
               <cat.image />
@@ -195,7 +186,7 @@ const SuspenseRegisterPostPage = () => {
           <RegisterBtn
             onClick={() => {
               setContentId(contentId);
-              router.push('/content/register');
+              router.push(`/content/${contentId}/register`);
             }}
           >
             냥이 소식 작성하기

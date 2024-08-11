@@ -67,7 +67,7 @@ const MyContentFormat = ({
         </>
       )}
       <Link
-        href={`/content?id=${contentId}`}
+        href={`/content/${contentId}`}
         className='flex gap-3 w-full px-4 py-6 bg-white'
       >
         <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center'>

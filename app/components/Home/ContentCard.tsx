@@ -36,7 +36,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
   }, [geolocation.position, lat, lng]);
 
   return (
-    <Link href={`/content?id=${content.contentId}`}>
+    <Link href={`/content/${content.contentId}`}>
       <div className='flex gap-3 w-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.06)]'>
         <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center'>
           <cat.image />

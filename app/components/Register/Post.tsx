@@ -161,6 +161,9 @@ const RegisterPost = ({
   };
 
   const handleRegister = async () => {
+    if (!catInfo.contentId) {
+      return;
+    }
     const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const updatedCatInfo = {
       ...catInfo,
@@ -195,7 +198,7 @@ const RegisterPost = ({
     const res = await withLoading(() => handleRegister());
     if (res.result === 'SUCCESS') {
       const contentId = res?.data?.contentId ?? catInfo.contentId;
-      router.push(`/content?id=${contentId}`);
+      router.push(`/content/${contentId}`);
     }
   };
 
