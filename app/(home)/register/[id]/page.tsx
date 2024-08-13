@@ -1,17 +1,15 @@
 'use client';
 import RegisterContent from '@/components/Content/RegisterContent';
 import { useContent } from '@/hooks/queries/useGetContent';
-import { notFound } from 'next/navigation';
+import useNotFound from '@/hooks/utils/useNotFound';
+import { CatObjProps } from '@/types/content';
 
 const RegisterPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
-  const { data } = useContent(id);
+  const queryResult = useContent(id);
+  const { data } = useNotFound<CatObjProps>(queryResult);
 
-  if (data?.result === 'ERROR') {
-    notFound();
-  }
-
-  return <RegisterContent data={data?.data} initMode='post' isNew={false} />;
+  return <RegisterContent data={data} initMode='post' isNew={false} />;
 };
 
 export default RegisterPage;
