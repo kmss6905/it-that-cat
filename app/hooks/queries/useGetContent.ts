@@ -36,7 +36,7 @@ export const useMapContents = (data: GetContentParams) => {
 };
 
 export const useContent = (contentId: string | null) => {
-  return useQuery([queryContentKey], () => getContent(contentId), {
+  return useQuery([queryContentKey, contentId], () => getContent(contentId), {
     staleTime: 1,
   });
 };
@@ -51,7 +51,11 @@ export const useComment = (
   contentId: string | null,
   commentId: string | null,
 ) => {
-  return useQuery([queryCommentsKey], () => getComment(contentId, commentId), {
-    staleTime: 1,
-  });
+  return useQuery(
+    [queryCommentsKey, contentId, commentId],
+    () => getComment(contentId, commentId),
+    {
+      staleTime: 1,
+    },
+  );
 };

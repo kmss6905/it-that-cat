@@ -15,6 +15,8 @@ import { commentProps, ResType } from '@/types/api';
 import { useWithLoading } from '@/hooks/useWithLoading';
 import { useToast } from '@/stores/toast/store';
 import { useComment } from '@/hooks/queries/useGetContent';
+import useNotFound from '@/hooks/utils/useNotFound';
+import { CatNewsProps } from '@/types/content';
 
 const RegisterComment = ({
   contentId,
@@ -24,7 +26,8 @@ const RegisterComment = ({
   commentId: string;
 }) => {
   const router = useRouter();
-  const { data } = useComment(contentId, commentId);
+  const queryResult = useComment(contentId, commentId);
+  const { data } = useNotFound<CatNewsProps>(queryResult);
   const isNew = !commentId;
   const [comment, setComment] = useState({
     commentDesc: '',

@@ -14,7 +14,7 @@ export interface CatObjProps {
   neuter: string;
   group: string;
   catPersonalities: string[];
-  images?: string[];
+  images: string[];
 }
 
 export interface UpdateCatObjProps {
@@ -38,6 +38,7 @@ export interface ContentObjProps extends RegisterCatObjProps {
   countOfBookMark: number;
   countOfComments: number;
   isReported: boolean;
+  isAuthor: boolean;
   userUid: number;
   nickname: string;
   bookMark: boolean;

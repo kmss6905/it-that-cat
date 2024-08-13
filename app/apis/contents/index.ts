@@ -8,7 +8,7 @@ import fetchApi from '../fetchApi';
 
 export const getContent = async (contentId: string | null) => {
   const url = `/contents/${contentId}`;
-  return (await fetchApi(url, 'GET')).data;
+  return await fetchApi(url, 'GET');
 };
 
 export const postContent = async (data: RegisterCatObjProps) => {
@@ -17,7 +17,7 @@ export const postContent = async (data: RegisterCatObjProps) => {
 
 export const putContent = async (
   data: UpdateCatObjProps,
-  contentId: string | undefined,
+  contentId: string | null,
 ) => {
   const url = `/contents/${contentId}`;
   return await fetchApi<UpdateCatObjProps>(url, 'PUT', data);
@@ -43,7 +43,7 @@ export const getComment = async (
   commentId: string | null,
 ) => {
   const url = `/contents/${contentId}/comments/${commentId}`;
-  return (await fetchApi(url, 'GET')).data;
+  return await fetchApi(url, 'GET');
 };
 
 export const postComment = async (

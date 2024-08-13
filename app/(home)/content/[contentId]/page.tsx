@@ -23,10 +23,12 @@ import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 import ReportModal from '@/components/Content/Modal/ReportModal';
 import { useModal } from '@/hooks/useModal';
+import useNotFound from '@/hooks/utils/useNotFound';
 import { useContent } from '@/hooks/queries/useGetContent';
 import getDateFormat from '@/utils/getDateFormat';
 import { contentStore } from '@/stores/comment/store';
 import { ResType } from '@/types/api';
+import { ContentObjProps } from '@/types/content';
 import ReportCompletedModal from '@/components/Content/Modal/ReportCompletedModal';
 import ReportNotificationModal from '@/components/Content/Modal/ReportNotificationModal';
 
@@ -42,7 +44,9 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   const [tab, setTab] = useState('detailInfo');
   const [swiperIndex, setSwiperIndex] = useState(0);
   const { openModal } = useModal();
-  const { data, refetch, isSuccess } = useContent(contentId);
+  const queryResult = useContent(contentId);
+  const { data, refetch, isSuccess } =
+    useNotFound<ContentObjProps>(queryResult);
   const [isImageError, setIsImageError] = useState<boolean>(false);
 
   const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
@@ -50,7 +54,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   const onClickFollow = async () => {
     if (!contentId) return;
 
-    const res: ResType<string> = data.isFollowed
+    const res: ResType<string> = data?.isFollowed
       ? await deleteFollow({ contentId })
       : await postFollow({ contentId });
 
