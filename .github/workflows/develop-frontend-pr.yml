@@ -28,6 +28,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Set Development Environment Variables
+        id: set-envs
         if: github.ref_name == 'dev'
         run: |
           TARGET_HOST=$(aws ssm get-parameter --name /dev/front/ssh/targethost --query 'Parameter.Value' --output text)
@@ -52,10 +53,13 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
-          docker buildx build -f ./dockerfiles/dev.Dockerfile -t ${{ steps.set-env-vars.outputs.ecr-repository }}/${{ steps.set-env-vars.outputs.docker-image }} .
+          repostiory = ${{ needs.set-env-vars.steps.set-envs.outputs.ecr-repository }}
+          docker-image = ${{ needs.set-env-vars.steps.set-envs.outputs.docker-image }}
 
-          echo "docker-image-id=$(docker inspect --format='{{.Id}}' ${{ steps.set-env-vars.outputs.docker-image }})" >> $GITHUB_ENV
+          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
+          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $repostiory/$docker-image .
+
+          echo "docker-image-id=$(docker inspect --format='{{.Id}}' $docker-image)" >> $GITHUB_ENV
 
   docker-push:
     runs-on: ubuntu-latest
