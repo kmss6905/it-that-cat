@@ -55,9 +55,11 @@ jobs:
           ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
           DOCKER_IMAGE: ${{ needs.set-env-vars.outputs.docker-image }}
         run: |
+          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
           docker buildx build -f ./dockerfiles/dev.Dockerfile -t $ECR_REPOSITORY/$DOCKER_IMAGE .
           
           # Docker 이미지 ID를 GitHub 환경 변수로 설정
+          echo "docker-image-id=$(docker inspect --format='{{.Id}}' $DOCKER_IMAGE)" >> $GITHUB_ENV
 
   docker-push:
     runs-on: ubuntu-latest
