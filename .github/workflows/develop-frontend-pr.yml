@@ -36,6 +36,10 @@ jobs:
           
           aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
 
+          echo "TARGET_HOST"
+          echo "ECR_REPOSITORY"
+          echo "DOCKER_IMAGES"
+
       - name: Display Environment Variables
         run: |
           echo "Target Host: $TARGET_HOST"
@@ -55,6 +59,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
+          echo ${  }
           docker buildx build -f ./dockerfiles/dev.Dockerfile -t $DOCKER_IMAGE .
           echo "DOCKER_IMAGE_ID=$(docker inspect --format='{{.Id}}' $DOCKER_IMAGE)" >> $GITHUB_ENV
 
