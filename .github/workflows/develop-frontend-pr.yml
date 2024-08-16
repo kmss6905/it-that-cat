@@ -68,10 +68,6 @@ jobs:
     needs: docker-build
     if: github.ref_name == 'dev'
     steps:
-      - env:
-            OUTPUT1: ${{needs.job1.outputs.output1}}
-            OUTPUT2: ${{needs.job1.outputs.output2}}
-
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ steps.set-env-vars.outputs.ecr-repository }}
