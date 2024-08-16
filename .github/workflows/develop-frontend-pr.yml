@@ -55,11 +55,11 @@ jobs:
           repostiory = ${{ needs.set-env-vars.outputs.ecr-repository }}
           docker-image = ${{ needs.set-env-vars.outputs.docker-image }}
 
-          echo "repository=$repostiory"
-          echo "repository=$docker-image"
+          echo "ecr-repository=$repostiory"
+          echo "docker-image=$docker-image"
 
           aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
-          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $repostiory/$docker-image .
+          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $repository/$docker-image .
 
           echo "docker-image-id=$(docker inspect --format='{{.Id}}' $docker-image)" >> $GITHUB_ENV
 
