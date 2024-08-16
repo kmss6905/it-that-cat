@@ -43,7 +43,7 @@ jobs:
           echo "ecr-repository=$ECR_REPOSITORY"
           echo "docker-image=$DOCKER_IMAGE"
 
-  docker-build:
+  docker-build-and-push:
     runs-on: ubuntu-latest
     needs: set-env-vars
     steps:
@@ -57,45 +57,33 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
           
-      - name: Build Docker Image
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push docker image to Amazon ECR
         env:
           ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
           DOCKER_IMAGE: ${{ needs.set-env-vars.outputs.docker-image }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
-        
-          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $ECR_REPOSITORY/$DOCKER_IMAGE .
-          
-          # Docker 이미지 ID를 GitHub 환경 변수로 설정
-          echo "docker-image-id=$(docker inspect --format='{{.Id}}' $DOCKER_IMAGE)" >> $GITHUB_ENV
-
-  docker-push:
-    runs-on: ubuntu-latest
-    needs: docker-build
-    if: github.ref_name == 'dev'
-    steps:
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ steps.set-env-vars.outputs.ecr-repository }}
-
-      - name: Push Docker Image to ECR
-        run: |
-          docker tag $DOCKER_IMAGE:$GITHUB_RUN_NUMBER $ECR_REPOSITORY:$GITHUB_RUN_NUMBER
-          docker tag $DOCKER_IMAGE:latest $ECR_REPOSITORY:latest
-          docker push $ECR_REPOSITORY:$GITHUB_RUN_NUMBER
-          docker push $ECR_REPOSITORY:latest
+          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest . 
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
   deploy:
     runs-on: ubuntu-latest
-    needs: docker-push
+    needs: docker-build-and-push
     if: github.ref_name == 'dev'
     steps:
       - name: Deploy to Dev Environment
+        env:
+            ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ env.TARGET_HOST }}
+          host: ${{ secrets.DEV_TARGET_HOST }}
           username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           script: |
             aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REPOSITORY
             docker compose pull && docker compose up -d
