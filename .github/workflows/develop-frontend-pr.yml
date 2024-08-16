@@ -1,0 +1,90 @@
+name: FE CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  change-build-name:
+    runs-on: ubuntu-latest
+    outputs:
+      build_name: ${{ steps.set_name.outputs.build_name }}
+    steps:
+      - name: Set Build Name
+        id: set_name
+        run: echo "::set-output name=build_name::#${{ github.run_number }} | FE | branch = ${{ github.ref_name }}"
+
+  set-env-vars:
+    runs-on: ubuntu-latest
+    needs: change-build-name
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ap-northeast-2
+          role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_ROLE_NAME
+          role-session-name: "GitHubActions"
+
+      - name: Set Development Environment Variables
+        if: github.ref_name == 'dev'
+        run: |
+          export TARGET_HOST=$(aws ssm get-parameter --name /dev/front/ssh/targethost --query 'Parameter.Value' --output text)
+          export ECR_REPOSITORY=$(aws ssm get-parameter --name /dev/front/ecr --query 'Parameter.Value' --output text)
+          export DOCKER_IMAGE=$(aws ssm get-parameter --name /dev/front/image-name --query 'Parameter.Value' --output text)
+          
+          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
+
+      - name: Display Environment Variables
+        run: |
+          echo "Target Host: $TARGET_HOST"
+          echo "ECR Repository: $ECR_REPOSITORY"
+          echo "Docker Image: $DOCKER_IMAGE"
+        env:
+          TARGET_HOST: ${{ env.TARGET_HOST }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: set-env-vars
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: |
+          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $DOCKER_IMAGE .
+          echo "DOCKER_IMAGE_ID=$(docker inspect --format='{{.Id}}' $DOCKER_IMAGE)" >> $GITHUB_ENV
+
+  docker-push:
+    runs-on: ubuntu-latest
+    needs: docker-build
+    if: github.ref_name == 'dev'
+    steps:
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REPOSITORY
+
+      - name: Push Docker Image to ECR
+        run: |
+          docker tag $DOCKER_IMAGE:$GITHUB_RUN_NUMBER $ECR_REPOSITORY:$GITHUB_RUN_NUMBER
+          docker tag $DOCKER_IMAGE:latest $ECR_REPOSITORY:latest
+          docker push $ECR_REPOSITORY:$GITHUB_RUN_NUMBER
+          docker push $ECR_REPOSITORY:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-push
+    if: github.ref_name == 'dev'
+    steps:
+      - name: Deploy to Dev Environment
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ env.TARGET_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REPOSITORY
+            docker compose pull && docker compose up -d
