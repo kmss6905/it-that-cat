@@ -52,16 +52,16 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          repository = ${{ needs.set-env-vars.outputs.ecr-repository }}
+          ecr-repository = ${{ needs.set-env-vars.outputs.ecr-repository }}
           docker-image = ${{ needs.set-env-vars.outputs.docker-image }}
 
-          echo "ecr-repository=$repostiory"
+          echo "ecr-repository=$ecr-repository"
           echo "docker-image=$docker-image"
 
           aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
-          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $repository/$docker-image .
+          docker buildx build -f ./dockerfiles/dev.Dockerfile -t ${ecr-repository}/${docker-image} .
 
-          echo "docker-image-id=$(docker inspect --format='{{.Id}}' $docker-image)" >> $GITHUB_ENV
+          echo "docker-image-id=$(docker inspect --format='{{.Id}}' ${docker-image})" >> $GITHUB_ENV
 
   docker-push:
     runs-on: ubuntu-latest
