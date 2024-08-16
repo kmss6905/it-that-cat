@@ -52,7 +52,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          repostiory = ${{ needs.set-env-vars.outputs.ecr-repository }}
+          repository = ${{ needs.set-env-vars.outputs.ecr-repository }}
           docker-image = ${{ needs.set-env-vars.outputs.docker-image }}
 
           echo "ecr-repository=$repostiory"
