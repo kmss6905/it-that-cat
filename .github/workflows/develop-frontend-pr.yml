@@ -22,7 +22,6 @@ jobs:
     outputs:
       docker-image: ${{ steps.set-envs.outputs.docker-image }}
       ecr-repository: ${{ steps.set-envs.outputs.ecr-repository }}
-
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -31,9 +30,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - id: set-envs
-        name: Set Development Environment Variables
-        
+      - name: Set Development Environment Variables
+        id: set-envs
         if: github.ref_name == 'dev'
         run: |
           ECR_REPOSITORY=$(aws ssm get-parameter --name /dev/front/ecr --query 'Parameter.Value' --output text)
