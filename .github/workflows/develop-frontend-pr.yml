@@ -38,6 +38,11 @@ jobs:
           echo "ecr-repository=$ECR_REPOSITORY" >> "$GITHUB_OUTPUT"
           echo "docker-image=$DOCKER_IMAGE" >> "$GITHUB_OUTPUT"
 
+          echo "target-host=$TARGET_HOST"
+          echo "ecr-repository=$ECR_REPOSITORY"
+          echo "docker-image=$DOCKER_IMAGE"
+          
+
   docker-build:
     runs-on: ubuntu-latest
     needs: set-env-vars
