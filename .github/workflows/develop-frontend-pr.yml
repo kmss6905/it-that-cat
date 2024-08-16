@@ -19,6 +19,10 @@ jobs:
   set-env-vars:
     runs-on: ubuntu-latest
     needs: change-build-name
+    outputs:
+      docker-image: ${{ steps.set-envs.outputs.docker-image }}
+      ecr-repository: ${{ steps.set-envs.outputs.ecr-repository }}
+
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -27,22 +31,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Set Development Environment Variables
-        id: set-envs
+      - id: set-envs
+        name: Set Development Environment Variables
+        
         if: github.ref_name == 'dev'
         run: |
-          TARGET_HOST=$(aws ssm get-parameter --name /dev/front/ssh/targethost --query 'Parameter.Value' --output text)
           ECR_REPOSITORY=$(aws ssm get-parameter --name /dev/front/ecr --query 'Parameter.Value' --output text)
           DOCKER_IMAGE=$(aws ssm get-parameter --name /dev/front/image-name --query 'Parameter.Value' --output text)
 
-          echo "target-host=$TARGET_HOST" >> "$GITHUB_OUTPUT"
           echo "ecr-repository=$ECR_REPOSITORY" >> "$GITHUB_OUTPUT"
           echo "docker-image=$DOCKER_IMAGE" >> "$GITHUB_OUTPUT"
 
-          echo "target-host=$TARGET_HOST"
           echo "ecr-repository=$ECR_REPOSITORY"
           echo "docker-image=$DOCKER_IMAGE"
-          
 
   docker-build:
     runs-on: ubuntu-latest
@@ -53,8 +54,11 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          repostiory = ${{ needs.set-env-vars.steps.set-envs.outputs.ecr-repository }}
-          docker-image = ${{ needs.set-env-vars.steps.set-envs.outputs.docker-image }}
+          repostiory = ${{ needs.set-env-vars.outputs.ecr-repository }}
+          docker-image = ${{ needs.set-env-vars.outputs.docker-image }}
+
+          echo "repository=$repostiory"
+          echo "repository=$docker-image"
 
           aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
           docker buildx build -f ./dockerfiles/dev.Dockerfile -t $repostiory/$docker-image .
@@ -66,6 +70,10 @@ jobs:
     needs: docker-build
     if: github.ref_name == 'dev'
     steps:
+      - env:
+            OUTPUT1: ${{needs.job1.outputs.output1}}
+            OUTPUT2: ${{needs.job1.outputs.output2}}
+
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ steps.set-env-vars.outputs.ecr-repository }}
