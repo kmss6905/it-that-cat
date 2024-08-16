@@ -67,6 +67,7 @@ jobs:
           DOCKER_IMAGE: ${{ needs.set-env-vars.outputs.docker-image }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
           docker buildx build --platform=linux/amd64 -t $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG -t $ECR_REPOSITORY/$DOCKER_IMAGE:latest -f ./dockerfiles/dev.Dockerfile . 
           docker push $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
           docker push $ECR_REPOSITORY/$DOCKER_IMAGE:latest
