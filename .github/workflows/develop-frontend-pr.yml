@@ -52,18 +52,12 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          ECR_REPOSITORY="276943215323.dkr.ecr.ap-northeast-2.amazonaws.com"
-          DOCKER_IMAGE="potenday-front-dev"
-          
-          echo "ecr-repository=$ECR_REPOSITORY"
-          echo "docker-image=$DOCKER_IMAGE"
-          
-          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
+          ECR_REPOSITORY = ${{ needs.set-env-vars.outputs.ecr-repository }}
+          DOCKER_IMAGE = ${{ needs.set-env-vars.outputs.docker-image }}
+
           docker buildx build -f ./dockerfiles/dev.Dockerfile -t $ECR_REPOSITORY/$DOCKER_IMAGE .
       
           # Docker 이미지 ID를 GitHub 환경 변수로 설정
-          echo "docker-image-id=$(docker inspect --format='{{.Id}}' $DOCKER_IMAGE)" >> $GITHUB_ENV
-        shell: bash
 
   docker-push:
     runs-on: ubuntu-latest
