@@ -83,7 +83,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.DEV_TARGET_HOST }}
-          username: ubuntu
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          port: ${{ secrets.DEV_SSH_PORT }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           script: |
             aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REPOSITORY
