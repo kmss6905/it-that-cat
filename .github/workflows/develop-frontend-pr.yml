@@ -55,7 +55,7 @@ jobs:
           ECR_REPOSITORY = ${{ needs.set-env-vars.outputs.ecr-repository }}
           DOCKER_IMAGE = ${{ needs.set-env-vars.outputs.docker-image }}
 
-          docker buildx build -f ./dockerfiles/dev.Dockerfile -t $ECR_REPOSITORY/$DOCKER_IMAGE .
+          docker buildx build -f ./dockerfiles/dev.Dockerfile -t 276943215323.dkr.ecr.ap-northeast-2.amazonaws.com/potenday-front-dev:latest .
       
           # Docker 이미지 ID를 GitHub 환경 변수로 설정
 
