@@ -13,7 +13,6 @@ import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useSearch } from '@/hooks/queries/useSearch';
 import SearchResultCard from './SearchResultCard';
-import { SearchContentProps } from '@/types/content';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 
 export interface QueryState {
