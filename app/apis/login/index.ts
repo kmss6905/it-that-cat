@@ -4,6 +4,7 @@ import { SaveTokenProps } from '@/types/api';
 import { accessTime, refreshTime } from '@/constants/tokenExpires';
 import fetchApi from '../fetchApi';
 import { getCookie, setCookie } from '@/utils/cookieStore';
+import fetchExtended from '../fetch';
 
 export const getAccountCode = async (provider: string) => {
   const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`;
@@ -35,8 +36,18 @@ export const reissueToken = async () => {
   const url = `/auth/issue/access-token?refresh_token=${refreshToken}`;
 
   if (refreshToken && !accessToken) {
-    const newAccessToken = (await fetchApi(url, 'GET')).data
-      .accessToken as string;
+    const newAccessToken = (
+      await (
+        await fetchExtended(url, {
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Content-Type': 'application/json',
+          },
+        })
+      ).json()
+    ).data.accessToken as string;
     setCookie('accessToken', newAccessToken, { maxAge: accessTime });
   }
 };
