@@ -25,3 +25,8 @@ export const getMyContents = async ({ pageParam = 1, size = 15 }) => {
   const url = `/contents/me?page=${pageParam}&size=${size}`;
   return (await fetchApi(url, 'GET')).data;
 };
+
+export const deleteUser = async (provider: string) => {
+  const url = `/auth/${provider}/user`;
+  return await fetchApi(url, 'DELETE');
+};

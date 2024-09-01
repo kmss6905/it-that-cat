@@ -1,11 +1,21 @@
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
 import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';
 import { useModal } from '@/hooks/useModal';
+import { deleteUser } from '@/apis/mypage';
+import { useToast } from '@/stores/toast/store';
 
 const DeleteUserModal = () => {
   const { closeModal } = useModal();
+  const { addToast } = useToast();
 
-  const handleDeleteUser = async () => {};
+  const handleDeleteUser = async () => {
+    const res = await deleteUser('kakao');
+    if (res.result === 'SUCCESS') {
+      closeModal();
+    } else if (res.result === 'ERROR' && res.error) {
+      addToast.default(res.error.message);
+    }
+  };
 
   return (
     <Modal type={MODAL_TYPE.DELETE_USER} variant={MODAL_VARIANT.CARD}>
