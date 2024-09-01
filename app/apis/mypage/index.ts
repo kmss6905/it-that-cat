@@ -26,7 +26,10 @@ export const getMyContents = async ({ pageParam = 1, size = 15 }) => {
   return (await fetchApi(url, 'GET')).data;
 };
 
-export const deleteUser = async (provider: string) => {
+export const deleteUser = async (
+  provider: string,
+  data: { code: string; redirectUri: string },
+) => {
   const url = `/auth/${provider}/user`;
-  return await fetchApi(url, 'DELETE');
+  return await fetchApi(url, 'DELETE', data);
 };

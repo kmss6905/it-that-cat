@@ -1,19 +1,19 @@
+'use client';
+import { useRouter } from 'next/navigation';
+
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
-import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';
 import { useModal } from '@/hooks/useModal';
-import { deleteUser } from '@/apis/mypage';
-import { useToast } from '@/stores/toast/store';
+import { getWithdrawCode } from '@/apis/login';
+import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';
 
 const DeleteUserModal = () => {
   const { closeModal } = useModal();
-  const { addToast } = useToast();
+  const router = useRouter();
 
   const handleDeleteUser = async () => {
-    const res = await deleteUser('kakao');
-    if (res.result === 'SUCCESS') {
-      closeModal();
-    } else if (res.result === 'ERROR' && res.error) {
-      addToast.default(res.error.message);
+    const res = await getWithdrawCode('kakao');
+    if (res) {
+      router.push(res);
     }
   };
 

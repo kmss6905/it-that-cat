@@ -1,5 +1,4 @@
 'use client';
-
 import { SaveTokenProps } from '@/types/api';
 import { accessTime, refreshTime } from '@/constants/tokenExpires';
 import fetchApi from '../fetchApi';
@@ -9,6 +8,13 @@ import fetchExtended from '../fetch';
 export const getAccountCode = async (provider: string) => {
   const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}`;
   const devUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_DEV_KAKAO_REDIRECT_URI}/auth/${provider}`;
+  const uri = process.env.NODE_ENV === 'production' ? redirectUri : devUri;
+  return (await fetchApi(uri, 'GET')).data.oauthUri;
+};
+
+export const getWithdrawCode = async (provider: string) => {
+  const redirectUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}/auth/${provider}/withdraw`;
+  const devUri = `/auth/${provider}/oauth-uri?redirect_uri=${process.env.NEXT_PUBLIC_DEV_KAKAO_REDIRECT_URI}/auth/${provider}/withdraw`;
   const uri = process.env.NODE_ENV === 'production' ? redirectUri : devUri;
   return (await fetchApi(uri, 'GET')).data.oauthUri;
 };
