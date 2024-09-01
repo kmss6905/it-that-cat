@@ -31,8 +31,8 @@ const MyPage = () => {
         },
         {
           id: 1,
-          title: '내가 쓴 냥이 소식',
-          handleClick: () => openModal(MODAL_TYPE.UPDATE_NOTICE),
+          title: '작성한 근황 소식',
+          handleClick: () => router.push('/mypage/mycomment'),
         },
       ],
     },
