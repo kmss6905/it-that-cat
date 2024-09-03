@@ -67,3 +67,17 @@ export interface CatNewsProps {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface SearchContentProps {
+  catEmoji: number;
+  contentId: number;
+  countOfComments: number;
+  countOfFollowed: number;
+  createdAt: string;
+  updatedAt: string;
+  isFollowed: boolean;
+  jibunAddrName: string;
+  lat: number;
+  lng: number;
+  name: string;
+}

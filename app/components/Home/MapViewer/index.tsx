@@ -46,7 +46,7 @@ const MapViewer = ({
     setSelectedPin(data.id);
 
     /* 선택한 컨텐츠 내용 가져오기 */
-    const content = await getContent(String(data.id));
+    const content = (await getContent(String(data.id))).data;
     setContent(content);
   };
 

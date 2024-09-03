@@ -86,7 +86,7 @@ const ListViewer = ({
             <GrayLogo />
           </div>
         )}
-        <div ref={target}></div>
+        <div ref={target} />
       </div>
     </div>
   );

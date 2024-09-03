@@ -7,6 +7,10 @@
     outline: none;
   }
 
+  ::selection {
+    @apply text-primary-500 bg-primary-100;
+  }
+
   textarea {
     outline: none;
     -ms-overflow-style: none; /* IE and 엣지 */

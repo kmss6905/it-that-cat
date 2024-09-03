@@ -1,8 +1,8 @@
-import admAddrData from '@/constants/admAddrData.json';
 import createFuzzyMatcher from './createFuzzyMatcher';
 import { getSearchAddress } from '@/apis/search';
 
 export interface AdmAddrData {
+  id: number;
   sidoCode: number;
   sidoName: string;
   guCode: number;
@@ -26,8 +26,6 @@ const getAdmAddr = async (search: string) => {
     addrList.push(...response);
   }
 
-  // const admAddrs = JSON.parse(JSON.stringify(admAddrData));
-
   if (search !== '') {
     const regex = createFuzzyMatcher(search);
 
@@ -37,9 +35,6 @@ const getAdmAddr = async (search: string) => {
 
     return searchList;
   }
-
-  /* 정확히 같은 검색어만 리턴 */
-  // return admAddrs.filter((item: AdmAddrData) => item.fullAddr.includes(search));
 };
 
 export default getAdmAddr;

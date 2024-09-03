@@ -80,13 +80,6 @@ export default function Home() {
           </>
         ) : null}
 
-        {/* <FloatingBtn
-          Icon={IconNewContent}
-          onClick={() => router.push('/register')}
-          className='bg-primary-500 absolute right-6 -top-[84px]'
-        >
-          새로운 냥이 등록
-        </FloatingBtn> */}
         <FloatingBtn
           Icon={viewer === 'map' ? IconList : IconMap}
           onClick={() => setViewer((prev) => (prev === 'map' ? 'list' : 'map'))}
