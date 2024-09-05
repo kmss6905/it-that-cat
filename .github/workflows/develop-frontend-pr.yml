@@ -46,7 +46,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-          
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -69,7 +69,7 @@ jobs:
     steps:
       - name: Deploy to Dev Environment
         env:
-            ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
+          ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.DEV_TARGET_HOST }}
@@ -77,5 +77,5 @@ jobs:
           port: ${{ secrets.DEV_SSH_PORT }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           script: |
-            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REPOSITORY
+            sh awslogin.sh
             docker compose pull && docker compose up -d
