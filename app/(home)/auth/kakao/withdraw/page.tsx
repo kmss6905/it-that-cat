@@ -3,6 +3,7 @@ import { Suspense, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { deleteUser } from '@/apis/mypage';
+import { deleteCookie } from '@/utils/cookieStore';
 
 const WithdrawPage = () => {
   return (
@@ -25,12 +26,20 @@ const LoginLoading = () => {
           process.env.NODE_ENV === 'production'
             ? `${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}`
             : `${process.env.NEXT_PUBLIC_DEV_KAKAO_REDIRECT_URI}`;
-        const response = await deleteUser(pathname, {
+        const response = await deleteUser({
           code,
-          redirectUri: `${redirectUri}/login`,
+          redirectUri: `${redirectUri}/auth/kakao/withdraw`,
         });
 
-        console.log('response:', response);
+        if (response.result === 'SUCCESS') {
+          await deleteCookie('accessToken');
+          await deleteCookie('refreshToken');
+          await deleteCookie('nickname');
+          router.push('/login');
+        } else {
+          alert(response.error);
+          router.push('/mypage');
+        }
       })();
     }
   }, [code, pathname, router]);
