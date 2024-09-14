@@ -1,18 +1,28 @@
+'use client';
+import { useRouter } from 'next/navigation';
+
 import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
-import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';
 import { useModal } from '@/hooks/useModal';
+import { getWithdrawCode } from '@/apis/login';
+import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';
 
 const DeleteUserModal = () => {
   const { closeModal } = useModal();
+  const router = useRouter();
 
-  const handleDeleteUser = async () => {};
+  const handleDeleteUser = async () => {
+    const res = await getWithdrawCode('kakao');
+    if (res) {
+      router.push(res);
+    }
+  };
 
   return (
     <Modal type={MODAL_TYPE.DELETE_USER} variant={MODAL_VARIANT.CARD}>
       <div className='flex flex-col gap-5 pt-11 pb-10 items-center text-center [&_h3]:subHeading [&_p]:body2 text-gray-500'>
         <ImgDeleteUser />
         <div>
-          <h3 className='pb-2'>정말로 회원을 탈퇴하시겠어요?</h3>
+          <h3 className='pb-2'>회원을 탈퇴하시겠어요?</h3>
           <p>
             회원 탈퇴 시 계정 정보 및 작성한 게시글과
             <br />

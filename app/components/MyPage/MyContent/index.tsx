@@ -6,7 +6,6 @@ import MyContentFormat from './MyContentFormat';
 import { useMyContents } from '@/hooks/queries/useMyContents';
 import { useMemo, useState } from 'react';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { NoListPage } from '@/components/ListUi';
 import { NoContent } from './NoContent';
 
 const MyContent = () => {

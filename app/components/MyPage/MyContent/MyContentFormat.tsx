@@ -114,7 +114,8 @@ const MyContentFormat = ({
           정보 수정하기
         </button>
         <button
-          className='flex items-center justify-center body pb-2'
+          disabled={isReported}
+          className='flex items-center justify-center body pb-2 disabled:text-gray-200 disabled:bg-gray-50/60'
           onClick={handleClickDelete}
         >
           ...

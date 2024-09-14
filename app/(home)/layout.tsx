@@ -6,6 +6,7 @@ import pretendard from '@/components/Pretendard';
 import QueryWrapper from '@/components/QueryWrapper';
 import Loading from '@/components/Loading';
 import ToastProvider from '@/components/Toast/ToastProvider';
+import AlertContextProvider from '@/components/Alert';
 
 export const metadata: Metadata = {
   title: '이냥저냥',
@@ -23,9 +24,11 @@ export default function RootLayout({
       <body className={`${pretendard.className}`}>
         <QueryWrapper>
           <RootWrapper>
-            <div className='h-full overflow-hidden'>{children}</div>
-            <ToastProvider />
-            <Loading />
+            <AlertContextProvider>
+              <div className='h-full overflow-hidden'>{children}</div>
+              <ToastProvider />
+              <Loading />
+            </AlertContextProvider>
           </RootWrapper>
         </QueryWrapper>
         <Script
