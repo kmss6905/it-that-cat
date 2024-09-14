@@ -128,9 +128,7 @@ const SearchModal = () => {
         ) : null}
 
         {/* 검색 결과 */}
-        {query.key !== '' && search !== null && (
-          <SearchResult search={search} />
-        )}
+        {search !== null && <SearchResult search={search} />}
       </div>
     </Modal>
   );

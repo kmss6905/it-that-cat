@@ -14,7 +14,7 @@ const SearchResult = ({ search }: SearchResultProps) => {
   const { closeModal } = useModal();
   const { position } = useGeolocation();
 
-  const { data, hasNextPage, isFetching, fetchNextPage } = useSearch(
+  const { data, hasNextPage, isSuccess, isFetching, fetchNextPage } = useSearch(
     position,
     search,
   );
@@ -36,7 +36,7 @@ const SearchResult = ({ search }: SearchResultProps) => {
     return null;
   }, [data]);
 
-  if (result?.length === 0 || !result)
+  if (isSuccess && (result?.length === 0 || !result))
     return (
       <div className='py-16 text-center'>
         <h3 className='body2 text-gray-400 pb-1'>
@@ -53,11 +53,12 @@ const SearchResult = ({ search }: SearchResultProps) => {
     <Fragment>
       <h3 className='subHeading text-gray-500 px-6 pt-5 pb-3'>검색 결과</h3>
       <ul className='px-6 h-[calc(100%-128px)] overflow-y-scroll layout'>
-        {result.map((result) => (
-          <li key={result?.contentId} onClick={() => closeModal()}>
-            <SearchResultCard result={result} />
-          </li>
-        ))}
+        {result &&
+          result.map((result) => (
+            <li key={result?.contentId} onClick={() => closeModal()}>
+              <SearchResultCard result={result} />
+            </li>
+          ))}
         <div ref={target} />
       </ul>
     </Fragment>
