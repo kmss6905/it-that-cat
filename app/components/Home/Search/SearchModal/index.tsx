@@ -114,8 +114,9 @@ const SearchModal = () => {
         {query.key === '' && search === null && (
           <RecentSearch
             recentSearch={recentSearch}
-            setRecentSearch={(value) => setRecentSearch(value)}
-            setSearch={(value) => setSearch(value)}
+            setRecentSearch={setRecentSearch}
+            setSearch={setSearch}
+            setQuery={setQuery}
           />
         )}
 
@@ -128,7 +129,9 @@ const SearchModal = () => {
         ) : null}
 
         {/* 검색 결과 */}
-        {search !== null && <SearchResult search={search} />}
+        {query.key !== '' && search !== null && (
+          <SearchResult search={search} />
+        )}
       </div>
     </Modal>
   );

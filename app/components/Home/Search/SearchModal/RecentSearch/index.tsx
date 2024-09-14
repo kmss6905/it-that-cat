@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react';
 import IconRemoveSearch from '@/assets/images/search/icon-removeSearch.svg';
+import { QueryState } from '..';
 
 const RecentSearch = ({
   recentSearch,
   setRecentSearch,
   setSearch,
+  setQuery,
 }: {
   recentSearch: string[] | null;
-  setRecentSearch: (value: string[] | null) => void;
-  setSearch: (value: string) => void;
+  setRecentSearch: React.Dispatch<React.SetStateAction<string[] | null>>;
+  setSearch: React.Dispatch<React.SetStateAction<string | null>>;
+  setQuery: React.Dispatch<React.SetStateAction<QueryState>>;
 }) => {
   const handleRemoveRecentSearch = (type: 'ALL' | 'PARTIAL', list?: string) => {
     if (type === 'ALL') {
@@ -44,6 +47,7 @@ const RecentSearch = ({
                   <button
                     className='body2 text-gray-500 flex-grow text-left'
                     onClick={() => {
+                      setQuery((prev) => ({ ...prev, key: list }));
                       setSearch(list);
                     }}
                   >
