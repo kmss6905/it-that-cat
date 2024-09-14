@@ -64,11 +64,16 @@ const SearchModal = () => {
     setSearch(place.fullAddr);
     setQuery((prev) => ({ ...prev, key: place.fullAddr }));
 
-    const updateRecentSearch = recentSearch
-      ? [...recentSearch, place.fullAddr]
-      : [place.fullAddr];
-    setRecentSearch(updateRecentSearch);
-    sessionStorage.setItem('recentSearch', JSON.stringify(updateRecentSearch));
+    if (!recentSearch?.includes(place.fullAddr)) {
+      const updateRecentSearch = recentSearch
+        ? [...recentSearch, place.fullAddr]
+        : [place.fullAddr];
+      setRecentSearch(updateRecentSearch);
+      sessionStorage.setItem(
+        'recentSearch',
+        JSON.stringify(updateRecentSearch),
+      );
+    }
   };
 
   const handleClickBack = () => {
@@ -114,8 +119,9 @@ const SearchModal = () => {
         {query.key === '' && search === null && (
           <RecentSearch
             recentSearch={recentSearch}
-            setRecentSearch={(value) => setRecentSearch(value)}
-            setSearch={(value) => setSearch(value)}
+            setRecentSearch={setRecentSearch}
+            setSearch={setSearch}
+            setQuery={setQuery}
           />
         )}
 
