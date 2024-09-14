@@ -20,7 +20,6 @@ const SearchResult = ({ search }: SearchResultProps) => {
     search,
   );
 
-  console.log('🚀 ~ SearchResult ~ isSuccess:', isSuccess);
   const target = useIntersectionObserver((entry, observer) => {
     observer.unobserve(entry.target);
 
