@@ -1,9 +1,10 @@
 'use client';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useContext, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { deleteUser } from '@/apis/mypage';
 import { deleteCookie } from '@/utils/cookieStore';
+import { AlertContext } from '@/components/Alert';
 
 const WithdrawPage = () => {
   return (
@@ -18,6 +19,7 @@ const LoginLoading = () => {
   const code = searchParams.get('code');
   const pathname = usePathname().split('/')[2];
   const router = useRouter();
+  const { alert } = useContext(AlertContext);
 
   useEffect(() => {
     if (code) {
@@ -37,12 +39,14 @@ const LoginLoading = () => {
           await deleteCookie('nickname');
           router.push('/login');
         } else {
-          alert(response.error);
-          router.push('/mypage');
+          const ok = await alert(response.error.message);
+          if (ok) {
+            router.push('/mypage');
+          }
         }
       })();
     }
-  }, [code, pathname, router]);
+  }, [code, pathname, router, alert]);
 
   return (
     <div className='text-center flex justify-center items-center h-screen bg-bgBlack'>
