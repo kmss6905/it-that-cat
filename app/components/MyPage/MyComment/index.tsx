@@ -21,6 +21,7 @@ export interface CommentData {
   contentId: string;
   commentLikeCount: number;
   isCatCommentLiked: boolean;
+  catName: string;
 }
 
 const MyComment = () => {
@@ -68,14 +69,14 @@ const MyComment = () => {
         <button onClick={() => router.back()}>
           <IconBack />
         </button>
-        <p className='subHeading text-black'>작성한 근황 소식</p>
+        <p className='subHeading text-black'>작성한 냥이 소식</p>
         <div />
       </div>
 
       {/* My comment */}
       <ul className='h-[calc(100%-65px)] overflow-y-scroll px-6 layout'>
         <li className='pt-6 pb-2 heading2 text-black'>
-          작성한 냥이 근황 총 {comments.length}개
+          작성한 냥이 소식 총 {comments.length}개
         </li>
         {comments.length > 0 ? (
           comments.map((comment) => (

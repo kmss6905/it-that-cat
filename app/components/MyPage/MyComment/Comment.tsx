@@ -34,6 +34,7 @@ const Comment = ({
     contentId,
     createdAt,
     isCatCommentLiked,
+    catName,
   } = comment;
 
   return (
@@ -41,7 +42,7 @@ const Comment = ({
       {/* 컨텐츠 등록 고양이 이름 */}
       <Link href={`/content/${contentId}`}>
         <h3 className='subHeading text-black flex items-center'>
-          컨텐츠 고양이 이름이 필요!
+          {catName}
           <IconRightArrow />
         </h3>
       </Link>

@@ -31,7 +31,7 @@ const MyPage = () => {
         },
         {
           id: 1,
-          title: '작성한 근황 소식',
+          title: '작성한 냥이 소식',
           handleClick: () => router.push('/mypage/mycomment'),
         },
       ],
