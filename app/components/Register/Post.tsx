@@ -161,9 +161,6 @@ const RegisterPost = ({
   };
 
   const handleRegister = async () => {
-    if (!catInfo.contentId) {
-      return;
-    }
     const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const updatedCatInfo = {
       ...catInfo,
@@ -189,7 +186,7 @@ const RegisterPost = ({
       imageKeys: saveImageKeys,
       catEmoji: catEmoji,
     };
-    return (await putContent(data, catInfo.contentId)) as ResType<{
+    return (await putContent(data, catInfo?.contentId)) as ResType<{
       contentId: string;
     }>;
   };

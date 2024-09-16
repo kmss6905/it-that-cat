@@ -1,5 +1,6 @@
 import { getCookie } from '@/utils/cookieStore';
 import fetchExtended from './fetch'; // 새롭게 만든 fetchExtended 파일을 import
+import { reissueToken } from './login';
 
 /**
  * @param url
@@ -12,6 +13,10 @@ const fetchApi = async <T>(
   data?: T,
 ) => {
   const accessToken = await getCookie('accessToken');
+
+  if (!accessToken) {
+    await reissueToken();
+  }
 
   try {
     const response = await fetchExtended(url, {

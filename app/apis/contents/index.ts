@@ -17,7 +17,7 @@ export const postContent = async (data: RegisterCatObjProps) => {
 
 export const putContent = async (
   data: UpdateCatObjProps,
-  contentId: string | null,
+  contentId: string | null | undefined,
 ) => {
   const url = `/contents/${contentId}`;
   return await fetchApi<UpdateCatObjProps>(url, 'PUT', data);
