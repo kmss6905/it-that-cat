@@ -1,6 +1,7 @@
-import { NoFollowListPage, NoListPage } from '@/components/ListUi';
-import ContentCard from '../ContentCard';
 import { useMemo } from 'react';
+
+import { NoFollowListPage, NoListPage } from '@/components/Home/ListViewer/ListUi';
+import ContentCard from '../ContentCard';
 import SelectFilter, { SelectedFilterState } from '../SelectFilter';
 import { useCardContents } from '@/hooks/queries/useGetContent';
 import CardSkeleton from '../CardSkeleton';
@@ -16,19 +17,13 @@ interface ListViewerProps {
   setCatMark: () => void;
   setSelectedFilter: (value: SelectedFilterState) => void;
 }
-const ListViewer = ({
-  catMark,
-  selectedFilter,
-  setCatMark,
-  setSelectedFilter,
-}: ListViewerProps) => {
+const ListViewer = ({ catMark, selectedFilter, setCatMark, setSelectedFilter }: ListViewerProps) => {
   const currentLocation = useGeolocation();
 
-  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
-    useCardContents({
-      position: currentLocation.position,
-      follow: catMark,
-    });
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } = useCardContents({
+    position: currentLocation.position,
+    follow: catMark,
+  });
 
   const target = useIntersectionObserver((entry, observer) => {
     observer.unobserve(entry.target);
@@ -37,14 +32,10 @@ const ListViewer = ({
   });
 
   const contentsData = useMemo(() => {
-    const result = data
-      ? data.pages.flatMap((list: any, idx) => (idx !== 1 ? list.items : []))
-      : [];
+    const result = data ? data.pages.flatMap((list: any, idx) => (idx !== 1 ? list.items : [])) : [];
 
     if (selectedFilter.id === 'popularity') {
-      const filteredItems = result.toSorted(
-        (a: any, b: any) => b.countOfFollowed - a.countOfFollowed,
-      );
+      const filteredItems = result.toSorted((a: any, b: any) => b.countOfFollowed - a.countOfFollowed);
       return filteredItems;
     }
     return result;
@@ -69,10 +60,7 @@ const ListViewer = ({
       <div className='px-6'>
         <h2 className='text-black heading2 pb-4'>우리 동네 이냥저냥이</h2>
         <div className='flex gap-[6px] pb-4'>
-          <SelectFilter
-            selectedFilter={selectedFilter}
-            setSelectedFilter={(value) => setSelectedFilter(value)}
-          />
+          <SelectFilter selectedFilter={selectedFilter} setSelectedFilter={(value) => setSelectedFilter(value)} />
 
           <CatMark isChecked={catMark} onClick={() => setCatMark()} />
         </div>

@@ -20,9 +20,7 @@ const ImageWrapper = ({
     >
       {cancelBtn && <ImageCancelBtn onClick={onClick} />}
       {children}
-      <div
-        className={`absolute w-full h-full z-10 ${dimed && 'bg-[rgba(0,0,0,0.35)]'}`}
-      ></div>
+      <div className={`absolute w-full h-full z-10 ${dimed && 'bg-[rgba(0,0,0,0.35)]'}`}></div>
     </div>
   );
 };

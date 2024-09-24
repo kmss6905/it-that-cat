@@ -59,14 +59,9 @@ const NicknamePage = () => {
           <br />
           저희는 이냥이와 저냥이에요!
         </h2>
-        <p className='body1 text-gray-200'>
-          서비스 내에서 사용할 닉네임을 입력해주세요.
-        </p>
+        <p className='body1 text-gray-200'>서비스 내에서 사용할 닉네임을 입력해주세요.</p>
       </div>
-      <form
-        onSubmit={(e) => handleSubmit(e)}
-        className='flex flex-col items-center gap-52'
-      >
+      <form onSubmit={(e) => handleSubmit(e)} className='flex flex-col items-center gap-52'>
         <div>
           <label className='border-b border-white'>
             <input
@@ -76,9 +71,7 @@ const NicknamePage = () => {
               maxLength={10}
               className='bg-transparent heading1 text-primary-500'
             />
-            <span className='text-gray-300 caption'>
-              {nickname === null ? 0 : nickname.length}/10
-            </span>
+            <span className='text-gray-300 caption'>{nickname === null ? 0 : nickname.length}/10</span>
           </label>
           {error !== null ? <p className='error'>{error}</p> : null}
         </div>

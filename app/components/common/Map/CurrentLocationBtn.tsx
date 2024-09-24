@@ -6,10 +6,7 @@ interface CurrentLocationBtnProps {
   className?: string;
 }
 
-const CurrentLocationBtn = ({
-  handleClick,
-  className = '',
-}: CurrentLocationBtnProps) => {
+const CurrentLocationBtn = ({ handleClick, className = '' }: CurrentLocationBtnProps) => {
   return (
     <div
       onClick={handleClick}

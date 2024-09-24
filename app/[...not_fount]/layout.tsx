@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import '../(home)/globals.css';
-import RootWrapper from '@/components/RootWrapper';
-import pretendard from '@/components/Pretendard';
+import RootWrapper from '@/components/common/Wrapper/RootWrapper';
+import pretendard from '@/components/common/Pretendard';
 
 export const metadata: Metadata = {
   title: '이냥저냥',

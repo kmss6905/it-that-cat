@@ -6,11 +6,11 @@ import IconEdit from '@/assets/images/mypage/icon_edit.svg';
 import IconLogout from '@/assets/images/mypage/icon_logout.svg';
 import { useModal } from '@/hooks/useModal';
 import useNickname from '@/hooks/queries/useNickname';
-import { MODAL_TYPE } from '@/components/Modal';
+import { MODAL_TYPE } from '@/components/common/Modal';
 import NicknameModal from '@/components/MyPage/NicknameModal';
 import UpdateNoticeModal from '@/components/MyPage/UpdateNoticeModal';
 import DeleteUserModal from '@/components/MyPage/DeleteUserModal/indext';
-import Loading from '@/components/Loading';
+import Loading from '@/components/common/Loading';
 import { logout } from '@/apis/mypage';
 import { deleteCookie } from '@/utils/cookieStore';
 
@@ -85,10 +85,7 @@ const MyPage = () => {
       <UpdateNoticeModal />
       <DeleteUserModal />
       <div className='flex justify-end px-6 pt-7 pb-5'>
-        <div
-          className='text-gray-300 caption cursor-pointer pt-3 pb-5 flex items-center gap-1'
-          onClick={handleLogOut}
-        >
+        <div className='text-gray-300 caption cursor-pointer pt-3 pb-5 flex items-center gap-1' onClick={handleLogOut}>
           <IconLogout />
           로그아웃
         </div>
@@ -96,16 +93,8 @@ const MyPage = () => {
 
       <div className='px-6'>
         <h3 className='heading2 text-black flex gap-[6px] items-center'>
-          {!isLoading && nickname ? (
-            nickname
-          ) : (
-            <span className='w-20 h-6 bg-gray-50 rounded-sm animate-pulse' />
-          )}
-          님
-          <span
-            onClick={() => openModal(MODAL_TYPE.MYPAGE_NICKNAME)}
-            className='cursor-pointer'
-          >
+          {!isLoading && nickname ? nickname : <span className='w-20 h-6 bg-gray-50 rounded-sm animate-pulse' />}님
+          <span onClick={() => openModal(MODAL_TYPE.MYPAGE_NICKNAME)} className='cursor-pointer'>
             <IconEdit />
           </span>
         </h3>

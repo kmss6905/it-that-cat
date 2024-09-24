@@ -15,10 +15,7 @@ const SearchResult = ({ search }: SearchResultProps) => {
   const { closeModal } = useModal();
   const { position } = useGeolocation();
 
-  const { data, hasNextPage, isSuccess, isFetching, fetchNextPage } = useSearch(
-    position,
-    search,
-  );
+  const { data, hasNextPage, isSuccess, isFetching, fetchNextPage } = useSearch(position, search);
 
   const target = useIntersectionObserver((entry, observer) => {
     observer.unobserve(entry.target);
@@ -28,9 +25,7 @@ const SearchResult = ({ search }: SearchResultProps) => {
 
   const result = useMemo(() => {
     if (data) {
-      const searchResult = data.pages.flatMap((list) =>
-        list ? list.items : [],
-      );
+      const searchResult = data.pages.flatMap((list) => (list ? list.items : []));
 
       return searchResult;
     }
@@ -41,12 +36,9 @@ const SearchResult = ({ search }: SearchResultProps) => {
     return (
       <div className='py-16 text-center'>
         <h3 className='body2 text-gray-400 pb-1'>
-          <span className='subHeading2 text-primary-500'>'{search}'</span>에
-          등록된 냥이가 없습니다.
+          <span className='subHeading2 text-primary-500'>'{search}'</span>에 등록된 냥이가 없습니다.
         </h3>
-        <p className='caption text-gray-300'>
-          직접 등록하거나 주변의 다른 동네를 검색해보세요!
-        </p>
+        <p className='caption text-gray-300'>직접 등록하거나 주변의 다른 동네를 검색해보세요!</p>
       </div>
     );
 

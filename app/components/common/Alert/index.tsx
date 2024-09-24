@@ -44,11 +44,7 @@ type AlertState = {
  * @param {ReactNode} children - AlertContextProvider가 감싸고 있는 자식 컴포넌트들.
  * @returns {JSX.Element} AlertContext.Provider를 사용하여 자식 컴포넌트에게 alert 함수를 제공.
  */
-export const AlertContextProvider = ({
-  children,
-}: {
-  children?: ReactNode;
-}): JSX.Element => {
+export const AlertContextProvider = ({ children }: { children?: ReactNode }): JSX.Element => {
   const [state, setState] = useState<AlertState>();
 
   /**

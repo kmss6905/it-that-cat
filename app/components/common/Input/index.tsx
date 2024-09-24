@@ -7,24 +7,13 @@ export const Label = ({ children, ...rest }: LabelProps) => (
     <div className='flex gap-1'>
       {children}
       {rest.isRequired ? <span className='text-primary-500'>*</span> : null}
-      {rest.addText ? (
-        <span className='text-gray-200 body1'>{rest.addText}</span>
-      ) : null}
+      {rest.addText ? <span className='text-gray-200 body1'>{rest.addText}</span> : null}
     </div>
-    {rest.addTextBottom ? (
-      <div className='text-gray-300 caption pt-1'>{rest.addTextBottom}</div>
-    ) : null}
+    {rest.addTextBottom ? <div className='text-gray-300 caption pt-1'>{rest.addTextBottom}</div> : null}
   </label>
 );
 
-export const TextInput = ({
-  name,
-  value,
-  onChange,
-  placeholder,
-  maxLength,
-  isDisabled,
-}: TextInputProps) => (
+export const TextInput = ({ name, value, onChange, placeholder, maxLength, isDisabled }: TextInputProps) => (
   <input
     type='text'
     name={name}
@@ -40,15 +29,7 @@ export const TextInput = ({
   />
 );
 
-export const TextareaInput = ({
-  name,
-  value,
-  onChange,
-  placeholder,
-  maxLength,
-  isDisabled,
-  report,
-}: TextAreaProps) => (
+export const TextareaInput = ({ name, value, onChange, placeholder, maxLength, isDisabled, report }: TextAreaProps) => (
   <div className='relative'>
     <textarea
       name={name}
@@ -64,11 +45,8 @@ export const TextareaInput = ({
     ${report ? 'body2' : null}
     `}
     />
-    <span className='absolute text-gray-200 caption bottom-[-12px] right-[4px]'>
-      {value?.length}/300
-    </span>
+    <span className='absolute text-gray-200 caption bottom-[-12px] right-[4px]'>{value?.length}/300</span>
   </div>
 );
 
-const InputClass =
-  'w-full rounded-lg text-text-title body1 border-gray-100 px-4 py-[10px] text-gray-500';
+const InputClass = 'w-full rounded-lg text-text-title body1 border-gray-100 px-4 py-[10px] text-gray-500';

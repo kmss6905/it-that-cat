@@ -13,12 +13,12 @@ import IconKebab from '@/assets/images/icon_kebab.svg';
 import IconFollowMark from '@/assets/images/icon_followMark.svg';
 import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
 import IconImage from '@/assets/images/icon_image.svg';
-import RegisterBtn from '@/components/RegisterBtn';
+import RegisterButton from '@/components/common/Button/RegisterButton';
 import { catIllust } from '@/constants/catIllust';
 import { DetailInfo } from '@/components/Content/DetailInfo';
 import { CatNews } from '@/components/Content/CatNews';
 import MenuModal from '@/components/Content/Modal/MenuModal';
-import { MODAL_TYPE } from '@/components/Modal';
+import { MODAL_TYPE } from '@/components/common/Modal';
 import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 import ReportModal from '@/components/Content/Modal/ReportModal';
@@ -45,8 +45,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   const [swiperIndex, setSwiperIndex] = useState(0);
   const { openModal } = useModal();
   const queryResult = useContent(contentId);
-  const { data, refetch, isSuccess } =
-    useNotFound<ContentObjProps>(queryResult);
+  const { data, refetch, isSuccess } = useNotFound<ContentObjProps>(queryResult);
   const [isImageError, setIsImageError] = useState<boolean>(false);
 
   const cat = catIllust.filter((cat) => cat.id === Number(data?.catEmoji))[0];
@@ -54,9 +53,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   const onClickFollow = async () => {
     if (!contentId) return;
 
-    const res: ResType<string> = data?.isFollowed
-      ? await deleteFollow({ contentId })
-      : await postFollow({ contentId });
+    const res: ResType<string> = data?.isFollowed ? await deleteFollow({ contentId }) : await postFollow({ contentId });
 
     if (res.result === 'SUCCESS') {
       refetch();
@@ -76,18 +73,10 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
   if (isSuccess && data)
     return (
       <Fragment>
-        <MenuModal
-          contentId={contentId}
-          isAuthor={data.isAuthor}
-          countOfComments={data.countOfComments}
-        />
+        <MenuModal contentId={contentId} isAuthor={data.isAuthor} countOfComments={data.countOfComments} />
         <DeleteModal contentId={contentId} />
         <AnonymizeModal contentId={contentId} nickname={data.nickname} />
-        <ReportModal
-          contentId={contentId}
-          nickname={data.nickname}
-          name={data.name}
-        />
+        <ReportModal contentId={contentId} nickname={data.nickname} name={data.name} />
         <ReportCompletedModal contentId={contentId} />
 
         <div className='w-full relative'>
@@ -96,9 +85,7 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
               <IconBack />
             </button>
             <div className='flex justify-between gap-4'>
-              <button onClick={onClickFollow}>
-                {data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}
-              </button>
+              <button onClick={onClickFollow}>{data.isFollowed ? <IconFollowMarkFill /> : <IconFollowMark />}</button>
               <button onClick={() => openModal(MODAL_TYPE.CONTENT_MENU)}>
                 <IconKebab />
               </button>
@@ -115,15 +102,9 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
             </div>
             <IconImage />
           </div>
-          <Swiper
-            slidesPerView={1}
-            onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
-          >
+          <Swiper slidesPerView={1} onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}>
             {data.images.map((image: string) => (
-              <SwiperSlide
-                key={image}
-                className='relative w-full h-full after:pb-[80%] after:block '
-              >
+              <SwiperSlide key={image} className='relative w-full h-full after:pb-[80%] after:block '>
                 <div className='absolute w-full h-full'>
                   <div>
                     <Image
@@ -183,22 +164,18 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
             <div className='absolute w-full h-[1.5px] bg-gray-50 translate-y-[-1.5px]' />
           </div>
 
-          {tab === 'detailInfo' ? (
-            <DetailInfo content={data} />
-          ) : (
-            <CatNews contentId={contentId} />
-          )}
+          {tab === 'detailInfo' ? <DetailInfo content={data} /> : <CatNews contentId={contentId} />}
         </div>
 
         <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-          <RegisterBtn
+          <RegisterButton
             onClick={() => {
               setContentId(contentId);
               router.push(`/content/${contentId}/register`);
             }}
           >
             냥이 소식 작성하기
-          </RegisterBtn>
+          </RegisterButton>
         </div>
       </Fragment>
     );
@@ -224,7 +201,7 @@ const ReportedContent = () => {
           <ContentBlur />
         </div>
         <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-          <RegisterBtn isDisabled>냥이 소식 작성하기</RegisterBtn>
+          <RegisterButton isDisabled>냥이 소식 작성하기</RegisterButton>
         </div>
       </div>
     </Fragment>

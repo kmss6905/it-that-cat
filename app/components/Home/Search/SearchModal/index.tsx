@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import IconBack from '@/assets/images/icon_back_black.svg';
 import IconGraySearch from '@/assets/images/icon_graySearch.svg';
 import IconRemoveValue from '@/assets/images/Icon_removeValue.svg';
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import getAdmAddr, { AdmAddrData } from '@/utils/getAdmAddr';
 import { useModal } from '@/hooks/useModal';
 import useDebounceFunction from '@/hooks/utils/useDebounceFunction';
@@ -49,14 +49,9 @@ const SearchModal = () => {
     setSearch(query.key);
 
     if (!recentSearch?.includes(query.key)) {
-      const updateRecentSearch = recentSearch
-        ? [...recentSearch, query.key]
-        : [query.key];
+      const updateRecentSearch = recentSearch ? [...recentSearch, query.key] : [query.key];
       setRecentSearch(updateRecentSearch);
-      sessionStorage.setItem(
-        'recentSearch',
-        JSON.stringify(updateRecentSearch),
-      );
+      sessionStorage.setItem('recentSearch', JSON.stringify(updateRecentSearch));
     }
   };
 
@@ -65,14 +60,9 @@ const SearchModal = () => {
     setQuery((prev) => ({ ...prev, key: place.fullAddr }));
 
     if (!recentSearch?.includes(place.fullAddr)) {
-      const updateRecentSearch = recentSearch
-        ? [...recentSearch, place.fullAddr]
-        : [place.fullAddr];
+      const updateRecentSearch = recentSearch ? [...recentSearch, place.fullAddr] : [place.fullAddr];
       setRecentSearch(updateRecentSearch);
-      sessionStorage.setItem(
-        'recentSearch',
-        JSON.stringify(updateRecentSearch),
-      );
+      sessionStorage.setItem('recentSearch', JSON.stringify(updateRecentSearch));
     }
   };
 
@@ -127,16 +117,11 @@ const SearchModal = () => {
 
         {/* 검색어 추천 */}
         {query.key !== '' && search === null ? (
-          <RecommendSearch
-            query={query}
-            handleClickRecommend={handleClickRecommend}
-          />
+          <RecommendSearch query={query} handleClickRecommend={handleClickRecommend} />
         ) : null}
 
         {/* 검색 결과 */}
-        {query.key !== '' && search !== null && (
-          <SearchResult search={search} />
-        )}
+        {query.key !== '' && search !== null && <SearchResult search={search} />}
       </div>
     </Modal>
   );

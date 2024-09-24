@@ -2,7 +2,7 @@ import { QueryObserverResult } from 'react-query';
 
 import { deleteComment } from '@/apis/contents';
 import IconDeleteModal from '@/assets/images/icon_deleteModal.svg';
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import { ResType } from '@/types/api';
 

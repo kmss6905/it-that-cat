@@ -8,11 +8,7 @@ interface BookmarkBtnProps {
   activate: boolean;
 }
 
-const BookmarkBtn = ({
-  handleClick,
-  className = '',
-  activate,
-}: BookmarkBtnProps) => {
+const BookmarkBtn = ({ handleClick, className = '', activate }: BookmarkBtnProps) => {
   return (
     <div
       onClick={handleClick}

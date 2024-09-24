@@ -7,10 +7,7 @@ const Nav = () => {
   const router = useRouter();
   const permissionPath = ['/mypage'];
 
-  if (
-    permissionPath.filter((path) => pathname === '/' || pathname === path)
-      .length > 0
-  )
+  if (permissionPath.filter((path) => pathname === '/' || pathname === path).length > 0)
     return (
       <div className='flex justify-around z-10 bg-white w-full pt-10px pb-22px'>
         {routes.map((menu) => (

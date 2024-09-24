@@ -1,17 +1,12 @@
 import { ReactNode } from 'react';
 
-interface RegisterBtn {
+interface RegisterButton {
   children: ReactNode;
   type?: 'submit' | 'reset' | 'button';
   isDisabled?: boolean;
   onClick?: (event?: any) => void;
 }
-const RegisterBtn = ({
-  children,
-  onClick,
-  isDisabled = false,
-  type = 'submit',
-}: RegisterBtn) => {
+const RegisterButton = ({ children, onClick, isDisabled = false, type = 'submit' }: RegisterButton) => {
   return (
     <button
       type={type}
@@ -25,4 +20,4 @@ const RegisterBtn = ({
   );
 };
 
-export default RegisterBtn;
+export default RegisterButton;

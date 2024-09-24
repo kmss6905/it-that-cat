@@ -7,11 +7,7 @@ import { reissueToken } from './login';
  * @param method
  * @param data
  */
-const fetchApi = async <T>(
-  url: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  data?: T,
-) => {
+const fetchApi = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: T) => {
   const accessToken = await getCookie('accessToken');
 
   if (!accessToken) {

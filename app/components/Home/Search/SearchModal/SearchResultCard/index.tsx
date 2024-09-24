@@ -12,15 +12,7 @@ const SearchResultCard = ({ result }: { result: SearchContentProps }) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
 
-  const {
-    lat,
-    lng,
-    name,
-    jibunAddrName,
-    countOfFollowed,
-    countOfComments,
-    catEmoji,
-  } = result;
+  const { lat, lng, name, jibunAddrName, countOfFollowed, countOfComments, catEmoji } = result;
 
   const cat = catIllust.filter((cat) => cat.id === Number(catEmoji))[0];
 
@@ -46,9 +38,7 @@ const SearchResultCard = ({ result }: { result: SearchContentProps }) => {
               <h3 className='subHeading text-gray-500'>{name}</h3>
               <div className='bg-primary-100 flex gap-[2px] items-center rounded text-primary-400 px-6px py-1 caption2'>
                 <IconDistance />
-                <span>
-                  {distance !== null ? transformDistance(distance) : '000'}
-                </span>
+                <span>{distance !== null ? transformDistance(distance) : '000'}</span>
               </div>
             </div>
             <p className='body2 text-gray-400 flex items-center'>

@@ -23,9 +23,7 @@ const RecommendSearch = ({
               className='flex justify-between items-center gap-[10px] text-gray-500 cursor-pointer'
             >
               <IconGraySearchM />
-              <span className='flex-grow py-[3px]'>
-                {highlight(query.key, place.fullAddr)}
-              </span>
+              <span className='flex-grow py-[3px]'>{highlight(query.key, place.fullAddr)}</span>
             </li>
           ))}
         </ul>

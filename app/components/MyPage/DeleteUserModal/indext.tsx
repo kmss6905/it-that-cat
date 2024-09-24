@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import { getWithdrawCode } from '@/apis/login';
 import ImgDeleteUser from '@/assets/images/mypage/img_deleteUser.svg';

@@ -1,19 +1,13 @@
 import { useRouter } from 'next/navigation';
 
 import IconDownArrow from '@/assets/images/icon_downArrow.svg';
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import { ResType } from '@/types/api';
 import { deleteContent } from '@/apis/contents';
 import { useContent } from '@/hooks/queries/useGetContent';
 
-const AnonymizeModal = ({
-  contentId,
-  nickname,
-}: {
-  contentId: string | null;
-  nickname: string;
-}) => {
+const AnonymizeModal = ({ contentId, nickname }: { contentId: string | null; nickname: string }) => {
   const router = useRouter();
   const { closeModal } = useModal();
   const { refetch } = useContent(contentId);
@@ -29,15 +23,11 @@ const AnonymizeModal = ({
     <Modal type={MODAL_TYPE.CONTENT_ANONYMIZATION} variant={MODAL_VARIANT.CARD}>
       <div className='flex justify-center items-center flex-col py-8'>
         <div className='flex justify-center items-center flex-col mb-7'>
-          <div className='px-3 py-1 rounded-md bg-gray-50 text-gray-300 caption2'>
-            {nickname}님 등록
-          </div>
+          <div className='px-3 py-1 rounded-md bg-gray-50 text-gray-300 caption2'>{nickname}님 등록</div>
           <div className='py-[14px]'>
             <IconDownArrow />
           </div>
-          <div className='px-3 py-1 rounded-md bg-primary-100 text-primary-500 subHeading2'>
-            익명의 집사님 등록
-          </div>
+          <div className='px-3 py-1 rounded-md bg-primary-100 text-primary-500 subHeading2'>익명의 집사님 등록</div>
         </div>
         <div className='mb-2 subHeading'>닉네임을 익명 처리 하시겠어요?</div>
         <div className='flex justify-center items-center flex-col Body2'>

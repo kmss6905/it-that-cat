@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 
 import { CommentData } from '.';
 import getDateFormat from '@/utils/getDateFormat';
-import ImageWrapper from '@/components/ImageWrapper';
-import { MODAL_TYPE } from '@/components/Modal';
+import ImageWrapper from '@/components/common/Wrapper/ImageWrapper';
+import { MODAL_TYPE } from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import IconRightArrow from '@/assets/images/mypage/icon_rightArrow.svg';
 import IconHeart from '@/assets/images/icon_heart.svg';
@@ -17,11 +17,7 @@ const Comment = ({
   setCommentId,
 }: {
   comment: CommentData;
-  onClickLike: (
-    commentId: string,
-    contentId: string,
-    isCatCommentLiked: boolean,
-  ) => void;
+  onClickLike: (commentId: string, contentId: string, isCatCommentLiked: boolean) => void;
   setCommentId: (commentId: string) => void;
 }) => {
   const router = useRouter();
@@ -48,9 +44,7 @@ const Comment = ({
       </Link>
 
       {/* 등록일 */}
-      <p className='caption text-gray-300 pt-3 pb-6px'>
-        {getDateFormat(createdAt)} 등록
-      </p>
+      <p className='caption text-gray-300 pt-3 pb-6px'>{getDateFormat(createdAt)} 등록</p>
 
       {/* 댓글 내용 */}
       <p className='caption text-gray-500 pb-4'>{commentDesc}</p>
@@ -76,11 +70,7 @@ const Comment = ({
         <button
           onClick={() => onClickLike(commentId, contentId, isCatCommentLiked)}
           className={`border rounded-full flex gap-[6px] px-[10px] py-[6px] items-center caption
-              ${
-                isCatCommentLiked
-                  ? 'text-primary-500 border-primary-300'
-                  : 'text-gray-200 border-gray-100'
-              }`}
+              ${isCatCommentLiked ? 'text-primary-500 border-primary-300' : 'text-gray-200 border-gray-100'}`}
         >
           {isCatCommentLiked ? <IconHeartFill /> : <IconHeart />}
           {commentLikeCount}

@@ -7,11 +7,7 @@ interface CatMarkProps {
   className?: string;
 }
 
-const CatMark = ({
-  onClick,
-  isChecked = false,
-  className = '',
-}: CatMarkProps) => {
+const CatMark = ({ onClick, isChecked = false, className = '' }: CatMarkProps) => {
   return (
     <div
       className={`catMark transition-colors subHeading3 left-[110px] 
@@ -19,9 +15,7 @@ const CatMark = ({
       ${className}`}
       onClick={onClick}
     >
-      <span className='flex justify-center items-center'>
-        {isChecked ? <IconChecked /> : <IconCheck />}
-      </span>
+      <span className='flex justify-center items-center'>{isChecked ? <IconChecked /> : <IconCheck />}</span>
       팔로우한 냥이만
     </div>
   );

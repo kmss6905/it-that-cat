@@ -1,4 +1,4 @@
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import ImgNotice from '@/assets/images/mypage/img_notice.svg';
 

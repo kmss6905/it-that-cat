@@ -2,24 +2,16 @@ import { useState } from 'react';
 
 import IconBackBlack from '@/assets/images/icon_backBlack.svg';
 import { useModal } from '@/hooks/useModal';
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
-import Button from '@/components/Button';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
+import Button from '@/components/common/Button';
 import { reportButtons } from '@/constants/reportButtons';
-import { TextareaInput } from '@/components/Input';
-import RegisterBtn from '@/components/RegisterBtn';
+import { TextareaInput } from '@/components/common/Input';
+import RegisterButton from '@/components/common/Button/RegisterButton';
 import { reportContent } from '@/apis/contents';
 import { ContentReportProps } from '@/types/content';
 import { ResType } from '@/types/api';
 
-const ReportModal = ({
-  contentId,
-  nickname,
-  name,
-}: {
-  contentId: string | null;
-  nickname: string;
-  name: string;
-}) => {
+const ReportModal = ({ contentId, nickname, name }: { contentId: string | null; nickname: string; name: string }) => {
   const { closeModal, openModal } = useModal();
   const [report, setReport] = useState<{ category: string; content: string }>({
     category: '',
@@ -56,10 +48,7 @@ const ReportModal = ({
   return (
     <Modal type={MODAL_TYPE.CONTENT_REPORT} variant={MODAL_VARIANT.ALL}>
       <div className='w-full relative py-6'>
-        <button
-          onClick={() => resetAndCloseModal()}
-          className='absolute left-5 top-1/2 -translate-y-1/2'
-        >
+        <button onClick={() => resetAndCloseModal()} className='absolute left-5 top-1/2 -translate-y-1/2'>
           <IconBackBlack />
         </button>
         <h2 className='w-full text-center subHeading'>게시글 신고</h2>
@@ -93,14 +82,12 @@ const ReportModal = ({
         />
       </div>
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn
+        <RegisterButton
           onClick={onClickReportButton}
-          isDisabled={
-            !report.category || (report.category === 'OTHER' && !report.content)
-          }
+          isDisabled={!report.category || (report.category === 'OTHER' && !report.content)}
         >
           신고 접수하기
-        </RegisterBtn>
+        </RegisterButton>
       </div>
     </Modal>
   );

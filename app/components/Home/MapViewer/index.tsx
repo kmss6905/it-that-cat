@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 import { getContent } from '@/apis/contents';
-import CustomPin from '@/components/Map/CustomPin';
-import MapComponent from '@/components/Map/Map';
+import CustomPin from '@/components/common/Map/CustomPin';
+import MapComponent from '@/components/common/Map/Map';
 import useGeolocation from '@/hooks/useGeolocation';
 import { useMapContents } from '@/hooks/queries/useGetContent';
 import { useGeolocationStore } from '@/stores/home/store';
@@ -16,12 +16,7 @@ interface MapViewerProps {
   setContent: (value: ContentObjProps | null) => void;
 }
 
-const MapViewer = ({
-  selectedPin,
-  setSelectedPin,
-  catMark,
-  setContent,
-}: MapViewerProps) => {
+const MapViewer = ({ selectedPin, setSelectedPin, catMark, setContent }: MapViewerProps) => {
   const mapRef = useRef<kakao.maps.Map>(null);
   const currentPosition = useGeolocation();
   const { setPosition } = useGeolocationStore();
@@ -31,10 +26,7 @@ const MapViewer = ({
     follow: catMark,
   });
 
-  const handleClickMarker = async (data: {
-    id: number;
-    position: Coordinates;
-  }) => {
+  const handleClickMarker = async (data: { id: number; position: Coordinates }) => {
     // macker 클릭할 때마다 확대
     const map = mapRef.current;
     if (!map) {

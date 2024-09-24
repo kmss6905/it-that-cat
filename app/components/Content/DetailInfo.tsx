@@ -1,10 +1,6 @@
-import {
-  neuterButtons,
-  groupButtons,
-  personalityButtons,
-} from '@/constants/catInfoButtons';
-import CustomPin from '../Map/CustomPin';
-import MapComponent from '../Map/Map';
+import { neuterButtons, groupButtons, personalityButtons } from '@/constants/catInfoButtons';
+import CustomPin from '../common/Map/CustomPin';
+import MapComponent from '../common/Map/Map';
 import { ContentObjProps } from '@/types/content';
 import getDateFormat from '@/utils/getDateFormat';
 
@@ -14,9 +10,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
   return (
     <div>
       <div className='p-6'>
-        <div className='caption2 text-primary-400 mb-3'>
-          {getDateFormat(content.updatedAt)} 업데이트
-        </div>
+        <div className='caption2 text-primary-400 mb-3'>{getDateFormat(content.updatedAt)} 업데이트</div>
         <div className={`${titleClassName}`}>동네 집사의 한 줄 소개</div>
         <div className='body2 text-gray-400 mb-4'>{content.description}</div>
       </div>
@@ -30,11 +24,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
             <div className={`${subTitleClassName}`}>중성화 수술</div>
             <div>
               <span className={`${contentClassName}`}>
-                {
-                  neuterButtons.find(
-                    (button) => button.value === content.neuter,
-                  )?.name
-                }
+                {neuterButtons.find((button) => button.value === content.neuter)?.name}
               </span>
             </div>
           </div>
@@ -42,10 +32,7 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
             <div className={`${subTitleClassName}`}>같이 다니는 무리</div>
             <div>
               <span className={`${contentClassName}`}>
-                {
-                  groupButtons.find((button) => button.value === content.group)
-                    ?.name
-                }
+                {groupButtons.find((button) => button.value === content.group)?.name}
               </span>
             </div>
           </div>
@@ -54,14 +41,8 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
         <div className={`${subTitleClassName}`}>성격 및 특징</div>
         <div className='flex flex-wrap'>
           {content.catPersonalities?.map((value) => (
-            <div
-              key={value}
-              className={`${contentClassName} mr-[6px] text-nowrap mb-[6px]`}
-            >
-              {
-                personalityButtons.find((button) => button.value === value)
-                  ?.name
-              }
+            <div key={value} className={`${contentClassName} mr-[6px] text-nowrap mb-[6px]`}>
+              {personalityButtons.find((button) => button.value === value)?.name}
             </div>
           ))}
         </div>
@@ -84,6 +65,5 @@ export const DetailInfo = ({ content }: { content: ContentObjProps }) => {
 
 const titleClassName = 'flex flex-col pb-2 subHeading';
 const subTitleClassName = 'subHeading2 text-gray-400 mb-2';
-const contentClassName =
-  'caption text-primary-500 bg-primary-100 px-[10px] py-[6px] rounded';
+const contentClassName = 'caption text-primary-500 bg-primary-100 px-[10px] py-[6px] rounded';
 const barClassName = 'w-full h-[7px] bg-gray-50';

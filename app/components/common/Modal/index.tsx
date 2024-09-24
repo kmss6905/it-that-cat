@@ -51,9 +51,7 @@ const Modal = ({ children, type, variant = MODAL_VARIANT.SLIDE }: Props) => {
     if (typeof document !== 'undefined') setBody(document.body);
   }, []);
 
-  const removeModal = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
-  ) => {
+  const removeModal = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
     e.preventDefault();
     closeModal();
   };
@@ -75,13 +73,7 @@ const Modal = ({ children, type, variant = MODAL_VARIANT.SLIDE }: Props) => {
 /**
  * Modal 생성 시에 useEffect 실행되서 Modal 을 제외하고, scroll 동작 막기 위함.
  */
-const ModalContainer = ({
-  children,
-  variant,
-}: {
-  children?: React.ReactNode;
-  variant?: MODAL_VARIANT;
-}) => {
+const ModalContainer = ({ children, variant }: { children?: React.ReactNode; variant?: MODAL_VARIANT }) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -105,9 +97,7 @@ const ModalContainer = ({
         onClick={(e) => e.stopPropagation()}
         className='max-w-lg w-full mx-auto absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'
       >
-        <div className='bg-white rounded-lg mx-11 overflow-hidden'>
-          {children}
-        </div>
+        <div className='bg-white rounded-lg mx-11 overflow-hidden'>{children}</div>
       </div>
     );
 

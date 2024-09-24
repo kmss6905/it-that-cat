@@ -14,12 +14,7 @@ export const getSearchAddress = async () => {
   return (await fetchApi('/addr', 'GET')).data;
 };
 
-export const getSearch = async ({
-  position,
-  search,
-  page = 1,
-  size = 15,
-}: SearchProps) => {
+export const getSearch = async ({ position, search, page = 1, size = 15 }: SearchProps) => {
   if (!search) return;
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
