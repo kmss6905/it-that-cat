@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import IconBackBlack from '@/assets/images/icon_backBlack.svg';
@@ -12,8 +11,15 @@ import { reportContent } from '@/apis/contents';
 import { ContentReportProps } from '@/types/content';
 import { ResType } from '@/types/api';
 
-const ReportModal = ({ contentId }: { contentId: string | null }) => {
-  const router = useRouter();
+const ReportModal = ({
+  contentId,
+  nickname,
+  name,
+}: {
+  contentId: string | null;
+  nickname: string;
+  name: string;
+}) => {
   const { closeModal, openModal } = useModal();
   const [report, setReport] = useState<{ category: string; content: string }>({
     category: '',
@@ -32,7 +38,7 @@ const ReportModal = ({ contentId }: { contentId: string | null }) => {
       [name]: value,
     });
   };
-  const resetAndcloseModal = () => {
+  const resetAndCloseModal = () => {
     setReport({ category: '', content: '' });
     closeModal();
   };
@@ -51,7 +57,7 @@ const ReportModal = ({ contentId }: { contentId: string | null }) => {
     <Modal type={MODAL_TYPE.CONTENT_REPORT} variant={MODAL_VARIANT.ALL}>
       <div className='w-full relative py-6'>
         <button
-          onClick={() => resetAndcloseModal()}
+          onClick={() => resetAndCloseModal()}
           className='absolute left-5 top-1/2 -translate-y-1/2'
         >
           <IconBackBlack />
@@ -59,7 +65,9 @@ const ReportModal = ({ contentId }: { contentId: string | null }) => {
         <h2 className='w-full text-center subHeading'>게시글 신고</h2>
       </div>
       <div className='px-5 py-3 subHeading'>
-        <div>‘체리코코'님이 등록한 ‘용두동호랭이'</div>
+        <div>
+          '{nickname ?? '익명의 집사'}'님이 등록한 '{name}'
+        </div>
         <div>게시글을 신고하는 이유를 선택해주세요.</div>
       </div>
       <div className='px-5 flex flex-col gap-2'>

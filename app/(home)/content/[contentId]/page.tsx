@@ -83,7 +83,11 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
         />
         <DeleteModal contentId={contentId} />
         <AnonymizeModal contentId={contentId} nickname={data.nickname} />
-        <ReportModal contentId={contentId} />
+        <ReportModal
+          contentId={contentId}
+          nickname={data.nickname}
+          name={data.name}
+        />
         <ReportCompletedModal contentId={contentId} />
 
         <div className='w-full relative'>
