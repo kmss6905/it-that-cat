@@ -31,7 +31,7 @@
   }
 
   .rootWrapper {
-    @apply flex justify-center items-center w-screen h-screen overflow-hidden;
+    @apply flex justify-center items-center w-screen h-dvh overflow-hidden;
   }
 
   .rootContainer {

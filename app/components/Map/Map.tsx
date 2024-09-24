@@ -21,6 +21,7 @@ interface MapProps {
   mapRef?: RefObject<kakao.maps.Map>;
   onClick?: () => void;
   onCenterChanged?: (value: any) => void;
+  center?: { lat: number; lng: number };
 }
 
 const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
@@ -30,11 +31,14 @@ const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
 
   const position = useMemo(() => {
     const initPosition = { lat: 36, lng: 127 };
-    return geolocation.position === null
-      ? currentPosition.position === null
-        ? initPosition
-        : currentPosition.position
-      : geolocation.position;
+
+    if (geolocation.position === null) {
+      if (currentPosition.position === null) {
+        return initPosition;
+      }
+      return currentPosition.position;
+    }
+    return geolocation.position;
   }, [geolocation.position, currentPosition.position]);
 
   return (
