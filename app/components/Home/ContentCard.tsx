@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { catIllust } from '@/constants/catIllust';
-import IconDistance from '@/assets/images/icon_distance.svg';
+import IconDistance from '@/assets/images/map/icon_distance.svg';
 import useGeolocation from '@/hooks/useGeolocation';
 import { getDistance } from '@/utils/calcDistance';
 import getDateFormat from '@/utils/getDateFormat';
@@ -13,16 +12,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
 
-  const {
-    lat,
-    lng,
-    name,
-    createdAt,
-    jibunAddrName,
-    countOfFollowed,
-    countOfComments,
-    catEmoji,
-  } = content;
+  const { lat, lng, name, createdAt, jibunAddrName, countOfFollowed, countOfComments, catEmoji } = content;
 
   const cat = catIllust.filter((cat) => cat.id === Number(catEmoji))[0];
 
@@ -37,16 +27,10 @@ const ContentCard = ({ content }: ContentCardProps) => {
   }, [geolocation.position, lat, lng]);
 
   return (
-    <Link href={`/content?id=${content.contentId}`}>
+    <Link href={`/content/${content.contentId}`}>
       <div className='flex gap-3 w-full px-4 py-5 bg-white rounded-xl shadow-[0_0_12px_0_rgba(0,0,0,0.06)]'>
-        <div className='w-[70px] h-[70px] rounded-full bg-gray-50 relative'>
-          <Image
-            src={cat.image.src}
-            alt='고양이 일러스트'
-            fill
-            sizes='100%'
-            className='object-contain p-2'
-          />
+        <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center'>
+          <cat.image />
         </div>
         <div className='flex-grow flex flex-col gap-[10px]'>
           <div className='flex flex-col gap-1'>
@@ -62,17 +46,13 @@ const ContentCard = ({ content }: ContentCardProps) => {
               <span>·</span>
               <span>팔로워 {countOfFollowed}명</span>
             </div>
-            <p className='caption text-gray-200'>
-              {getDateFormat(createdAt)} 등록
-            </p>
+            <p className='caption text-gray-200'>{getDateFormat(createdAt)} 등록</p>
           </div>
 
           <div className='flex justify-end'>
             <div className='bg-primary-100 flex gap-[2px] items-center rounded text-primary-400 px-6px py-1 caption2'>
               <IconDistance />
-              <span>
-                {distance !== null ? transformDistance(distance) : '000'}
-              </span>
+              <span>{distance !== null ? transformDistance(distance) : '000'}</span>
             </div>
           </div>
         </div>

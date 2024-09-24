@@ -1,0 +1,81 @@
+name: FE CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  set-env-vars:
+    runs-on: ubuntu-latest
+    outputs:
+      docker-image: ${{ steps.set-envs.outputs.docker-image }}
+      ecr-repository: ${{ steps.set-envs.outputs.ecr-repository }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Set Development Environment Variables and Create Env file
+        id: set-envs
+        if: github.ref_name == 'dev'
+        run: |
+          ECR_REPOSITORY=$(aws ssm get-parameter --name /dev/front/ecr --query 'Parameter.Value' --output text)
+          DOCKER_IMAGE=$(aws ssm get-parameter --name /dev/front/image-name --query 'Parameter.Value' --output text)
+
+          echo "ecr-repository=$ECR_REPOSITORY" >> "$GITHUB_OUTPUT"
+          echo "docker-image=$DOCKER_IMAGE" >> "$GITHUB_OUTPUT"
+
+          echo "ecr-repository=$ECR_REPOSITORY"
+          echo "docker-image=$DOCKER_IMAGE"
+
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    needs: set-env-vars
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
+          DOCKER_IMAGE: ${{ needs.set-env-vars.outputs.docker-image }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          aws ssm get-parameter --name /dev/front --query 'Parameter.Value' --output text > .env
+          docker buildx build --platform=linux/amd64 -t $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG -t $ECR_REPOSITORY/$DOCKER_IMAGE:latest -f ./dockerfiles/dev.Dockerfile . 
+          docker push $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push $ECR_REPOSITORY/$DOCKER_IMAGE:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-build-and-push
+    if: github.ref_name == 'dev'
+    steps:
+      - name: Deploy to Dev Environment
+        env:
+          ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.DEV_TARGET_HOST }}
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          script: |
+            sh awslogin.sh
+            docker compose pull && docker compose up -d

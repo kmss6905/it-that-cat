@@ -8,29 +8,27 @@ export function middleware(request: NextRequest) {
   const refreshToken = cookieStore.get('refreshToken');
   const nickname = cookieStore.get('nickname');
 
-  const protectedRoutes = ['/register', '/content/register'];
-
   const url = request.nextUrl.clone();
 
-  if (accessToken && refreshToken) {
-    if (request.url.includes('/login')) {
-      if (nickname && nickname.value) {
-        url.pathname = '/';
-        return NextResponse.redirect(url);
-      }
-    } else {
-      if (!nickname || !nickname.value) {
-        url.pathname = '/login/nickname';
+  if (refreshToken) {
+    // 토큰이 있을 경우 로그인 페이지 접근 제한
+    if (request.nextUrl.pathname.startsWith('/login')) {
+      // 닉네임이 있는 유저일 경우 홈으로 이동
+      if (nickname) return NextResponse.rewrite(url.origin);
 
-        return NextResponse.redirect(url);
+      // 닉네임이 없는 유저일 경우 nickname 설정 페이지로 이동
+      if (!nickname) {
+        url.pathname = '/login/nickname';
+        return NextResponse.rewrite(url);
       }
     }
-  } else if (!accessToken || !refreshToken) {
-    if (
-      protectedRoutes.filter((value) =>
-        request.nextUrl.pathname.includes(value),
-      ).length !== 0
-    ) {
+  }
+
+  if (!accessToken && !refreshToken) {
+    // 토큰 없이 로그인 페이지 외 페이지 접근 시 로그인으로 이동
+    if (!request.nextUrl.pathname.startsWith('/login')) {
+      // auth 페이지는 제외
+      if (request.nextUrl.pathname.startsWith('/auth')) return NextResponse.next();
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }

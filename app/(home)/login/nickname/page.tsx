@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import loginCharacter from '@/assets/images/login_character.png';
-import handleValidCheckNickname from '@/apis/login/handleValidCheckNickname';
+import loginCharacter from '@/assets/images/login/login_character.png';
+import { postValidNickname } from '@/apis/login';
 import { useRouter } from 'next/navigation';
-import handleUpdatedNickname from '@/apis/login/handleUpdatedNickname';
+import { postNickname } from '@/apis/login';
 
 const NicknamePage = () => {
   const router = useRouter();
@@ -15,11 +15,11 @@ const NicknamePage = () => {
     event.preventDefault();
 
     if (nickname !== null) {
-      await handleValidCheckNickname(nickname).then((res: any) => {
+      await postValidNickname(nickname).then((res: any) => {
         if (res.result === 'SUCCESS') {
           res?.data.isAvailable === false
             ? setError('이미 사용 중인 닉네임이에요.')
-            : handleUpdatedNickname(nickname).then((res: any) => {
+            : postNickname(nickname).then((res: any) => {
                 if (res.result === 'SUCCESS') {
                   router.push('/');
                 }
@@ -59,14 +59,9 @@ const NicknamePage = () => {
           <br />
           저희는 이냥이와 저냥이에요!
         </h2>
-        <p className='body1 text-gray-200'>
-          서비스 내에서 사용할 닉네임을 입력해주세요.
-        </p>
+        <p className='body1 text-gray-200'>서비스 내에서 사용할 닉네임을 입력해주세요.</p>
       </div>
-      <form
-        onSubmit={(e) => handleSubmit(e)}
-        className='flex flex-col items-center gap-52'
-      >
+      <form onSubmit={(e) => handleSubmit(e)} className='flex flex-col items-center gap-52'>
         <div>
           <label className='border-b border-white'>
             <input
@@ -76,9 +71,7 @@ const NicknamePage = () => {
               maxLength={10}
               className='bg-transparent heading1 text-primary-500'
             />
-            <span className='text-gray-300 caption'>
-              {nickname === null ? 0 : nickname.length}/10
-            </span>
+            <span className='text-gray-300 caption'>{nickname === null ? 0 : nickname.length}/10</span>
           </label>
           {error !== null ? <p className='error'>{error}</p> : null}
         </div>

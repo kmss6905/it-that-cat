@@ -8,7 +8,7 @@ export interface ResType<T> {
 }
 
 export interface commentProps {
-  commentImageUris: string[];
+  commentImageKeys?: string[];
   commentDesc: string;
 }
 
@@ -18,4 +18,10 @@ export interface catFollowId {
 
 export interface commentLikeId {
   commentId: string;
+}
+
+export interface SaveTokenProps {
+  accessToken: string;
+  refreshToken: string;
+  nickname: string | null;
 }
