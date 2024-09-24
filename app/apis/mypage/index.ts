@@ -26,6 +26,11 @@ export const getMyContents = async ({ pageParam = 1, size = 15 }) => {
   return (await fetchApi(url, 'GET')).data;
 };
 
+export const getMyComment = async ({ pageParam = 1, size = 15 }) => {
+  const url = `/comments/me?page=${pageParam}&size=${size}`;
+  return (await fetchApi(url, 'GET')).data;
+};
+
 export const deleteUser = async (data: {
   code: string;
   redirectUri: string;
