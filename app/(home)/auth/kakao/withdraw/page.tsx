@@ -1,7 +1,9 @@
 'use client';
 import { Suspense, useContext, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Lottie from 'react-lottie-player';
 
+import loadingLottie from '@/assets/images/lottie/loading.json';
 import { deleteUser } from '@/apis/mypage';
 import { deleteCookie } from '@/utils/cookieStore';
 import { AlertContext } from '@/components/Alert';
@@ -49,8 +51,8 @@ const LoginLoading = () => {
   }, [code, pathname, router, alert]);
 
   return (
-    <div className='text-center flex justify-center items-center h-screen bg-bgBlack'>
-      <div className='animate-spin rounded-full w-10 h-10 border-4 border-solid border-primary-500/80 border-l-primary-500'></div>
+    <div className='fixed w-full top-0 left-1/2 -translate-x-1/2 flex justify-center items-center h-screen bg-white/60 z-40 px-20'>
+      <Lottie loop animationData={loadingLottie} play />
     </div>
   );
 };
