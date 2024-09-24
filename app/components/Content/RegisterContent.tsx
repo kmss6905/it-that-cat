@@ -1,8 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
+
 import RegisterMap from '@/components/Register/Map';
 import RegisterPost from '@/components/Register/Post';
-import { CatObjProps } from '@/types/content';
+import { RegisterCatObjProps } from '@/types/content';
 import { Coordinates, RegionState } from '@/types/address';
 import useGeolocation from '@/hooks/useGeolocation';
 import useAddress from '@/hooks/useAddress';
@@ -13,7 +14,7 @@ const RegisterContent = ({
   initMode,
   isNew = true,
 }: {
-  data?: CatObjProps;
+  data?: RegisterCatObjProps;
   initMode: 'map' | 'post';
   isNew?: boolean;
 }) => {
@@ -24,7 +25,7 @@ const RegisterContent = ({
   const {
     geolocation: { position, address },
   } = useGeolocationStore();
-  const [catInfo, setCatInfo] = useState<CatObjProps>({
+  const [catInfo, setCatInfo] = useState<RegisterCatObjProps>({
     name: '',
     description: '',
     lng: '',
@@ -39,13 +40,15 @@ const RegisterContent = ({
     group: '',
     catPersonalities: [],
     images: [],
+    imageKeys: [],
+    catEmoji: 0,
   });
 
   const updateCatInfo = (
     position: Coordinates | null,
     address: RegionState | null,
   ) =>
-    setCatInfo((value: CatObjProps) => ({
+    setCatInfo((value: RegisterCatObjProps) => ({
       ...value,
       lng: String(position?.lng),
       lat: String(position?.lat),

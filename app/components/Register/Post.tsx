@@ -11,6 +11,7 @@ import React, {
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper';
 import 'swiper/css';
 
 import IconX from '@/assets/images/icon_x.svg';
@@ -30,11 +31,7 @@ import {
 } from '@/constants/catInfoButtons';
 import { postContent, putContent } from '@/apis/contents';
 import { saveImageAWS } from '@/apis/image/saveImage';
-import {
-  CatObjProps,
-  RegisterCatObjProps,
-  UpdateCatObjProps,
-} from '@/types/content';
+import { RegisterCatObjProps, UpdateCatObjProps } from '@/types/content';
 import { ResType } from '@/types/api';
 import { catIllust } from '@/constants/catIllust';
 import { useWithLoading } from '@/hooks/useWithLoading';
@@ -47,9 +44,9 @@ const RegisterPost = ({
   isNew,
 }: {
   setIsFillingIn: Dispatch<SetStateAction<boolean>>;
-  catInfo: CatObjProps;
+  catInfo: RegisterCatObjProps;
   setMode: Dispatch<SetStateAction<string>>;
-  setCatInfo: Dispatch<SetStateAction<CatObjProps>>;
+  setCatInfo: Dispatch<SetStateAction<RegisterCatObjProps>>;
   isNew: boolean;
 }) => {
   const router = useRouter();
@@ -60,6 +57,7 @@ const RegisterPost = ({
   >([]);
   const [images, setImages] = useState<(File | string)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
+  const swiperRef = useRef<SwiperCore | null>(null);
   const { withLoading } = useWithLoading();
 
   useEffect(() => {
@@ -67,7 +65,11 @@ const RegisterPost = ({
       setThumbImages(catInfo.images);
       setImages(catInfo.images);
     }
-  }, [catInfo?.images]);
+    if (catInfo.catEmoji) {
+      setCatEmoji(catInfo.catEmoji);
+      swiperRef.current?.slideTo(catInfo.catEmoji - 1);
+    }
+  }, [catInfo?.images, catInfo?.catEmoji]);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -204,7 +206,7 @@ const RegisterPost = ({
       <div className='w-full relative pt-5 pb-5'>
         <h2 className='w-full text-center subHeading'>우리 동네 냥이 제보</h2>
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.back()}
           className='absolute right-5 top-1/2 -translate-y-1/2'
         >
           <IconX />
@@ -266,7 +268,12 @@ const RegisterPost = ({
           >
             프로필 캐릭터
           </Label>
-          <Swiper slidesPerView={4}>
+          <Swiper
+            slidesPerView={4.4}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper; // SwiperCore 인스턴스를 ref에 할당
+            }}
+          >
             {catIllust.map((cat) => (
               <SwiperSlide key={cat.id}>
                 <div

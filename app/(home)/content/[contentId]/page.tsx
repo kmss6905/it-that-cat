@@ -83,7 +83,11 @@ const RegisterPostPage = ({ params }: { params: { contentId: string } }) => {
         />
         <DeleteModal contentId={contentId} />
         <AnonymizeModal contentId={contentId} nickname={data.nickname} />
-        <ReportModal contentId={contentId} />
+        <ReportModal
+          contentId={contentId}
+          nickname={data.nickname}
+          name={data.name}
+        />
         <ReportCompletedModal contentId={contentId} />
 
         <div className='w-full relative'>
@@ -211,7 +215,7 @@ const ReportedContent = () => {
 
       <div className='w-full h-full'>
         <div className='absolute w-full h-16 top-0 px-5 py-6 z-10 flex justify-between'>
-          <button onClick={() => router.back()}>
+          <button onClick={() => router.push('/')}>
             <IconBack />
           </button>
           <div className='flex justify-between gap-4'></div>
