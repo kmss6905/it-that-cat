@@ -43,8 +43,7 @@ const useGeolocation = () => {
           position: null,
           error: {
             code: 0,
-            message:
-              '위치정보 이용이 차단되었거나, 현재 브라우저에서는 위치정보가 지원되지 않습니다.',
+            message: '위치정보 이용이 차단되었거나, 현재 브라우저에서는 위치정보가 지원되지 않습니다.',
           },
         });
       }

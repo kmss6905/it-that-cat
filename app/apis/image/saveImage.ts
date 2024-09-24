@@ -32,12 +32,9 @@ export const saveImageAWS = async (image: File | string) => {
   if (typeof image === 'string') {
     key = new URL(image).pathname.split('/')[1].split('.')[0];
   } else {
-    const getRes = await fetch(
-      `https://image.itthatcat.xyz/api/presigned-url?size=1`,
-      {
-        method: 'GET',
-      },
-    );
+    const getRes = await fetch(`https://image.itthatcat.xyz/api/presigned-url?size=1`, {
+      method: 'GET',
+    });
     const data = await getRes.json();
     const uploadUrl = data.data[0];
     await fetch(uploadUrl, {

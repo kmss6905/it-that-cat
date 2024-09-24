@@ -17,10 +17,7 @@ export const options = [
   { id: 'popularity', content: '인기순' },
 ];
 
-const SelectFilter = ({
-  selectedFilter,
-  setSelectedFilter,
-}: SelectedFilterProps) => {
+const SelectFilter = ({ selectedFilter, setSelectedFilter }: SelectedFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickFilter = (id: SelectedFilterState) => {
@@ -42,28 +39,20 @@ const SelectFilter = ({
         className={`filter ${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
         {selectedFilter.content}
-        <span
-          className={`rotate-0 transition-transform ${isOpen ? 'rotate-180 transition-transform' : ''}`}
-        >
+        <span className={`rotate-0 transition-transform ${isOpen ? 'rotate-180 transition-transform' : ''}`}>
           <IconDropdown />
         </span>
       </button>
     );
 
   return (
-    <div
-      className={`mapFilter`}
-      ref={ref}
-      onClick={(e) => handleClickOutsideFilter(e)}
-    >
+    <div className={`mapFilter`} ref={ref} onClick={(e) => handleClickOutsideFilter(e)}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={`${isOpen ? 'rounded-t-md border border-b-0' : 'rounded-md border'}`}
       >
         {selectedFilter.content}
-        <IconDropdown
-          className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`}
-        />
+        <IconDropdown className={`${isOpen ? 'rotate-180 transition-transform' : 'rotate-0 transition-transform'}`} />
       </button>
 
       {isOpen && (

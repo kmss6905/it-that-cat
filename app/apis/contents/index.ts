@@ -1,9 +1,5 @@
 import { catFollowId, commentLikeId, commentProps } from '@/types/api';
-import {
-  ContentReportProps,
-  RegisterCatObjProps,
-  UpdateCatObjProps,
-} from '@/types/content';
+import { ContentReportProps, RegisterCatObjProps, UpdateCatObjProps } from '@/types/content';
 import fetchApi from '../fetchApi';
 
 export const getContent = async (contentId: string | null) => {
@@ -15,10 +11,7 @@ export const postContent = async (data: RegisterCatObjProps) => {
   return await fetchApi<RegisterCatObjProps>(`/contents`, 'POST', data);
 };
 
-export const putContent = async (
-  data: UpdateCatObjProps,
-  contentId: string | null | undefined,
-) => {
+export const putContent = async (data: UpdateCatObjProps, contentId: string | null | undefined) => {
   const url = `/contents/${contentId}`;
   return await fetchApi<UpdateCatObjProps>(url, 'PUT', data);
 };
@@ -38,26 +31,17 @@ export const getComments = async (contentId: string | null) => {
   return (await fetchApi(url, 'GET')).data;
 };
 
-export const getComment = async (
-  contentId: string | null,
-  commentId: string | null,
-) => {
+export const getComment = async (contentId: string | null, commentId: string | null) => {
   const url = `/contents/${contentId}/comments/${commentId}`;
   return await fetchApi(url, 'GET');
 };
 
-export const postComment = async (
-  contentId: string | null,
-  data: commentProps,
-) => {
+export const postComment = async (contentId: string | null, data: commentProps) => {
   const url = `/contents/${contentId}/comments`;
   return await fetchApi<commentProps>(url, 'POST', data);
 };
 
-export const putComment = async (
-  commentId: string | null,
-  data: commentProps,
-) => {
+export const putComment = async (commentId: string | null, data: commentProps) => {
   const url = `/comments/${commentId}`;
   return await fetchApi<commentProps>(url, 'PUT', data);
 };

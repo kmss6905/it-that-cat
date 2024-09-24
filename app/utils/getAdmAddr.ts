@@ -29,9 +29,7 @@ const getAdmAddr = async (search: string) => {
   if (search !== '') {
     const regex = createFuzzyMatcher(search);
 
-    const searchList = addrList.filter((item: AdmAddrData) =>
-      regex.test(item.fullAddr),
-    );
+    const searchList = addrList.filter((item: AdmAddrData) => regex.test(item.fullAddr));
 
     return searchList;
   }

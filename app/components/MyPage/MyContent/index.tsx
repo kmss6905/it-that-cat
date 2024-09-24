@@ -10,9 +10,7 @@ import { NoContent } from './NoContent';
 
 const MyContent = () => {
   const router = useRouter();
-  const [selectedContent, setSelectedContent] = useState<
-    string | null | undefined
-  >(null);
+  const [selectedContent, setSelectedContent] = useState<string | null | undefined>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useMyContents();
 

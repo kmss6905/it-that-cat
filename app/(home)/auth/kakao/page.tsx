@@ -25,9 +25,7 @@ const LoginLoading = () => {
       const test = async () => {
         const response = await getToken(code, pathname);
         if (response?.result === 'SUCCESS') {
-          const redriectUrl = !!response.data.nickname
-            ? '/'
-            : '/login/nickname';
+          const redriectUrl = !!response.data.nickname ? '/' : '/login/nickname';
           await saveToken(response.data);
           router.replace(redriectUrl);
         }

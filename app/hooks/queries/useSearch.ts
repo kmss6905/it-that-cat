@@ -5,14 +5,10 @@ import { querySearchKey } from '@/constants/queryKey';
 import { Coordinates } from '@/types/address';
 import { getSearch } from '@/apis/search';
 
-export const useSearch = (
-  position: Coordinates | null,
-  search: string | null,
-) => {
+export const useSearch = (position: Coordinates | null, search: string | null) => {
   return useInfiniteQuery(
     [querySearchKey, search],
-    ({ pageParam = 1 }) =>
-      getSearch({ position, search, page: pageParam, size: 10 }),
+    ({ pageParam = 1 }) => getSearch({ position, search, page: pageParam, size: 10 }),
     {
       enabled: search !== null,
       getNextPageParam: (lastPage, allPages) => {

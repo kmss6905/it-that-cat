@@ -32,18 +32,12 @@ const RecentSearch = ({
             <>
               <li className='flex justify-between items-center pt-5 pb-3'>
                 <h3 className='subHeading text-gray-500'>최근 검색</h3>
-                <button
-                  className='caption text-gray-300'
-                  onClick={() => handleRemoveRecentSearch('ALL')}
-                >
+                <button className='caption text-gray-300' onClick={() => handleRemoveRecentSearch('ALL')}>
                   모두 지우기
                 </button>
               </li>
               {recentSearch.map((list) => (
-                <li
-                  key={list}
-                  className='flex gap-3 justify-between items-center py-2'
-                >
+                <li key={list} className='flex gap-3 justify-between items-center py-2'>
                   <button
                     className='body2 text-gray-500 flex-grow text-left'
                     onClick={() => {
@@ -53,18 +47,14 @@ const RecentSearch = ({
                   >
                     {list}
                   </button>
-                  <button
-                    onClick={() => handleRemoveRecentSearch('PARTIAL', list)}
-                  >
+                  <button onClick={() => handleRemoveRecentSearch('PARTIAL', list)}>
                     <IconRemoveSearch />
                   </button>
                 </li>
               ))}
             </>
           ) : (
-            <li className='py-[72px] text-center body2 text-gray-400'>
-              최근 검색한 내역이 없습니다.
-            </li>
+            <li className='py-[72px] text-center body2 text-gray-400'>최근 검색한 내역이 없습니다.</li>
           )}
         </ul>
       )}

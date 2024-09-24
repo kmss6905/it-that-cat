@@ -44,10 +44,7 @@ const RegisterContent = ({
     catEmoji: 0,
   });
 
-  const updateCatInfo = (
-    position: Coordinates | null,
-    address: RegionState | null,
-  ) =>
+  const updateCatInfo = (position: Coordinates | null, address: RegionState | null) =>
     setCatInfo((value: RegisterCatObjProps) => ({
       ...value,
       lng: String(position?.lng),
@@ -80,11 +77,7 @@ const RegisterContent = ({
   return (
     <div className='h-full'>
       {mode === 'map' ? (
-        <RegisterMap
-          isFillingIn={isFillingIn}
-          setMode={setMode}
-          initAddress={initAddress}
-        />
+        <RegisterMap isFillingIn={isFillingIn} setMode={setMode} initAddress={initAddress} />
       ) : (
         <RegisterPost
           setIsFillingIn={setIsFillingIn}

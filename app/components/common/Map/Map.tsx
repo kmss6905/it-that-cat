@@ -58,12 +58,7 @@ const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
       }}
       {...props}
     >
-      <MarkerClusterer
-        averageCenter={true}
-        minLevel={5}
-        calculator={[10, 30, 50]}
-        styles={clusterStyle}
-      >
+      <MarkerClusterer averageCenter={true} minLevel={5} calculator={[10, 30, 50]} styles={clusterStyle}>
         {children}
       </MarkerClusterer>
 

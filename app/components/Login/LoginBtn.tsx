@@ -11,12 +11,7 @@ interface LoginBtnProps {
   className?: string;
 }
 
-const LoginBtn = ({
-  children,
-  provider,
-  Icon,
-  className = '',
-}: LoginBtnProps) => {
+const LoginBtn = ({ children, provider, Icon, className = '' }: LoginBtnProps) => {
   const router = useRouter();
 
   const handleClick = async () => {

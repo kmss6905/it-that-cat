@@ -12,16 +12,7 @@ const ContentCard = ({ content }: ContentCardProps) => {
   const geolocation = useGeolocation();
   const [distance, setDistance] = useState<number | null>(null);
 
-  const {
-    lat,
-    lng,
-    name,
-    createdAt,
-    jibunAddrName,
-    countOfFollowed,
-    countOfComments,
-    catEmoji,
-  } = content;
+  const { lat, lng, name, createdAt, jibunAddrName, countOfFollowed, countOfComments, catEmoji } = content;
 
   const cat = catIllust.filter((cat) => cat.id === Number(catEmoji))[0];
 
@@ -55,17 +46,13 @@ const ContentCard = ({ content }: ContentCardProps) => {
               <span>·</span>
               <span>팔로워 {countOfFollowed}명</span>
             </div>
-            <p className='caption text-gray-200'>
-              {getDateFormat(createdAt)} 등록
-            </p>
+            <p className='caption text-gray-200'>{getDateFormat(createdAt)} 등록</p>
           </div>
 
           <div className='flex justify-end'>
             <div className='bg-primary-100 flex gap-[2px] items-center rounded text-primary-400 px-6px py-1 caption2'>
               <IconDistance />
-              <span>
-                {distance !== null ? transformDistance(distance) : '000'}
-              </span>
+              <span>{distance !== null ? transformDistance(distance) : '000'}</span>
             </div>
           </div>
         </div>

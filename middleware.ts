@@ -28,8 +28,7 @@ export function middleware(request: NextRequest) {
     // 토큰 없이 로그인 페이지 외 페이지 접근 시 로그인으로 이동
     if (!request.nextUrl.pathname.startsWith('/login')) {
       // auth 페이지는 제외
-      if (request.nextUrl.pathname.startsWith('/auth'))
-        return NextResponse.next();
+      if (request.nextUrl.pathname.startsWith('/auth')) return NextResponse.next();
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }

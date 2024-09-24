@@ -9,11 +9,7 @@ export interface GetContentParams {
   pageParam?: number;
 }
 
-export const getMapContents = async ({
-  position,
-  pageParam = 1,
-  follow,
-}: GetContentParams) => {
+export const getMapContents = async ({ position, pageParam = 1, follow }: GetContentParams) => {
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
   const range = 100000000;
@@ -23,12 +19,7 @@ export const getMapContents = async ({
   return (await fetchApi(url, 'GET')).data;
 };
 
-export const getCardContents = async ({
-  position,
-  size = 10,
-  pageParam,
-  follow = false,
-}: GetContentParams) => {
+export const getCardContents = async ({ position, size = 10, pageParam, follow = false }: GetContentParams) => {
   const lat = position !== null ? position.lat : 37.574187;
   const lng = position !== null ? position.lng : 126.976882;
 

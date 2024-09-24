@@ -8,11 +8,7 @@ interface CustomPinProps {
   isSelected?: boolean;
 }
 
-const CustomPin = ({
-  position,
-  onClick,
-  isSelected = false,
-}: CustomPinProps) => {
+const CustomPin = ({ position, onClick, isSelected = false }: CustomPinProps) => {
   if (!position) return null;
 
   return (
