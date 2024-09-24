@@ -6,7 +6,7 @@ import Lottie from 'react-lottie-player';
 import loadingLottie from '@/assets/images/lottie/loading.json';
 import { deleteUser } from '@/apis/mypage';
 import { deleteCookie } from '@/utils/cookieStore';
-import { AlertContext } from '@/components/Alert';
+import { AlertContext } from '@/components/common/Alert';
 
 const WithdrawPage = () => {
   return (

@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 import { postComment, putComment } from '@/apis/contents';
 import IconX from '@/assets/images/icon_x.svg';
 import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
-import { Label, TextareaInput } from '@/components/Input';
-import RegisterBtn from '@/components/RegisterBtn';
-import ImageWrapper from '@/components/ImageWrapper';
+import { Label, TextareaInput } from '@/components/common/Input';
+import RegisterButton from '@/components/common/Button/RegisterButton';
+import ImageWrapper from '@/components/common/Wrapper/ImageWrapper';
 import { saveImageAWS } from '@/apis/image/saveImage';
 import { commentProps, ResType } from '@/types/api';
 import { useWithLoading } from '@/hooks/useWithLoading';
@@ -18,13 +18,7 @@ import { useComment } from '@/hooks/queries/useGetContent';
 import useNotFound from '@/hooks/utils/useNotFound';
 import { CatNewsProps } from '@/types/content';
 
-const RegisterComment = ({
-  contentId,
-  commentId,
-}: {
-  contentId: string;
-  commentId: string;
-}) => {
+const RegisterComment = ({ contentId, commentId }: { contentId: string; commentId: string }) => {
   const router = useRouter();
   const queryResult = useComment(contentId, commentId);
   const { data } = useNotFound<CatNewsProps>(queryResult);
@@ -33,9 +27,7 @@ const RegisterComment = ({
     commentDesc: '',
   });
   const inputRef = useRef<HTMLInputElement>(null);
-  const [thumbImages, setThumbImages] = useState<
-    (string | ArrayBuffer | null)[]
-  >([]);
+  const [thumbImages, setThumbImages] = useState<(string | ArrayBuffer | null)[]>([]);
   const [images, setImages] = useState<(File | string)[]>([]);
   const { withLoading } = useWithLoading();
   const { addToast } = useToast();
@@ -87,38 +79,24 @@ const RegisterComment = ({
     }
   };
 
-  const handleRegister = async (
-    contentId: string | null,
-    comment: commentProps,
-    images: any[],
-  ) => {
+  const handleRegister = async (contentId: string | null, comment: commentProps, images: any[]) => {
     const saveImageKeys = await Promise.all(images.map(saveImageAWS));
     const data: commentProps = {
       ...comment,
       commentImageKeys: saveImageKeys,
     };
     if (isNew) {
-      const res: ResType<{ contentId: string }> = await postComment(
-        contentId,
-        data,
-      );
+      const res: ResType<{ contentId: string }> = await postComment(contentId, data);
       return res;
     }
-    const res: ResType<{ contentId: string }> = await putComment(
-      commentId,
-      data,
-    );
+    const res: ResType<{ contentId: string }> = await putComment(commentId, data);
     return res;
   };
 
   const onClickRegister = async () => {
-    const res = await withLoading(() =>
-      handleRegister(contentId, comment, images),
-    );
+    const res = await withLoading(() => handleRegister(contentId, comment, images));
     if (res.result === 'SUCCESS') {
-      const message = isNew
-        ? '새로운 소식을 등록했어요!'
-        : '소식을 수정했어요!';
+      const message = isNew ? '새로운 소식을 등록했어요!' : '소식을 수정했어요!';
       addToast.check(message);
       router.push(`/content/${contentId}`);
     }
@@ -135,10 +113,7 @@ const RegisterComment = ({
     <Fragment>
       <div className='w-full relative pt-5 pb-5'>
         <h2 className='w-full text-center subHeading'>냥이 소식 작성하기</h2>
-        <button
-          onClick={() => router.back()}
-          className='absolute right-5 top-1/2 -translate-y-1/2'
-        >
+        <button onClick={() => router.back()} className='absolute right-5 top-1/2 -translate-y-1/2'>
           <IconX />
         </button>
       </div>
@@ -170,9 +145,7 @@ const RegisterComment = ({
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>
-                {thumbImages.length}/3
-              </div>
+              <div className='text-gray-200 caption'>{thumbImages.length}/3</div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -183,19 +156,8 @@ const RegisterComment = ({
               />
             </div>
             {thumbImages.map((image, index) => (
-              <ImageWrapper
-                key={index}
-                size='S'
-                dimed={true}
-                cancelBtn={true}
-                onClick={() => handleImageRemove(index)}
-              >
-                <Image
-                  src={image as string}
-                  alt={`preview ${index}`}
-                  fill
-                  className='object-cover w-full h-full'
-                />
+              <ImageWrapper key={index} size='S' dimed={true} cancelBtn={true} onClick={() => handleImageRemove(index)}>
+                <Image src={image as string} alt={`preview ${index}`} fill className='object-cover w-full h-full' />
               </ImageWrapper>
             ))}
           </div>
@@ -203,12 +165,9 @@ const RegisterComment = ({
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn
-          onClick={onClickRegister}
-          isDisabled={!comment.commentDesc}
-        >
+        <RegisterButton onClick={onClickRegister} isDisabled={!comment.commentDesc}>
           작성 완료
-        </RegisterBtn>
+        </RegisterButton>
       </div>
     </Fragment>
   );

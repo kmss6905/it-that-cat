@@ -1,4 +1,4 @@
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import { useContent } from '@/hooks/queries/useGetContent';
 import { useModal } from '@/hooks/useModal';
 
@@ -10,10 +10,7 @@ const ReportCompletedModal = ({ contentId }: { contentId: string | null }) => {
     closeModal();
   };
   return (
-    <Modal
-      type={MODAL_TYPE.CONTENT_REPORT_COMPLETED}
-      variant={MODAL_VARIANT.CARD}
-    >
+    <Modal type={MODAL_TYPE.CONTENT_REPORT_COMPLETED} variant={MODAL_VARIANT.CARD}>
       <div className='flex justify-center items-center flex-col py-8'>
         <div className='mb-2 subHeading'>게시글 신고가 접수되었습니다.</div>
         <div className='flex justify-center items-center flex-col Body2'>

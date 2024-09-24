@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useMyComment } from '@/hooks/queries/useMyComment';
-import Loading from '@/components/Loading';
+import Loading from '@/components/common/Loading';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { deleteLike, postLike } from '@/apis/contents';
 import { ResType } from '@/types/api';
@@ -28,8 +28,7 @@ const MyComment = () => {
   const router = useRouter();
   const [commentId, setCommentId] = useState<string | null>(null);
 
-  const { data, isSuccess, refetch, fetchNextPage, hasNextPage, isFetching } =
-    useMyComment();
+  const { data, isSuccess, refetch, fetchNextPage, hasNextPage, isFetching } = useMyComment();
 
   const target = useIntersectionObserver((entry, observer) => {
     observer.unobserve(entry.target);
@@ -37,11 +36,7 @@ const MyComment = () => {
     if (hasNextPage && !isFetching) fetchNextPage();
   });
 
-  const onClickLike = async (
-    commentId: string,
-    contentId: string,
-    isCatCommentLiked: boolean,
-  ) => {
+  const onClickLike = async (commentId: string, contentId: string, isCatCommentLiked: boolean) => {
     if (!contentId) return;
 
     const res: ResType<string> = isCatCommentLiked
@@ -75,9 +70,7 @@ const MyComment = () => {
 
       {/* My comment */}
       <ul className='h-[calc(100%-65px)] overflow-y-scroll px-6 layout'>
-        <li className='pt-6 pb-2 heading2 text-black'>
-          작성한 냥이 소식 총 {comments.length}개
-        </li>
+        <li className='pt-6 pb-2 heading2 text-black'>작성한 냥이 소식 총 {comments.length}개</li>
         {comments.length > 0 ? (
           comments.map((comment) => (
             <Comment

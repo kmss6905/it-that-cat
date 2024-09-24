@@ -8,7 +8,7 @@ import DeleteModal from '@/components/Content/Modal/DeleteModal';
 import AnonymizeModal from '@/components/Content/Modal/AnonymizeModal';
 import DeleteMyContentModal from './Modal/DeleteMyContentModal';
 import { useRouter } from 'next/navigation';
-import { MODAL_TYPE } from '@/components/Modal';
+import { MODAL_TYPE } from '@/components/common/Modal';
 import { getNickname } from '@/apis/mypage';
 import Link from 'next/link';
 
@@ -21,16 +21,7 @@ const MyContentFormat = ({
   selectedContent?: string | null;
   setSelectedContent: (id?: string | null) => void;
 }) => {
-  const {
-    name,
-    createdAt,
-    jibunAddrName,
-    countOfFollowed,
-    countOfComments,
-    catEmoji,
-    contentId,
-    isReported,
-  } = content;
+  const { name, createdAt, jibunAddrName, countOfFollowed, countOfComments, catEmoji, contentId, isReported } = content;
   const router = useRouter();
   const { openModal, closeModal } = useModal();
   const cat = catIllust.filter((cat) => cat.id === Number(catEmoji))[0];
@@ -66,10 +57,7 @@ const MyContentFormat = ({
           <AnonymizeModal contentId={contentId} nickname={nickname} />
         </>
       )}
-      <Link
-        href={`/content/${contentId}`}
-        className='flex gap-3 w-full px-4 py-6 bg-white'
-      >
+      <Link href={`/content/${contentId}`} className='flex gap-3 w-full px-4 py-6 bg-white'>
         <div className='w-[70px] h-[70px] rounded-full bg-gray-50 flex justify-center items-center'>
           <cat.image />
         </div>
@@ -78,9 +66,7 @@ const MyContentFormat = ({
           <div className='flex flex-col gap-1'>
             <div className='flex justify-between items-center'>
               <h3 className='subHeading text-gray-500'>{name}</h3>
-              <p className='caption text-gray-200'>
-                {getDateFormat(createdAt)} 등록
-              </p>
+              <p className='caption text-gray-200'>{getDateFormat(createdAt)} 등록</p>
             </div>
             <p className='body2 text-gray-400 flex items-center'>
               <span className='inline-block w-[1.5px] h-[14px] bg-gray-300 mr-10px '></span>
@@ -96,9 +82,7 @@ const MyContentFormat = ({
             </div>
             <div>
               {isReported && (
-                <span className='text-error bg-error/10 px-2 py-1 rounded-md inline-block caption2'>
-                  신고 접수
-                </span>
+                <span className='text-error bg-error/10 px-2 py-1 rounded-md inline-block caption2'>신고 접수</span>
               )}
             </div>
           </div>

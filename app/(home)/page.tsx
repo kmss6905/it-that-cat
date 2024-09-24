@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 
 import IconList from '@/assets/images/icon_list.svg';
 import IconMap from '@/assets/images/map/icon_mapView.svg';
-import CurrentLocationBtn from '@/components/Map/CurrentLocationBtn';
+import CurrentLocationBtn from '@/components/common/Map/CurrentLocationBtn';
 import ContentCard from '@/components/Home/ContentCard';
 import FloatingBtn from '@/components/Home/FloatingBtn';
 import { useGeolocationStore } from '@/stores/home/store';
@@ -24,9 +24,7 @@ export default function Home() {
   const [viewer, setViewer] = useState<'map' | 'list'>('map');
   const [selectedPin, setSelectedPin] = useState<number | null>(null);
 
-  const [selectedFilter, setSelectedFilter] = useState<SelectedFilterState>(
-    options[0],
-  );
+  const [selectedFilter, setSelectedFilter] = useState<SelectedFilterState>(options[0]);
 
   const [catMark, setCatMark] = useState<boolean>(false);
   const [content, setContent] = useState<ContentObjProps | null>(null);

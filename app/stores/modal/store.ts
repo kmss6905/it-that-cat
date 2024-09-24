@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { MODAL_TYPE } from '@/components/Modal';
+import { MODAL_TYPE } from '@/components/common/Modal';
 
 type ModalStoreProps = {
   modal: MODAL_TYPE;

@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode } from 'react';
-import Nav from './Nav';
+import Nav from '../Nav';
 
 const RootWrapper = ({ children }: { children?: ReactNode }) => {
   return (

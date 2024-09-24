@@ -1,13 +1,6 @@
 'use client';
 
-import React, {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,18 +10,13 @@ import 'swiper/css';
 import IconX from '@/assets/images/icon_x.svg';
 import IconRandom from '@/assets/images/icon_random.svg';
 import IconAddPhoto from '@/assets/images/icon_addPhoto.svg';
-import Tooltip from '@/components/Tooltip';
-import { Label, TextInput, TextareaInput } from '@/components/Input';
-import Button from '@/components/Button';
-import RegisterBtn from '@/components/RegisterBtn';
-import ImageWrapper from '@/components/ImageWrapper';
+import Tooltip from '@/components/common/Tooltip';
+import { Label, TextInput, TextareaInput } from '@/components/common/Input';
+import Button from '@/components/common/Button';
+import RegisterButton from '@/components/common/Button/RegisterButton';
+import ImageWrapper from '@/components/common/Wrapper/ImageWrapper';
 import { randomCatNameList } from '@/constants/randomCatNameList';
-import {
-  UNSURE,
-  groupButtons,
-  neuterButtons,
-  personalityButtons,
-} from '@/constants/catInfoButtons';
+import { UNSURE, groupButtons, neuterButtons, personalityButtons } from '@/constants/catInfoButtons';
 import { postContent, putContent } from '@/apis/contents';
 import { saveImageAWS } from '@/apis/image/saveImage';
 import { RegisterCatObjProps, UpdateCatObjProps } from '@/types/content';
@@ -52,9 +40,7 @@ const RegisterPost = ({
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [thumbImages, setThumbImages] = useState<
-    (string | ArrayBuffer | null)[]
-  >([]);
+  const [thumbImages, setThumbImages] = useState<(string | ArrayBuffer | null)[]>([]);
   const [images, setImages] = useState<(File | string)[]>([]);
   const [catEmoji, setCatEmoji] = useState<number>(1);
   const swiperRef = useRef<SwiperCore | null>(null);
@@ -108,9 +94,7 @@ const RegisterPost = ({
     if (catPersonalities.includes(value)) {
       setCatInfo({
         ...catInfo,
-        catPersonalities: catPersonalities.filter(
-          (personalityValue) => personalityValue !== value,
-        ),
+        catPersonalities: catPersonalities.filter((personalityValue) => personalityValue !== value),
       });
       return;
     }
@@ -121,9 +105,7 @@ const RegisterPost = ({
 
     // 모르겠어요가 이미 눌러져 있을 때
     if (catPersonalities.includes(UNSURE)) {
-      catPersonalities = catPersonalities.filter(
-        (personalityValue) => personalityValue !== UNSURE,
-      );
+      catPersonalities = catPersonalities.filter((personalityValue) => personalityValue !== UNSURE);
     }
 
     setCatInfo({ ...catInfo, catPersonalities });
@@ -167,9 +149,7 @@ const RegisterPost = ({
     const updatedCatInfo = {
       ...catInfo,
       group: catInfo.group ? catInfo.group : UNSURE,
-      catPersonalities: catInfo.catPersonalities.length
-        ? catInfo.catPersonalities
-        : [UNSURE],
+      catPersonalities: catInfo.catPersonalities.length ? catInfo.catPersonalities : [UNSURE],
     };
     if (isNew) {
       const data: RegisterCatObjProps = {
@@ -205,10 +185,7 @@ const RegisterPost = ({
     <Fragment>
       <div className='w-full relative pt-5 pb-5'>
         <h2 className='w-full text-center subHeading'>우리 동네 냥이 제보</h2>
-        <button
-          onClick={() => router.back()}
-          className='absolute right-5 top-1/2 -translate-y-1/2'
-        >
+        <button onClick={() => router.back()} className='absolute right-5 top-1/2 -translate-y-1/2'>
           <IconX />
         </button>
       </div>
@@ -233,10 +210,7 @@ const RegisterPost = ({
         </div>
 
         <div>
-          <Label
-            isRequired={true}
-            addTextBottom='정확한 이름을 몰라도 괜찮아요. 새로운 애칭을 지어주세요!'
-          >
+          <Label isRequired={true} addTextBottom='정확한 이름을 몰라도 괜찮아요. 새로운 애칭을 지어주세요!'>
             이름 또는 애칭
           </Label>
           <div className='flex gap-2'>
@@ -262,10 +236,7 @@ const RegisterPost = ({
         </div>
 
         <div>
-          <Label
-            isRequired={true}
-            addTextBottom='냥이의 털색깔과 얼룩을 참고해 선택해주세요'
-          >
+          <Label isRequired={true} addTextBottom='냥이의 털색깔과 얼룩을 참고해 선택해주세요'>
             프로필 캐릭터
           </Label>
           <Swiper
@@ -310,9 +281,7 @@ const RegisterPost = ({
               className='w-[84px] h-[84px] border-gray-100 rounded flex justify-center items-center border-[1px] flex-col cursor-pointer'
             >
               <IconAddPhoto />
-              <div className='text-gray-200 caption'>
-                {thumbImages?.length}/3
-              </div>
+              <div className='text-gray-200 caption'>{thumbImages?.length}/3</div>
               <input
                 className='hidden'
                 ref={inputRef}
@@ -323,19 +292,8 @@ const RegisterPost = ({
               />
             </div>
             {thumbImages?.map((image, index) => (
-              <ImageWrapper
-                key={index}
-                size='S'
-                dimed={true}
-                cancelBtn={true}
-                onClick={() => handleImageRemove(index)}
-              >
-                <Image
-                  src={image as string}
-                  alt={`preview ${index}`}
-                  fill
-                  className='object-cover w-full h-full'
-                />
+              <ImageWrapper key={index} size='S' dimed={true} cancelBtn={true} onClick={() => handleImageRemove(index)}>
+                <Image src={image as string} alt={`preview ${index}`} fill className='object-cover w-full h-full' />
               </ImageWrapper>
             ))}
           </div>
@@ -399,17 +357,12 @@ const RegisterPost = ({
       </form>
 
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
-        <RegisterBtn
+        <RegisterButton
           onClick={onClickRegister}
-          isDisabled={
-            !catInfo.jibunAddrName ||
-            !catInfo.name ||
-            !catInfo.neuter ||
-            !images?.length
-          }
+          isDisabled={!catInfo.jibunAddrName || !catInfo.name || !catInfo.neuter || !images?.length}
         >
           {isNew ? '등록하기' : '수정하기'}
-        </RegisterBtn>
+        </RegisterButton>
       </div>
     </Fragment>
   );

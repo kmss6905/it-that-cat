@@ -1,15 +1,11 @@
 'use client';
 import { updateNickname } from '@/apis/mypage';
-import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/Modal';
+import Modal, { MODAL_TYPE, MODAL_VARIANT } from '@/components/common/Modal';
 import useNickname from '@/hooks/queries/useNickname';
 import { useModal } from '@/hooks/useModal';
 import React, { ReactNode, useState } from 'react';
 
-const NicknameModal = ({
-  handleRefetchNickname,
-}: {
-  handleRefetchNickname: () => void;
-}) => {
+const NicknameModal = ({ handleRefetchNickname }: { handleRefetchNickname: () => void }) => {
   const { data: prevNickname } = useNickname();
   const [nickname, setNickname] = useState<string>(prevNickname);
   const [error, setError] = useState<string | null>(null);
@@ -77,12 +73,7 @@ interface CardBtnProps {
   className?: string;
 }
 
-const CardBtn = ({
-  children,
-  onClick,
-  type = 'reset',
-  className = '',
-}: CardBtnProps) => {
+const CardBtn = ({ children, onClick, type = 'reset', className = '' }: CardBtnProps) => {
   return (
     <button
       onClick={() => onClick(type)}

@@ -2,7 +2,7 @@
 
 import Error404 from '@/assets/images/error404/404_error.svg';
 import ErrorCat from '@/assets/images/error404/404_cat.svg';
-import RegisterBtn from '@/components/RegisterBtn';
+import RegisterButton from '@/components/common/Button/RegisterButton';
 import Link from 'next/link';
 
 export default async function NotFound() {
@@ -21,7 +21,7 @@ export default async function NotFound() {
       </div>
       <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] bg-white'>
         <Link href={`/`}>
-          <RegisterBtn>홈으로 돌아가기</RegisterBtn>
+          <RegisterButton>홈으로 돌아가기</RegisterButton>
         </Link>
       </div>
     </div>
