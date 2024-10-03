@@ -30,7 +30,7 @@ const MapComponent = ({ children, mapRef, ...props }: MapProps) => {
   const setPositionDebounced = useDebounceFunction(setPosition, 300);
 
   const position = useMemo(() => {
-    const initPosition = { lat: 36, lng: 127 };
+    const initPosition = { lat: 37.715133, lng: 37.413294 };
 
     if (geolocation.position === null) {
       if (currentPosition.position === null) {

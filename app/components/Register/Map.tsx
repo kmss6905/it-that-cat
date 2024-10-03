@@ -7,7 +7,7 @@ import CurrentLocationBtn from '@/components/common/Map/CurrentLocationBtn';
 import IconCurrMapPin from '@/assets/images/map/icon_currentMapPin.svg';
 import IconX from '@/assets/images/icon_x.svg';
 import { Dispatch, SetStateAction } from 'react';
-import { Coordinates, GeolocationState, RegionState } from '@/types/address';
+import { Coordinates, RegionState } from '@/types/address';
 import { useMapContents } from '@/hooks/queries/useGetContent';
 import CustomPin from '../common/Map/CustomPin';
 import useGeolocation from '@/hooks/useGeolocation';
@@ -36,8 +36,6 @@ const RegisterMap = ({
   };
 
   const { data } = useMapContents({ ...query });
-
-  if (currentGeolocation.position === null) return null;
 
   const handleCenterChanged = async (map: any) => {
     const latlng = map.getCenter();
