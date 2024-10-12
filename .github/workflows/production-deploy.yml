@@ -1,0 +1,65 @@
+name: backend-deploy-production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  set-env-vars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Production Environment Variables and Create Env file
+        id: set-envs
+        if: github.ref_name == 'main'
+        run: |
+          DOCKER_IMAGE=$(aws ssm get-parameter --name /dev/prod/image-name --query 'Parameter.Value' --output text)
+          echo "docker-image=$DOCKER_IMAGE" >> "$GITHUB_OUTPUT"
+
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    needs: set-env-vars
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: nyangnyang/front/prod
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          aws ssm get-parameter --name /prod/front --query 'Parameter.Value' --output text > .env
+          docker buildx build --platform=linux/amd64 -t $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG -t $ECR_REPOSITORY/$DOCKER_IMAGE:latest -f ./dockerfiles/prod.Dockerfile . 
+          docker push $ECR_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push $ECR_REPOSITORY/$DOCKER_IMAGE:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-build-and-push
+    if: github.ref_name == 'main'
+    steps:
+      - name: Deploy to Production Environment
+        env:
+          ECR_REPOSITORY: ${{ needs.set-env-vars.outputs.ecr-repository }}
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.PROD_TARGET_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          script: |
+            sh awslogin.sh
+            cd application
+            docker compose pull && docker compose up -d
