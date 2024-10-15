@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
+
 import '../(home)/globals.css';
 import RootWrapper from '@/components/common/Wrapper/RootWrapper';
 import pretendard from '@/components/common/Pretendard';
@@ -15,6 +17,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <head>
+        {/* Google Analytics or Google Tag Manager */}
+        <Script async src='https://www.googletagmanager.com/gtag/js?id=G-2469LZJEG5' strategy='afterInteractive' />
+        <Script id='gtag-init' strategy='afterInteractive'>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2469LZJEG5');
+          `}
+        </Script>
+      </head>
       <body className={`${pretendard.className}`}>
         <RootWrapper>
           <div className='h-[calc(100%-100px)] overflow-hidden'>{children}</div>
