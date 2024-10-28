@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import './globals.css';
 
 import RootWrapper from '@/components/common/Wrapper/RootWrapper';
 import pretendard from '@/components/common/Pretendard';
@@ -8,6 +7,7 @@ import QueryWrapper from '@/components/common/Wrapper/QueryWrapper';
 import Loading from '@/components/common/Loading';
 import ToastProvider from '@/components/common/Toast/ToastProvider';
 import AlertContextProvider from '@/components/common/Alert';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: { default: '이냥저냥', template: '%s | 이냥저냥' },
@@ -38,6 +38,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <head>
+        {/* Google Analytics or Google Tag Manager */}
+        <Script async src='https://www.googletagmanager.com/gtag/js?id=G-2469LZJEG5' strategy='afterInteractive' />
+        <Script id='gtag-init' strategy='afterInteractive'>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2469LZJEG5');
+          `}
+        </Script>
+      </head>
       <body className={`${pretendard.className}`}>
         <QueryWrapper>
           <RootWrapper>
