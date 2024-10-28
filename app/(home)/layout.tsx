@@ -13,7 +13,19 @@ export const metadata: Metadata = {
   title: { default: '이냥저냥', template: '%s | 이냥저냥' },
   description: '동네 길고양이의 위치와 정보를 등록하고 최근 소식을 사진과 함께 공유하는 서비스',
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_FRONT_URL}`),
-  keywords: ['이냥저냥', '길고양이', '동네', '냥냥이', '길냥이', '소식', '고양이', '냥줍', '캣맘', 'cat'],
+  keywords: [
+    '이냥저냥',
+    '길고양이 서비스',
+    '동네',
+    '중성화',
+    '냥냥이',
+    '길냥이',
+    '고양이 커뮤니티',
+    '고양이 밥주기',
+    '소식',
+    '고양이',
+    '캣맘',
+  ],
   openGraph: {
     title: '이냥저냥 - 고양이들의 발자국, 우리 동네에서 사진으로 공유하세요!',
     description: '동네 길고양이의 위치와 정보를 등록하고 최근 소식을 사진과 함께 공유하는 서비스',
@@ -22,12 +34,15 @@ export const metadata: Metadata = {
       {
         url: '/open_graph.jpg',
         width: 1200,
-        height: 630,
+        height: 600,
         alt: '이냥저냥 - 고양이들의 발자국, 우리 동네에서 사진으로 공유하세요!',
       },
     ],
     type: 'website',
     siteName: '이냥저냥',
+  },
+  verification: {
+    other: { 'naver-site-verification': `${process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}` },
   },
 };
 
