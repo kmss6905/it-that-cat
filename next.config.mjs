@@ -18,18 +18,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'image.itthatcat.xyz',
+        hostname: `${process.env.NEXT_PUBLIC_IMAGE_URL}`,
         pathname: '**',
       },
     ],
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://image.itthatcat.xyz/api/:path*',
-      },
-    ];
   },
   output: 'standalone',
 };

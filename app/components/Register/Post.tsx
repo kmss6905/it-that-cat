@@ -184,7 +184,7 @@ const RegisterPost = ({
   return (
     <Fragment>
       <div className='w-full relative pt-5 pb-5'>
-        <h2 className='w-full text-center subHeading'>우리 동네 냥이 제보</h2>
+        <h2 className='w-full text-center subHeading'>우리 동네 냥이 등록</h2>
         <button onClick={() => router.back()} className='absolute right-5 top-1/2 -translate-y-1/2'>
           <IconX />
         </button>
