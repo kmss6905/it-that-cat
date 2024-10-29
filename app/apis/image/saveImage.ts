@@ -1,24 +1,3 @@
-export const saveImage = async (image: string) => {
-  const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_NAME;
-  if (!apiKey || !uploadPreset) {
-    throw new Error('Cloudinary key is not defined');
-  }
-  let formData = new FormData();
-  formData.append('api_key', apiKey);
-  formData.append('upload_preset', uploadPreset);
-  formData.append(`file`, image);
-  const uploadRes = await fetch(
-    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  );
-  const data = await uploadRes.json();
-  return data.url;
-};
-
 /**
  * 서버에서 `presigned-url`을 받아 해당 `URL(AWS S3)`로 이미지를 업로드하고, 업로드된 이미지의 고유 키를 반환
  *
@@ -32,7 +11,7 @@ export const saveImageAWS = async (image: File | string) => {
   if (typeof image === 'string') {
     key = new URL(image).pathname.split('/')[1].split('.')[0];
   } else {
-    const getRes = await fetch(`https://image.itthatcat.xyz/api/presigned-url?size=1`, {
+    const getRes = await fetch(`https://${process.env.NEXT_PUBLIC_IMAGE_URL}/api/presigned-url?size=1`, {
       method: 'GET',
     });
     const data = await getRes.json();

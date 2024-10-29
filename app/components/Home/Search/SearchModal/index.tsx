@@ -95,7 +95,7 @@ const SearchModal = () => {
               value={query.key}
               onChange={(e) => handleChangeSearchValue(e.target.value)}
               placeholder='지역, 동네명, 주소 검색'
-              className='flex-grow body1 bg-transparent
+              className='w-full flex-grow body1 bg-transparent
               placeholder:text-gray-300 caret-primary-500'
             />
             {query.key !== '' && (

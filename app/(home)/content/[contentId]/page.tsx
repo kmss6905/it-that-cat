@@ -8,7 +8,7 @@ import 'swiper/css';
 
 import { deleteFollow, postFollow } from '@/apis/contents';
 import IconBack from '@/assets/images/icon_back.svg';
-import ContentBlur from '@/assets/images/content/content_blur.svg';
+import ContentBlur from '@/assets/images/content/content_blur.webp';
 import IconKebab from '@/assets/images/icon_kebab.svg';
 import IconFollowMark from '@/assets/images/icon_followMark.svg';
 import IconFollowMarkFill from '@/assets/images/icon_followMarkFill.svg';
@@ -195,10 +195,10 @@ const ReportedContent = () => {
           <button onClick={() => router.push('/')}>
             <IconBack />
           </button>
-          <div className='flex justify-between gap-4'></div>
+          <div className='flex justify-between gap-4' />
         </div>
         <div className='absolute w-full h-full overflow-y-scroll layout'>
-          <ContentBlur />
+          <Image src={ContentBlur.src} alt='신고 컨텐츠 블러 이미지' />
         </div>
         <div className='absolute bottom-0 left-0 w-full z-20 px-6 pt-[18px] pb-[30px] shadow-[0px_-8px_8px_0px_rgba(0,0,0,0.15)] bg-white'>
           <RegisterButton isDisabled>냥이 소식 작성하기</RegisterButton>
